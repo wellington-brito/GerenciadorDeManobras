@@ -24,18 +24,8 @@ public class InfoManobras extends javax.swing.JFrame {
     private AdicionarCategoriaForm adicionarCategoriaForm;
     private InfoManobras infoManobras;
     private List<Manobra> manobras;
-   // private FormCadastroManobra editarManobraForm;     
+       
 
-
-//    private int indicaPesquisaManobra;
-            //
-            //    public int getIndicaPesquisaManobra() {
-            //        return indicaPesquisaManobra;
-            //    }
-            //
-            //    public void setIndicaPesquisaManobra(int indicaPesquisaAluno) {
-            //        this.indicaPesquisaManobra = indicaPesquisaManobra;
-            //    }
             /**
              * Creates new form InfoManobras
              */
@@ -128,20 +118,20 @@ public class InfoManobras extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 244, Short.MAX_VALUE)
                         .addComponent(btnNovaManobra1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
                         .addComponent(btnEditarManobra)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNovaManobra2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnExcluirManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6))))
+                        .addComponent(btnExcluirManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(6, 6, 6))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,15 +275,15 @@ public class InfoManobras extends javax.swing.JFrame {
                 Manobra manobraSelecionado = manobras.get(linhaSelecionada);
 
                 
-                int resposta;
-                String mensagem = "ID? " + manobraSelecionado.getId();
-                String titulo = "Teste" + manobraSelecionado.getNome();
-                resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
-
 //                int resposta;
-//                String mensagem = "Desseja excluir manobra? " + manobraSelecionado.getNome();
-//                String titulo = "Exclusão de manobra";
+//                String mensagem = "ID? " + manobraSelecionado.getId();
+//                String titulo = "Teste" + manobraSelecionado.getNome();
 //                resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
+
+                int resposta;
+                String mensagem = "Desseja excluir manobra? " + manobraSelecionado.getNome();
+                String titulo = "Exclusão de manobra";
+                resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
 
                 if (resposta == JOptionPane.YES_NO_OPTION) {
                     ManobraBO manobraBO = new ManobraBO();

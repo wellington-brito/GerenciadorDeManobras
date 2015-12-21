@@ -15,7 +15,6 @@ import wellington.gerenciadorDeManobras.persistencia.CategoriaDAO;
  * @author were
  */
 public class CategoriaBO {
-
     
     public List<Categoria> buscarTodasCategorias() throws SQLException {
         CategoriaDAO categoriaDAO = new CategoriaDAO();        

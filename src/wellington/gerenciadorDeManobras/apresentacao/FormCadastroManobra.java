@@ -28,7 +28,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     private Manobra manobraEmEdicao;
     private List<Categoria> categorias;
     private InfoManobras infoManobra;
-   // public int verificaEditar;
+  
     
     /**
      * Creates new form FormCadastroManobra
@@ -247,7 +247,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Manobra cadastrada com sucesso!", "Cadastro de aluno", JOptionPane.INFORMATION_MESSAGE);
             this.limparCamposTela();
-            this.infoManobra.carregarTabelaDeManobras();
+            
 
         } catch (ParseException e) {
             String mensagem = "Erro ao realizar operação:\n" + e.getMessage();
