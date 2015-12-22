@@ -31,6 +31,12 @@ public class ManobraBO {
         manobraDAO.removerManobra(id);
     }
     
+    public void atualizar(Manobra manobra) throws SQLException{
+        ManobraDAO manobraDAO = new ManobraDAO();
+        manobraDAO.atualizar(manobra);
+    }
+
+  
     
     
 }

@@ -20,9 +20,9 @@ import wellington.gerenciadorDeManobras.entidade.Manobra;
 public class ManobraDAO {
 
     private static final String SQL_INSERT = "INSERT INTO MANOBRA (NOME, DIFICULDADE, STATUS, ID_CATEGORIA) VALUES (?, ?, ?, ?)";
-    private static final String SQL_SELECT_MANOBRAS = "SELECT NOME, DIFICULDADE, STATUS, ID_CATEGORIA  FROM MANOBRA";
+    private static final String SQL_SELECT_MANOBRAS = "SELECT ID, NOME, DIFICULDADE, STATUS, ID_CATEGORIA  FROM MANOBRA";
     private static final String SQL_DELETE = "DELETE FROM MANOBRA WHERE ID = ?";
-
+     private static final String SQL_UPDATE = "UPDATE MANOBRA SET  NOME = ?, DIFICULDADE = ?, STATUS = ?, ID_CATEGORIA = ? WHERE ID = ?";
     public void inserir(Manobra manobra) throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
@@ -89,10 +89,11 @@ public class ManobraDAO {
         //Instancia um novo objeto e atribui os valores vindo do BD
         //(Note que no BD o index inicia por 1)
         Manobra manobra = new Manobra();
-        manobra.setNome(resultado.getString(1));
-        manobra.setDificuldade(resultado.getInt(2));
-        manobra.setStatus(resultado.getInt(3));
-        manobra.setCategoria(resultado.getInt(4));
+        manobra.setId(resultado.getInt(1));
+        manobra.setNome(resultado.getString(2));
+        manobra.setDificuldade(resultado.getInt(3));
+        manobra.setStatus(resultado.getInt(4));
+        manobra.setCategoria(resultado.getInt(5));
         return manobra;
     }
 
@@ -107,6 +108,40 @@ public class ManobraDAO {
             comando = conexao.prepareStatement(SQL_DELETE);
             //Atribui os parâmetros (Note que no BD o index inicia por 1)
             comando.setInt(1, id);
+            //Executa o comando
+            comando.execute();
+            //Persiste o comando no banco de dados
+            conexao.commit();
+        } catch (Exception e) {
+            //Caso aconteça alguma exeção é feito um rollback para o banco de
+            //dados retornar ao seu estado anterior.
+            if (conexao != null) {
+                conexao.rollback();
+            }
+            throw e;
+        } finally {
+            //Todo objeto que referencie o banco de dados deve ser fechado
+            BancoDadosUtil.fecharChamadasBancoDados(conexao, comando);
+        }
+    }
+
+    public void atualizar(Manobra manobra) throws SQLException {
+       Connection conexao = null;
+        PreparedStatement comando = null;
+        try {
+
+            //Recupera a conexão
+            conexao = BancoDadosUtil.getConnection();
+            //Cria o comando de inserir dados
+            comando = conexao.prepareStatement(SQL_UPDATE);
+            //Atribui os parâmetros (Note que no BD o index inicia por 1)         
+            
+          
+            comando.setString(1, manobra.getNome());
+            comando.setInt(2, manobra.getDificuldade());          
+            comando.setInt(3, manobra.getCategoria());
+            comando.setInt(4, manobra.getStatus());
+            comando.setInt(5, manobra.getId());
             //Executa o comando
             comando.execute();
             //Persiste o comando no banco de dados
