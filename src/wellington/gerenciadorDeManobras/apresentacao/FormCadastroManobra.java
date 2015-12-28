@@ -55,8 +55,10 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
     }
 
-    // sobreescrita do set visible para toda vz que a tela de cadastro de manobras estiver 'VISIBLE'
-    // o combobox das categorias atualizar
+    /**
+     * @setVisible sobreescrita do set visible para toda vz que a tela de cadastro de
+     * manobras estiver 'VISIBLE' o combobox das categorias atualizar
+     */
     @Override
     public void setVisible(boolean exibir) {
         super.setVisible(exibir);
@@ -78,7 +80,9 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         }
     }
 
-    //verificar item selecionado na combobox Categoria
+    /**
+     * @getItemComboCategorias verifica item selecionado na combobox Categoria
+     */
     public void getItemComboCategorias(String itemCombo) {
         this.item = itemCombo;
     }
@@ -290,13 +294,13 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         if (verificaEditarOuSalvar == 1) {
-            try {               
+            try {
                 this.atualizar();
             } catch (CampoObrigatorioException | ParseException | SQLException ex) {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            
+
             this.incluirManobra();
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -330,7 +334,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     }
 
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
-        this.validarCamposObrigatorios();        
+        this.validarCamposObrigatorios();
         this.getItemComboCategorias(cbxCategoriaManobras.getSelectedItem().toString());                 //recuperar valor selecionado no combobox de categoria, para poder resgatar o id do banco de dados e não do indice do combobox
         this.recuperarCamposTela();
         ManobraBO manobraBO = new ManobraBO();
@@ -366,10 +370,9 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         for (Categoria categoria : categorias) {
             if (categoria.getNome().equals(item)) {
                 posicaoSelecionada3 = categoria.getId();
-                 manobraEmEdicao.setCategoria(posicaoSelecionada3);
+                manobraEmEdicao.setCategoria(posicaoSelecionada3);
             }
-        }       
-       
+        }
 
     }
 
