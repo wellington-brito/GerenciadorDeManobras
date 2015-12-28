@@ -129,14 +129,11 @@ public class ManobraDAO {
        Connection conexao = null;
         PreparedStatement comando = null;
         try {
-
             //Recupera a conexão
             conexao = BancoDadosUtil.getConnection();
             //Cria o comando de inserir dados
             comando = conexao.prepareStatement(SQL_UPDATE);
-            //Atribui os parâmetros (Note que no BD o index inicia por 1)         
-            
-          
+            //Atribui os parâmetros (Note que no BD o index inicia por 1)     
             comando.setString(1, manobra.getNome());
             comando.setInt(2, manobra.getDificuldade());          
             comando.setInt(3, manobra.getCategoria());

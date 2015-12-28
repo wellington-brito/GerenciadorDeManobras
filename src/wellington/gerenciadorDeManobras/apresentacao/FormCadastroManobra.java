@@ -5,6 +5,7 @@
  */
 package wellington.gerenciadorDeManobras.apresentacao;
 
+import java.awt.event.ItemListener;
 import java.util.List;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -31,6 +32,8 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     private InfoManobras infoManobra;
     private InfoManobras editarManobrasFor;
     public int verificaEditarOuSalvar;
+    private Categoria categoria;
+    String item = " ";
 
     /**
      * Creates metodos construtuores FormCadastroManobra
@@ -45,9 +48,10 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         this.infoManobra = infoManobras;
         this.manobraEmEdicao = new Manobra();
         this.initComponents();
-      
-        this.recuperarCamposTela();
         this.carregarComboCategorias();
+        this.carregarComboDificuldade();
+        this.carregarComboStatus();
+        this.recuperarCamposTela();
 
     }
 
@@ -65,22 +69,49 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         }
     }
 
-//     private void carregarComboGrauDificuldade() throws SQLException {
-//        ManobraBO manobraBO = new ManobraBO();
-//        manobras = manobraBO.buscarTodasManobras();
-//        cbxGrauDificuldade.removeAllItems();
-//        cbxGrauDificuldade.addItem("selecione");
-//        for (Manobra m : manobras) {
-//            cbxGrauDificuldade.addItem(m.getDificuldade());
-//        }
-//    }
     private void carregarComboCategorias() throws SQLException {
-
         CategoriaBO categoriaBO = new CategoriaBO();
         categorias = categoriaBO.buscarTodasCategorias();
         cbxCategoriaManobras.removeAllItems();
         for (Categoria categoria : categorias) {
             cbxCategoriaManobras.addItem(categoria.getNome());
+        }
+    }
+
+    //verificar item selecionado na combobox Categoria
+    public void getItemComboCategorias(String itemCombo) {
+        this.item = itemCombo;
+    }
+
+    public void carregarComboDificuldade() {
+        cbxGrauDificuldade.removeAllItems();
+        for (int x = 0; x <= 4; x++) {
+            if (x == 0) {
+                cbxGrauDificuldade.addItem("simples");
+            } else if (x == 1) {
+                cbxGrauDificuldade.addItem("facil");
+            } else if (x == 2) {
+                cbxGrauDificuldade.addItem("mediana");
+            } else if (x == 3) {
+                cbxGrauDificuldade.addItem("difícil");
+            } else if (x == 4) {
+                cbxGrauDificuldade.addItem("muito dificíl");
+            } else {
+                cbxGrauDificuldade.addItem("Dificuldade inexistente");
+            }
+        }
+    }
+
+    public void carregarComboStatus() {
+        cbxStatusManobra.removeAllItems();
+        for (int x = 0; x <= 1; x++) {
+            if (x == 0) {
+                cbxStatusManobra.addItem("Já sei fazer");
+            } else if (x == 1) {
+                cbxStatusManobra.addItem("Não sei fazer");
+            } else {
+                cbxStatusManobra.addItem("Status inexistente");
+            }
         }
     }
 
@@ -121,7 +152,6 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
         lblDificuldade.setText("Grau Dificulade");
 
-        cbxGrauDificuldade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
         cbxGrauDificuldade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxGrauDificuldadeActionPerformed(evt);
@@ -130,7 +160,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
         lblDificuldade1.setText("Status ");
 
-        cbxStatusManobra.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "1" }));
+        cbxStatusManobra.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1" }));
         cbxStatusManobra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxStatusManobraActionPerformed(evt);
@@ -138,7 +168,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         });
 
         lblDificuldade2.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
-        lblDificuldade2.setText("(1: já sabe fazer, 2: não sabe fazer)");
+        lblDificuldade2.setText("(0: já sabe fazer, 1: não sabe fazer)");
 
         lblDificuldade3.setText("Categoria");
 
@@ -248,7 +278,6 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
     private void cbxStatusManobraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxStatusManobraActionPerformed
 
-
     }//GEN-LAST:event_cbxStatusManobraActionPerformed
 
     private void cbxGrauDificuldadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxGrauDificuldadeActionPerformed
@@ -256,21 +285,18 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxGrauDificuldadeActionPerformed
 
     private void cbxCategoriaManobrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCategoriaManobrasActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:  
     }//GEN-LAST:event_cbxCategoriaManobrasActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         if (verificaEditarOuSalvar == 1) {
-            try {
+            try {               
                 this.atualizar();
-            } catch (CampoObrigatorioException ex) {
-                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
-                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
+            } catch (CampoObrigatorioException | ParseException | SQLException ex) {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
+            
             this.incluirManobra();
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -283,6 +309,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         try {
 
             this.validarCamposObrigatorios();
+            this.getItemComboCategorias(cbxCategoriaManobras.getSelectedItem().toString());
             this.recuperarCamposTela();
             ManobraBO manobraBO = new ManobraBO();
             manobraBO.inserir(manobraEmEdicao);
@@ -303,7 +330,8 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     }
 
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
-        this.validarCamposObrigatorios();
+        this.validarCamposObrigatorios();        
+        this.getItemComboCategorias(cbxCategoriaManobras.getSelectedItem().toString());                 //recuperar valor selecionado no combobox de categoria, para poder resgatar o id do banco de dados e não do indice do combobox
         this.recuperarCamposTela();
         ManobraBO manobraBO = new ManobraBO();
         manobraBO.atualizar(manobraEmEdicao);
@@ -324,7 +352,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     }
 
     private void recuperarCamposTela() throws ParseException {
-       
+
         manobraEmEdicao.setNome(txtNomeManobra.getText());
 
         int posicaoSelecionada1 = cbxGrauDificuldade.getSelectedIndex();
@@ -333,8 +361,16 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         int posicaoSelecionada2 = cbxStatusManobra.getSelectedIndex();
         manobraEmEdicao.setStatus(posicaoSelecionada2);
 
-        int posicaoSelecionada3 = cbxCategoriaManobras.getSelectedIndex();
-        manobraEmEdicao.setCategoria(posicaoSelecionada3);
+        //cbxCategoriaManobras.getItemComboCategorias( item.getSelectedItem().toString());
+        int posicaoSelecionada3 = 0;
+        for (Categoria categoria : categorias) {
+            if (categoria.getNome().equals(item)) {
+                posicaoSelecionada3 = categoria.getId();
+                 manobraEmEdicao.setCategoria(posicaoSelecionada3);
+            }
+        }       
+       
+
     }
 
     private void limparCamposTela() {
@@ -345,7 +381,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JComboBox cbxCategoriaManobras;
+    public static javax.swing.JComboBox cbxCategoriaManobras;
     private javax.swing.JComboBox cbxGrauDificuldade;
     private javax.swing.JComboBox cbxStatusManobra;
     private javax.swing.JPanel jPanel1;

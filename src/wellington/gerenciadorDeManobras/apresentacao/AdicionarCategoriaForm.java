@@ -29,7 +29,7 @@ public class AdicionarCategoriaForm extends javax.swing.JFrame {
      */
     public AdicionarCategoriaForm() throws SQLException {
         initComponents();
-        carregarTabelaDeManobras();
+        carregarTabelaDeCategorias();
     }
 
     /**
@@ -80,6 +80,11 @@ public class AdicionarCategoriaForm extends javax.swing.JFrame {
         });
 
         btnExcluirCategoria.setText("Excluir");
+        btnExcluirCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirCategoriaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout painelListaCategoriasLayout = new javax.swing.GroupLayout(painelListaCategorias);
         painelListaCategorias.setLayout(painelListaCategoriasLayout);
@@ -223,7 +228,12 @@ public class AdicionarCategoriaForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnExcluirCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirCategoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExcluirCategoriaActionPerformed
 
     private void salvar() {
         try {
@@ -235,6 +245,7 @@ public class AdicionarCategoriaForm extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Categoria cadastrada com sucesso!", "Cadastro de nova Catagoria", JOptionPane.INFORMATION_MESSAGE);
             this.limparCamposTela();
+            this.carregarTabelaDeCategorias();
 
         } catch (Exception e) {
             String mensagem = "Erro ao realizar operação:\n" + e.getMessage();
@@ -315,7 +326,7 @@ public class AdicionarCategoriaForm extends javax.swing.JFrame {
           this.txtDescricaoCategoria.setText("");
     }
     
-     public void carregarTabelaDeManobras() throws SQLException {
+     public void carregarTabelaDeCategorias() throws SQLException {
         CategoriaBO categoriaBO = new CategoriaBO();
         this.categorias = categoriaBO.buscarTodasCategorias();
         ModeloTabelaCategorias modelo = new ModeloTabelaCategorias();

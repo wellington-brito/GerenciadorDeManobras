@@ -147,17 +147,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbxGrauDificuldade">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="1"/>
-                <StringItem index="1" value="2"/>
-                <StringItem index="2" value="3"/>
-                <StringItem index="3" value="4"/>
-                <StringItem index="4" value="5"/>
-              </StringArray>
-            </Property>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxGrauDificuldadeActionPerformed"/>
           </Events>
@@ -171,7 +160,7 @@
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="2">
-                <StringItem index="0" value="2"/>
+                <StringItem index="0" value="0"/>
                 <StringItem index="1" value="1"/>
               </StringArray>
             </Property>
@@ -185,7 +174,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Ubuntu" size="10" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="(1: j&#xe1; sabe fazer, 2: n&#xe3;o sabe fazer)"/>
+            <Property name="text" type="java.lang.String" value="(0: j&#xe1; sabe fazer, 1: n&#xe3;o sabe fazer)"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblDificuldade3">
@@ -202,6 +191,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxCategoriaManobrasActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="btnSalvar">
           <Properties>

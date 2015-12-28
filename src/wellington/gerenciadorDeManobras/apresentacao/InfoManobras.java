@@ -12,7 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
+import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
+import wellington.gerenciadorDeManobras.negocio.CategoriaBO;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
 
 /**
@@ -26,6 +28,7 @@ public class InfoManobras extends javax.swing.JFrame {
     private InfoManobras infoManobras;
     private List<Manobra> manobras;
     private FormCadastroManobra editarManobraForm;
+    private List<Categoria> categorias;
 
     /**
      * Creates new form InfoManobras
@@ -70,6 +73,7 @@ public class InfoManobras extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manobras");
+        setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Manobras", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 18))); // NOI18N
 
@@ -120,30 +124,31 @@ public class InfoManobras extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnNovaManobra1)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAdicionarDicaManobra)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditarManobra)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnExcluirManobra)))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
                 .addGap(6, 6, 6))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnNovaManobra1)
+                .addGap(18, 18, 18)
+                .addComponent(btnAdicionarDicaManobra)
+                .addGap(18, 18, 18)
+                .addComponent(btnEditarManobra)
+                .addGap(18, 18, 18)
+                .addComponent(btnExcluirManobra)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(89, 89, 89)
+                .addGap(23, 23, 23)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdicionarDicaManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNovaManobra1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditarManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExcluirManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         menuOpçoes.setText("Opções");
@@ -181,9 +186,7 @@ public class InfoManobras extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -235,6 +238,8 @@ public class InfoManobras extends javax.swing.JFrame {
             this.carregarFormCadastroManobra();
         } catch (SQLException ex) {
             Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnNovaManobra1ActionPerformed
 
@@ -247,9 +252,9 @@ public class InfoManobras extends javax.swing.JFrame {
 
     }
 
-    private void carregarFormCadastroManobra() throws SQLException {
+    private void carregarFormCadastroManobra() throws SQLException, ParseException {
         if (formCadastroManobra == null) {
-            formCadastroManobra = new FormCadastroManobra();
+            formCadastroManobra = new FormCadastroManobra(this);
         }
         formCadastroManobra.setVisible(true);
         formCadastroManobra.toFront();
@@ -290,10 +295,6 @@ public class InfoManobras extends javax.swing.JFrame {
             if (linhaSelecionada != -1) {
                 Manobra manobraSelecionado = manobras.get(linhaSelecionada);
 
-//                int resposta;
-//                String mensagem = "ID? " + manobraSelecionado.getId();
-//                String titulo = "Teste" + manobraSelecionado.getNome();
-//                resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
                 int resposta;
                 String mensagem = "Desseja excluir manobra? " + manobraSelecionado.getNome();
                 String titulo = "Exclusão de manobra";
@@ -302,10 +303,9 @@ public class InfoManobras extends javax.swing.JFrame {
                 if (resposta == JOptionPane.YES_NO_OPTION) {
                     ManobraBO manobraBO = new ManobraBO();
                     manobraBO.removerManobra(manobraSelecionado.getId());
-                    this.carregarTabelaDeManobras();
                     mensagem = "Manobra " + manobraSelecionado.getNome() + " Id: " + manobraSelecionado.getId() + " excluída com sucesso!";
                     JOptionPane.showMessageDialog(this, mensagem, "Exclusão de Manobra", JOptionPane.INFORMATION_MESSAGE);
-
+                    this.carregarTabelaDeManobras();
                 }
 
             } else {
@@ -385,6 +385,7 @@ public class InfoManobras extends javax.swing.JFrame {
             }
 
             editarManobraForm = new FormCadastroManobra(this, manobraSelecionado);
+
             editarManobraForm.setVisible(true);
 
         } else {
@@ -428,12 +429,44 @@ public class InfoManobras extends javax.swing.JFrame {
             if (columnIndex == 0) {
                 return m.getNome();
             } else if (columnIndex == 1) {
-                return m.getDificuldade();
+
+                if (m.getDificuldade() == 0) {
+                    return "simples";
+                } else if (m.getDificuldade() == 1) {
+                    return "facil";
+                } else if (m.getDificuldade() == 2) {
+                    return "mediana";
+                } else if (m.getDificuldade() == 3) {
+                    return "difícil";
+                } else if (m.getDificuldade() == 4) {
+                    return "muito dificíl";
+                }
+                return null;
+
             } else if (columnIndex == 2) {
-                return m.getStatus();
+                if (m.getStatus() == 0) {
+                    return "100%";
+                }
+                return "Não sabe fazer ainda";
+
             } else {
-                return m.getCategoria();
+                if (columnIndex == 3) {
+                    try {
+                        CategoriaBO categoriaBO = new CategoriaBO();
+                        categorias = categoriaBO.buscarTodasCategorias();
+                        for (Categoria c : categorias) {
+                            if (c.getId() == m.getCategoria()) {
+                                return c.getNome();
+                            } 
+                        }
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                return null;
             }
+
         }
 
     }
