@@ -8,6 +8,7 @@ package wellington.gerenciadorDeManobras.negocio;
 import java.sql.SQLException;
 import java.util.List;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
+import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
 import wellington.gerenciadorDeManobras.persistencia.ManobraDAO;
 
 /**
@@ -34,6 +35,13 @@ public class ManobraBO {
     public void atualizar(Manobra manobra) throws SQLException{
         ManobraDAO manobraDAO = new ManobraDAO();
         manobraDAO.atualizar(manobra);
+    }
+    
+    public void validarCamposObrigatorios(Manobra m) throws CampoObrigatorioException {
+        if (m.getNome().trim().isEmpty()) {
+            throw new CampoObrigatorioException();
+
+        }
     }
 
   

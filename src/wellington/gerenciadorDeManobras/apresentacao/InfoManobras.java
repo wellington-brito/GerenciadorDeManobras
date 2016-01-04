@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
+import wellington.gerenciadorDeManobras.excecao.NoSelectionException;
 import wellington.gerenciadorDeManobras.negocio.CategoriaBO;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
 
@@ -24,7 +25,7 @@ import wellington.gerenciadorDeManobras.negocio.ManobraBO;
 public class InfoManobras extends javax.swing.JFrame {
 
     private FormCadastroManobra formCadastroManobra;
-    private AdicionarCategoriaForm adicionarCategoriaForm;
+    private GerenciarCategorias adicionarCategoriaForm;
     private InfoManobras infoManobras;
     private List<Manobra> manobras;
     private FormCadastroManobra editarManobraForm;
@@ -245,7 +246,7 @@ public class InfoManobras extends javax.swing.JFrame {
 
     private void carregarFormCadastroCategoria() throws SQLException {
         if (adicionarCategoriaForm == null) {
-            adicionarCategoriaForm = new AdicionarCategoriaForm();
+            adicionarCategoriaForm = new GerenciarCategorias();
         }
         adicionarCategoriaForm.setVisible(true);
         adicionarCategoriaForm.toFront();
@@ -375,26 +376,30 @@ public class InfoManobras extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void editarManobra() throws SQLException, ParseException {
-        int linhaSelecionada = tabelaManobras.getSelectedRow();
+        try {
+            int linhaSelecionada = tabelaManobras.getSelectedRow();
 
-        if (linhaSelecionada != -1) {
-            Manobra manobraSelecionado = manobras.get(linhaSelecionada);
+            if (linhaSelecionada != -1) {
+                Manobra manobraSelecionado = manobras.get(linhaSelecionada);
 
-            if (editarManobraForm != null) {
-                editarManobraForm.dispose();
+                if (editarManobraForm != null) {
+                    editarManobraForm.dispose();
+                }
+
+                editarManobraForm = new FormCadastroManobra(this, manobraSelecionado);
+
+                editarManobraForm.setVisible(true);
+
             }
-
-            editarManobraForm = new FormCadastroManobra(this, manobraSelecionado);
-
-            editarManobraForm.setVisible(true);
-
-        } else {
-            String mensagem = "Nenhuma manobra selecionada.";
-            JOptionPane.showMessageDialog(this,
-                    mensagem,
-                    "Edição de manobra",
-                    JOptionPane.INFORMATION_MESSAGE);
+        } catch(NoSelectionException e) {
+              String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
+            mensagem += "\nMensagem de erro:\n" + e.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Edicção de categoria ", JOptionPane.ERROR_MESSAGE);
+            this.dispose();
         }
+       
+           
+        
     }
 
     //classe interna
@@ -457,7 +462,7 @@ public class InfoManobras extends javax.swing.JFrame {
                         for (Categoria c : categorias) {
                             if (c.getId() == m.getCategoria()) {
                                 return c.getNome();
-                            } 
+                            }
                         }
 
                     } catch (SQLException ex) {

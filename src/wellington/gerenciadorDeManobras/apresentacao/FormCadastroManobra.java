@@ -50,14 +50,15 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         this.initComponents();
         this.carregarComboCategorias();
         this.carregarComboDificuldade();
-        this.carregarComboStatus();
+        //this.carregarComboStatus();
         this.recuperarCamposTela();
 
     }
 
     /**
-     * @setVisible sobreescrita do set visible para toda vz que a tela de cadastro de
-     * manobras estiver 'VISIBLE' o combobox das categorias atualizar
+     * @setVisible sobreescrita do set visible para toda vz que a tela de
+     * cadastro de manobras estiver 'VISIBLE' o combobox das categorias
+     * atualizar
      */
     @Override
     public void setVisible(boolean exibir) {
@@ -106,19 +107,18 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         }
     }
 
-    public void carregarComboStatus() {
-        cbxStatusManobra.removeAllItems();
-        for (int x = 0; x <= 1; x++) {
-            if (x == 0) {
-                cbxStatusManobra.addItem("Já sei fazer");
-            } else if (x == 1) {
-                cbxStatusManobra.addItem("Não sei fazer");
-            } else {
-                cbxStatusManobra.addItem("Status inexistente");
-            }
-        }
-    }
-
+//    public void carregarComboStatus() {
+//        cbxStatusManobra.removeAllItems();
+//        for (int x = 0; x <= 1; x++) {
+//            if (x == 0) {
+//                cbxStatusManobra.addItem("Já sei fazer");
+//            } else if (x == 1) {
+//                cbxStatusManobra.addItem("Não sei fazer");
+//            } else {
+//                cbxStatusManobra.addItem("Status inexistente");
+//            }
+//        }
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -133,9 +133,6 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         lblNomeManobra = new javax.swing.JLabel();
         lblDificuldade = new javax.swing.JLabel();
         cbxGrauDificuldade = new javax.swing.JComboBox();
-        lblDificuldade1 = new javax.swing.JLabel();
-        cbxStatusManobra = new javax.swing.JComboBox();
-        lblDificuldade2 = new javax.swing.JLabel();
         lblDificuldade3 = new javax.swing.JLabel();
         cbxCategoriaManobras = new javax.swing.JComboBox();
         btnSalvar = new javax.swing.JButton();
@@ -143,6 +140,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Manobra");
+        setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrar Manobra", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 18))); // NOI18N
 
@@ -162,18 +160,6 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             }
         });
 
-        lblDificuldade1.setText("Status ");
-
-        cbxStatusManobra.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1" }));
-        cbxStatusManobra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxStatusManobraActionPerformed(evt);
-            }
-        });
-
-        lblDificuldade2.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
-        lblDificuldade2.setText("(0: já sabe fazer, 1: não sabe fazer)");
-
         lblDificuldade3.setText("Categoria");
 
         cbxCategoriaManobras.addActionListener(new java.awt.event.ActionListener() {
@@ -189,7 +175,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             }
         });
 
-        btnCancelar.setText("Cancelar");
+        btnCancelar.setText("Fechar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -210,22 +196,16 @@ public class FormCadastroManobra extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNomeManobra)
-                            .addComponent(txtNomeManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblDificuldade)
-                            .addComponent(cbxGrauDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNomeManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(37, 37, 37)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblDificuldade3)
-                                    .addComponent(cbxCategoriaManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbxStatusManobra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addComponent(lblDificuldade1)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblDificuldade2)))
-                        .addGap(0, 205, Short.MAX_VALUE)))
+                            .addComponent(lblDificuldade3)
+                            .addComponent(cbxCategoriaManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbxGrauDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDificuldade))
+                        .addGap(0, 272, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -234,23 +214,16 @@ public class FormCadastroManobra extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNomeManobra)
-                    .addComponent(lblDificuldade3))
+                    .addComponent(lblDificuldade3)
+                    .addComponent(lblDificuldade))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNomeManobra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbxCategoriaManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(62, 62, 62)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDificuldade2)
-                    .addComponent(lblDificuldade1)
-                    .addComponent(lblDificuldade))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbxStatusManobra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxCategoriaManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbxGrauDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 187, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -269,8 +242,8 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(267, Short.MAX_VALUE))
         );
 
         pack();
@@ -279,10 +252,6 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     private void txtNomeManobraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeManobraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeManobraActionPerformed
-
-    private void cbxStatusManobraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxStatusManobraActionPerformed
-
-    }//GEN-LAST:event_cbxStatusManobraActionPerformed
 
     private void cbxGrauDificuldadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxGrauDificuldadeActionPerformed
 
@@ -311,11 +280,10 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
     private void incluirManobra() {
         try {
-
-            this.validarCamposObrigatorios();
             this.getItemComboCategorias(cbxCategoriaManobras.getSelectedItem().toString());
             this.recuperarCamposTela();
             ManobraBO manobraBO = new ManobraBO();
+            manobraBO.validarCamposObrigatorios(manobraEmEdicao);
             manobraBO.inserir(manobraEmEdicao);
 
             JOptionPane.showMessageDialog(this, "Manobra cadastrada com sucesso!", "Nova manobra", JOptionPane.INFORMATION_MESSAGE);
@@ -334,21 +302,15 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     }
 
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
-        this.validarCamposObrigatorios();
+
         this.getItemComboCategorias(cbxCategoriaManobras.getSelectedItem().toString());                 //recuperar valor selecionado no combobox de categoria, para poder resgatar o id do banco de dados e não do indice do combobox
         this.recuperarCamposTela();
         ManobraBO manobraBO = new ManobraBO();
+        manobraBO.validarCamposObrigatorios(manobraEmEdicao);
         manobraBO.atualizar(manobraEmEdicao);
         JOptionPane.showMessageDialog(this, "Dados da manobra alterado com sucesso", "Ediçao de manobra", JOptionPane.INFORMATION_MESSAGE);
         this.limparCamposTela();
         this.infoManobra.carregarTabelaDeManobras();
-    }
-
-    private void validarCamposObrigatorios() throws CampoObrigatorioException {
-        if (txtNomeManobra.getText().trim().isEmpty()) {
-            throw new CampoObrigatorioException();
-
-        }
     }
 
     public void inicializaCampoNomeManobra() {
@@ -362,9 +324,8 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         int posicaoSelecionada1 = cbxGrauDificuldade.getSelectedIndex();
         manobraEmEdicao.setDificuldade(posicaoSelecionada1);
 
-        int posicaoSelecionada2 = cbxStatusManobra.getSelectedIndex();
-        manobraEmEdicao.setStatus(posicaoSelecionada2);
-
+//        int posicaoSelecionada2 = cbxStatusManobra.getSelectedIndex();
+//        manobraEmEdicao.setStatus(posicaoSelecionada2);
         //cbxCategoriaManobras.getItemComboCategorias( item.getSelectedItem().toString());
         int posicaoSelecionada3 = 0;
         for (Categoria categoria : categorias) {
@@ -386,11 +347,8 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     private javax.swing.JButton btnSalvar;
     public static javax.swing.JComboBox cbxCategoriaManobras;
     private javax.swing.JComboBox cbxGrauDificuldade;
-    private javax.swing.JComboBox cbxStatusManobra;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblDificuldade;
-    private javax.swing.JLabel lblDificuldade1;
-    private javax.swing.JLabel lblDificuldade2;
     private javax.swing.JLabel lblDificuldade3;
     private javax.swing.JLabel lblNomeManobra;
     private javax.swing.JTextField txtNomeManobra;
