@@ -6,11 +6,14 @@
 package wellington.gerenciadorDeManobras.apresentacao;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.entidade.Treino;
+import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
 import wellington.gerenciadorDeManobras.negocio.TreinoBO;
 
@@ -32,7 +35,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         this(gerenciarTreinos);
         this.treinoEmEdicao = treinoSelecionado;
         this.inicializaComboManobra();
-
+        this.recuperarCamposTela();
     }
 
     public FormCadastrarEditarTreino(GerenciarTreinos gerenciarTreinos) throws SQLException {
@@ -40,7 +43,6 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         this.treinoEmEdicao = new Treino();
         this.initComponents();
         this.carregarComboManobras();
-        //this.recuperarCamposTela();
 
     }
 
@@ -63,7 +65,6 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         for (Manobra m : manobras) {
             cbxManobras.addItem(m.getNome());
         }
-
     }
 
     private void inicializaComboManobra() {
@@ -73,23 +74,9 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             }
         }
     }
-
-    public void getItemComboManobras(String itemCombo) {
+    
+     public void getItemComboManobras(String itemCombo) {
         this.item = itemCombo;
-    }
-
-    private void recuperarCamposTela() {
-        int posicaoSelecionada = 0;
-        for (Manobra manobra : manobras) {
-            if (manobra.getNome().equals(item)) {
-                posicaoSelecionada = manobra.getId();
-                treinoEmEdicao.setIdManobra(posicaoSelecionada);
-            }
-        }
-        int progresso = Integer.parseInt(txtProgressoTreino.getText());
-        treinoEmEdicao.setProgresso(progresso);
-        int qntddias = Integer.parseInt(txtQntddiaTreinando.getText());
-        treinoEmEdicao.setQntddias(qntddias);
     }
 
     /**
@@ -112,7 +99,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnFecharTela = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Novo Treino", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
@@ -133,6 +120,11 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         });
 
         btnFecharTela.setText("Voltar");
+        btnFecharTela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharTelaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -198,12 +190,24 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        try {
-            this.incluirTreino();
-        } catch (SQLException ex) {
-            Logger.getLogger(FormCadastrarEditarTreino.class.getName()).log(Level.SEVERE, null, ex);
+        if (verificaEditarOuSalvar == 1) {
+            try {
+                this.atualizar();
+            } catch (CampoObrigatorioException | ParseException | SQLException ex) {
+                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                this.incluirTreino();
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastrarEditarTreino.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnFecharTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharTelaActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnFecharTelaActionPerformed
 
     private void incluirTreino() throws SQLException {
         this.getItemComboManobras(cbxManobras.getSelectedItem().toString());
@@ -211,7 +215,39 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         TreinoBO treinoBO = new TreinoBO();
         treinoBO.validarCamposObrigatoriosIdManobra(treinoEmEdicao);
         treinoBO.inserir(treinoEmEdicao);
+        JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso!", "Novo Treino", JOptionPane.INFORMATION_MESSAGE);
+        this.limparCamposTela();
+        this.gerenciarTreinos.carregarTabelaDeTreino();
     }
+
+    private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
+        this.getItemComboManobras(cbxManobras.getSelectedItem().toString());                 //recuperar valor selecionado no combobox de categoria, para poder resgatar o id do banco de dados e não do indice do combobox
+        this.recuperarCamposTela();
+        TreinoBO treinoBO = new TreinoBO();
+        treinoBO.validarCamposObrigatoriosAtualizar(treinoEmEdicao);
+        treinoBO.atualizar(treinoEmEdicao);
+        JOptionPane.showMessageDialog(this, "Dados da manobra alterado com sucesso", "Ediçao de manobra", JOptionPane.INFORMATION_MESSAGE);
+        this.limparCamposTela();
+        this.gerenciarTreinos.carregarTabelaDeTreino();
+    }
+    
+    
+    private void recuperarCamposTela() {        
+        for (Manobra manobra : manobras) {
+            if (treinoEmEdicao.getIdManobra() == manobra.getId()) {
+                cbxManobras.setSelectedItem(manobra.getId());               
+            }
+        }
+        treinoEmEdicao.setProgresso(Integer.parseInt(txtProgressoTreino.getText()));
+        treinoEmEdicao.setQntddias(Integer.parseInt(txtQntddiaTreinando.getText()));
+    }
+
+    private void limparCamposTela() {
+        this.txtProgressoTreino.setText("");
+        this.txtQntddiaTreinando.setText("");
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFecharTela;
     private javax.swing.JButton btnSalvar;
@@ -224,5 +260,16 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     private javax.swing.JTextField txtProgressoTreino;
     private javax.swing.JTextField txtQntddiaTreinando;
     // End of variables declaration//GEN-END:variables
+
+    int verificaEditarOuSalvar;
+
+    public int getVerificaEditarOuSalvar() {
+        return verificaEditarOuSalvar;
+    }
+
+    public void setVerificaEditarOuSalvar(int verificaEditarOuSalvar) {
+        this.verificaEditarOuSalvar = verificaEditarOuSalvar;
+
+    }
 
 }

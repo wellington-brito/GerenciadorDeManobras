@@ -6,6 +6,7 @@
 package wellington.gerenciadorDeManobras.negocio;
 
 import java.sql.SQLException;
+import java.util.List;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.entidade.Treino;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
@@ -31,5 +32,16 @@ public class TreinoBO {
         if (t.getIdManobra() == 0 || t.getProgresso() == 0 || t.getQntddias() == 0) {
             throw new CampoObrigatorioException();
         }
+    }
+
+    public List<Treino> buscarTodosTreinos() throws SQLException {
+        TreinoDAO treinoDAO = new TreinoDAO();
+        return treinoDAO.buscarTodosTrienos();
+    }
+
+    public void atualizar(Treino treinoEmEdicao) throws SQLException {
+        TreinoDAO treinoDAO =  new TreinoDAO();
+        treinoDAO.atualizar(treinoEmEdicao);
+        
     }
 }

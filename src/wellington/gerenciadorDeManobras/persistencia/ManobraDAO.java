@@ -22,7 +22,7 @@ public class ManobraDAO {
     private static final String SQL_INSERT = "INSERT INTO MANOBRA (NOME, DIFICULDADE, STATUS, ID_CATEGORIA) VALUES (?, ?, ?, ?)";
     private static final String SQL_SELECT_MANOBRAS = "SELECT ID, NOME, DIFICULDADE, STATUS, ID_CATEGORIA  FROM MANOBRA";
     private static final String SQL_DELETE = "DELETE FROM MANOBRA WHERE ID = ?";
-     private static final String SQL_UPDATE = "UPDATE MANOBRA SET  NOME = ?, DIFICULDADE = ?, ID_CATEGORIA = ?, STATUS = ?  WHERE ID = ?";
+    private static final String SQL_UPDATE = "UPDATE MANOBRA SET  NOME = ?, DIFICULDADE = ?, ID_CATEGORIA = ?, STATUS = ?  WHERE ID = ?";
     public void inserir(Manobra manobra) throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;

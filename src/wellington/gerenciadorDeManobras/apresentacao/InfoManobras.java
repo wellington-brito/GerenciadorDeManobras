@@ -75,7 +75,7 @@ public class InfoManobras extends javax.swing.JFrame {
         mnuItemRelatorio = new javax.swing.JMenuItem();
         itemMenuSair = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Manobras");
         setExtendedState(6);
 
@@ -256,7 +256,11 @@ public class InfoManobras extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNovaManobra1ActionPerformed
 
     private void mnuItemNovoTreinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemNovoTreinoActionPerformed
-        this.carregarFomrNovoTreino();
+        try {
+            this.carregarFomrNovoTreino();
+        } catch (SQLException ex) {
+            Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_mnuItemNovoTreinoActionPerformed
 
     private void carregarFormCadastroCategoria() throws SQLException {
@@ -265,12 +269,11 @@ public class InfoManobras extends javax.swing.JFrame {
         }
         adicionarCategoriaForm.setVisible(true);
         adicionarCategoriaForm.toFront();
-
     }
 
-    private void carregarFomrNovoTreino() {
+    private void carregarFomrNovoTreino() throws SQLException {
         if (telaGerenciarTreinos == null) {
-            this.telaGerenciarTreinos = new GerenciarTreinos(this);
+            this.telaGerenciarTreinos = new GerenciarTreinos();
         }
         telaGerenciarTreinos.setVisible(true);
         telaGerenciarTreinos.toFront();

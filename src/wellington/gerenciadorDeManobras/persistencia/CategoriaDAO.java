@@ -119,7 +119,6 @@ public class CategoriaDAO {
             //Todo objeto que referencie o banco de dados deve ser fechado
             BancoDadosUtil.fecharChamadasBancoDados(conexao, comando);
         }
-
     }
 
     public void atualizar(Categoria categoria) throws SQLException {
@@ -149,6 +148,6 @@ public class CategoriaDAO {
         } finally {
             //Todo objeto que referencie o banco de dados deve ser fechado
             BancoDadosUtil.fecharChamadasBancoDados(conexao, comando);
-        } }
-
+        } 
+    }
 }

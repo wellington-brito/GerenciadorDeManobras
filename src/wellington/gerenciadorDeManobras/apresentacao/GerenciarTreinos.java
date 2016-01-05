@@ -10,12 +10,14 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.entidade.Treino;
 import wellington.gerenciadorDeManobras.excecao.NoSelectionException;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
+import wellington.gerenciadorDeManobras.negocio.TreinoBO;
 
 /**
  *
@@ -25,6 +27,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
 
     public FormCadastrarEditarTreino formCadastrarTreino;
     public FormCadastrarEditarTreino formEditarTreino;
+    
     public InfoManobras infoManobras;
   
     private List<Treino> treinos;
@@ -32,14 +35,27 @@ public class GerenciarTreinos extends javax.swing.JFrame {
     /**
      * Creates new form GerenciarTreinos
      */
-    public GerenciarTreinos() {
-        initComponents();
+    public GerenciarTreinos() throws SQLException {
+       this.prepararTela();
     }
 
-    public GerenciarTreinos(InfoManobras infoManobroas) {
-       this.infoManobras = infoManobroas;
-       this.initComponents();
-      
+//    public GerenciarTreinos(InfoManobras infoManobroas) throws SQLException {
+//       this.infoManobras = infoManobroas;
+//       this.initComponents();
+//       this.carregarTabelaDeTreino();
+//      
+//    }
+    
+    public void prepararTela() throws SQLException {
+        try {
+            this.initComponents();
+            this.carregarTabelaDeTreino();
+        } catch (Exception e) {
+            String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
+            mensagem += "\nMensagem de erro:\n" + e.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Manobras cadastrados", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        }
     }
 
     /**
@@ -157,19 +173,21 @@ public class GerenciarTreinos extends javax.swing.JFrame {
 
     private void btnNovoTreinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoTreinoActionPerformed
         try {
-            this.carregarFormCadastroEditarTreino();
+            this.novoTreino();
         } catch (SQLException ex) {
             Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnNovoTreinoActionPerformed
 
     private void btnAlterarTreinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarTreinoActionPerformed
-//        try {
-//            this.editarCategoria();
-//            this.editarCategoriaForm.setVerificaEditarOuSalvar(1);
-//        } catch (ParseException | SQLException ex) {
-//            Logger.getLogger(GerenciarCategorias.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            this.editarTreino();
+            this.formEditarTreino.setVerificaEditarOuSalvar(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(GerenciarCategorias.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(GerenciarTreinos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAlterarTreinoActionPerformed
 
     private void btnExcluirTreinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirTreinoActionPerformed
@@ -180,15 +198,28 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnFecharTelaActionPerformed
 
-    public void carregarFormCadastroEditarTreino() throws SQLException {
-        if (formCadastrarTreino == null) {
-            formCadastrarTreino = new FormCadastrarEditarTreino(this);
-        }
-        formCadastrarTreino.setVisible(true);
-        formCadastrarTreino.toFront();
-    }
+   
+    public void novoTreino() throws SQLException {                       
+            if (formCadastrarTreino == null) {
+                formCadastrarTreino = new FormCadastrarEditarTreino(this);         
+            }            
+            formCadastrarTreino.setVisible(true);       
+            formCadastrarTreino.toFront();       
+     }
 
-    private void editarCategoria() throws SQLException, ParseException {
+    @Override
+    public void setVisible(boolean exibir) {
+        super.setVisible(exibir);
+        if (exibir == true) {
+            try {
+                this.carregarTabelaDeTreino();
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private void editarTreino() throws SQLException, ParseException {
         int linhaSelecionada = tabelaTreinos.getSelectedRow();
         if (linhaSelecionada != -1) {
             Treino treinoSelecionado = treinos.get(linhaSelecionada);
@@ -201,6 +232,14 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             throw new NoSelectionException();
         }
     }
+    
+     public void carregarTabelaDeTreino() throws SQLException {
+        TreinoBO treinoBO = new TreinoBO();
+        this.treinos = treinoBO.buscarTodosTreinos();
+        ModeloTabelaTreinos modelo = new ModeloTabelaTreinos();
+        tabelaTreinos.setModel(modelo);
+     }
+     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterarTreino;
     private javax.swing.JButton btnExcluirTreino;
@@ -219,7 +258,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             if(coluna == 0){
                 return "Manobras";
             } else if (coluna == 1){
-                return "Progresso";
+                return "Progresso %";
             } else{
                 return "Dias treinando";
             }
@@ -238,27 +277,25 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             Treino t = treinos.get(rowIndex);
-            ManobraBO manobraBO = new ManobraBO();
-            try {
-                manobras = manobraBO.buscarTodasManobras();
-            } catch (SQLException ex) {
-                Logger.getLogger(GerenciarTreinos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+                   
             if (columnIndex == 0){
-                for (Manobra m : manobras) {
-                    if(m.getId() == t.getId()){
-                        return m.getNome();
+                try {
+                    ManobraBO manobraBO = new ManobraBO();
+                    manobras = manobraBO.buscarTodasManobras();
+                    for (Manobra m : manobras) {
+                        if(m.getId() == t.getIdManobra()){
+                            return m.getNome();
+                        }
                     }
-                    else{return t.getId();
-                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(GerenciarTreinos.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                return t.getIdManobra();
             }else if(columnIndex == 1){
                 return t.getProgresso();
             }else{
                 return t.getQntddias();
             }
+            return null;
         }
 
     }
