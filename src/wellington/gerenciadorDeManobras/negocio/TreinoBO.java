@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package wellington.gerenciadorDeManobras.excecao;
+package wellington.gerenciadorDeManobras.negocio;
 
 /**
  *
  * @author Wellington
  */
-public class NoSelectionException extends GerenciadorException{
-    public NoSelectionException(){
-        super("Por favor, selecione antes a categoria que deseja editar!");
-    }
+public class TreinoBO {
     
 }

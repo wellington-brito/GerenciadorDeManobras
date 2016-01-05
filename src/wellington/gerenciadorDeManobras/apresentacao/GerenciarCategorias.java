@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
+import wellington.gerenciadorDeManobras.excecao.NoSelectionException;
+
 import wellington.gerenciadorDeManobras.negocio.CategoriaBO;
 
 /**
@@ -24,16 +26,29 @@ public class GerenciarCategorias extends javax.swing.JFrame {
 
     private FormCadastrarEditarCategoria editarCategoriaForm;
     private FormCadastrarEditarCategoria formCadastrarEditarCategoria;
+    private GerenciarCategorias gerenciarCategorias;
     private List<Categoria> categorias;
 
     /**
      * Creates new form AdicionarCategoriaForm
      */
     public GerenciarCategorias() throws SQLException {
-        initComponents();
-        carregarTabelaDeCategorias();
+        prepararTela();
     }
 
+    public void prepararTela() throws SQLException {       
+        try{
+         this.initComponents();
+        this.carregarTabelaDeCategorias();  
+        } catch (Exception e) {
+            String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
+            mensagem += "\nMensagem de erro:\n" + e.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Categorias de manobras cadastradas", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        }
+           
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -152,12 +167,11 @@ public class GerenciarCategorias extends javax.swing.JFrame {
     private void btnAlterarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarCategoriaActionPerformed
         try {
             this.editarCategoria();
-            //editarCategoriaForm.setVerificaEditarOuSalvar(1);
-        } catch (ParseException ex) {
-            Logger.getLogger(GerenciarCategorias.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            this.editarCategoriaForm.setVerificaEditarOuSalvar(1);
+        } catch (ParseException | SQLException ex) {
             Logger.getLogger(GerenciarCategorias.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_btnAlterarCategoriaActionPerformed
 
     private void btnExcluirCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirCategoriaActionPerformed
@@ -166,7 +180,6 @@ public class GerenciarCategorias extends javax.swing.JFrame {
 
     private void btnNovaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaCategoriaActionPerformed
         try {
-            // TODO add your handling code here:
             this.carregarFormCadastroCategoria();
         } catch (SQLException ex) {
             Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
@@ -187,10 +200,22 @@ public class GerenciarCategorias extends javax.swing.JFrame {
         formCadastrarEditarCategoria.toFront();
     }
 
+    @Override
+    public void setVisible(boolean exibir) {
+        super.setVisible(exibir);
+        if (exibir == true) {
+            try {
+                this.carregarTabelaDeCategorias();
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     public void carregarTabelaDeCategorias() throws SQLException {
         CategoriaBO categoriaBO = new CategoriaBO();
         this.categorias = categoriaBO.buscarTodasCategorias();
-        GerenciarCategorias.ModeloTabelaCategorias modelo = new GerenciarCategorias.ModeloTabelaCategorias();
+        ModeloTabelaCategorias modelo = new ModeloTabelaCategorias();
         tabelaCategorias.setModel(modelo);
     }
 
@@ -210,10 +235,9 @@ public class GerenciarCategorias extends javax.swing.JFrame {
                     CategoriaBO categoriaBO = new CategoriaBO();
                     categoriaBO.removerManobra(categoriaSelecionado.getId());
                     mensagem = "Categoria " + categoriaSelecionado.getNome() + " Id: " + categoriaSelecionado.getId() + " excluída com sucesso!";
-                    JOptionPane.showMessageDialog(this, mensagem, "Exclusão de Manobra", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria", JOptionPane.INFORMATION_MESSAGE);
                     this.carregarTabelaDeCategorias();
                 }
-
             } else {
                 String mensagem = "Selecione uma categoria antes!";
                 JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria", JOptionPane.INFORMATION_MESSAGE);
@@ -227,6 +251,7 @@ public class GerenciarCategorias extends javax.swing.JFrame {
         }
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterarCategoria;
     private javax.swing.JButton btnExcluirCategoria;
@@ -237,26 +262,17 @@ public class GerenciarCategorias extends javax.swing.JFrame {
     private javax.swing.JTable tabelaCategorias;
     // End of variables declaration//GEN-END:variables
 
-    private void editarCategoria() throws ParseException, SQLException {
+    private void editarCategoria() throws SQLException, ParseException {
         int linhaSelecionada = tabelaCategorias.getSelectedRow();
-
         if (linhaSelecionada != -1) {
             Categoria categoriaSelecionado = categorias.get(linhaSelecionada);
-
             if (editarCategoriaForm != null) {
                 editarCategoriaForm.dispose();
             }
-
             editarCategoriaForm = new FormCadastrarEditarCategoria(this, categoriaSelecionado);
-
             editarCategoriaForm.setVisible(true);
-
         } else {
-            String mensagem = "Selecione uma categoria antes!";
-            JOptionPane.showMessageDialog(this,
-                    mensagem,
-                    "Edição de manobra",
-                    JOptionPane.INFORMATION_MESSAGE);
+            throw new NoSelectionException();
         }
     }
 
@@ -267,31 +283,30 @@ public class GerenciarCategorias extends javax.swing.JFrame {
         public String getColumnName(int coluna) {
             if (coluna == 0) {
                 return "Categoria";
-            } else if (coluna == 1) {
+            } else {
                 return "Descrição";
-            }
-            return null;
+            }           
         }
-
+        
         @Override
         public int getRowCount() {
             return categorias.size();
         }
-
+        
         @Override
         public int getColumnCount() {
             return 2;
         }
-
+        
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             Categoria c = categorias.get(rowIndex);
             if (columnIndex == 0) {
                 return c.getNome();
-            } else if (columnIndex == 1) {
+            } else {
                 return c.getDescricao();
             }
-            return null;
+            
         }
 
     }

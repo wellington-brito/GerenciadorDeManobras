@@ -30,7 +30,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     private List<Categoria> categorias;
     private List<Manobra> manobras;
     private InfoManobras infoManobra;
-    private InfoManobras editarManobrasFor;
+    // private InfoManobras editarManobrasFor;
     public int verificaEditarOuSalvar;
     private Categoria categoria;
     String item = " ";
@@ -297,12 +297,10 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         } catch (Exception e) {
             String mensagem = "Erro ao realizar operação:\n" + e.getMessage();
             JOptionPane.showMessageDialog(this, mensagem, "Nova manobra", JOptionPane.ERROR_MESSAGE);
-
         }
     }
 
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
-
         this.getItemComboCategorias(cbxCategoriaManobras.getSelectedItem().toString());                 //recuperar valor selecionado no combobox de categoria, para poder resgatar o id do banco de dados e não do indice do combobox
         this.recuperarCamposTela();
         ManobraBO manobraBO = new ManobraBO();
@@ -318,15 +316,10 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     }
 
     private void recuperarCamposTela() throws ParseException {
-
         manobraEmEdicao.setNome(txtNomeManobra.getText());
-
         int posicaoSelecionada1 = cbxGrauDificuldade.getSelectedIndex();
         manobraEmEdicao.setDificuldade(posicaoSelecionada1);
 
-//        int posicaoSelecionada2 = cbxStatusManobra.getSelectedIndex();
-//        manobraEmEdicao.setStatus(posicaoSelecionada2);
-        //cbxCategoriaManobras.getItemComboCategorias( item.getSelectedItem().toString());
         int posicaoSelecionada3 = 0;
         for (Categoria categoria : categorias) {
             if (categoria.getNome().equals(item)) {
@@ -334,7 +327,6 @@ public class FormCadastroManobra extends javax.swing.JFrame {
                 manobraEmEdicao.setCategoria(posicaoSelecionada3);
             }
         }
-
     }
 
     private void limparCamposTela() {
@@ -360,8 +352,8 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         return verificaEditarOuSalvar;
     }
 
-    public void setVerificaEditarOuSalvar(int editarManobrasFor) {
-        this.verificaEditarOuSalvar = editarManobrasFor;
+    public void setVerificaEditarOuSalvar(int verificaEditarOuSalvar) {
+        this.verificaEditarOuSalvar = verificaEditarOuSalvar;
 
     }
 }

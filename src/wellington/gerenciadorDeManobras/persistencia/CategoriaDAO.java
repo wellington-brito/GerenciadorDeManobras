@@ -22,9 +22,9 @@ public class CategoriaDAO {
     private static final String SQL_SELECT_TODAS = "SELECT ID, NOME, DESCRICAO FROM CATEGORIA";
     private static final String SQL_INSERT = "INSERT INTO CATEGORIA (NOME, DESCRICAO) VALUES (?, ?)";
     private static final String SQL_DELETE = "DELETE FROM CATEGORIA WHERE ID = ?";
-    private static final String SQL_UPDATE = "UPDATE CATEGORIA SET  NOME = ?, DESCRICAO = ?, WHERE ID = ?";
+    private static final String SQL_UPDATE = "UPDATE CATEGORIA SET  NOME = ?, DESCRICAO = ? WHERE ID = ?";
 
-    public void inserir(Categoria categoria) throws SQLException {
+    public void incluirCategoria(Categoria categoria) throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
 
@@ -59,9 +59,7 @@ public class CategoriaDAO {
         Connection conexao = null;
         PreparedStatement comando = null;
         ResultSet resultado = null;
-
-        List<Categoria> listaCursos = new ArrayList<>();
-
+        List<Categoria> listaCategorias = new ArrayList<>();
         try {
             //Recupera a conexão
             conexao = BancoDadosUtil.getConnection();
@@ -74,13 +72,13 @@ public class CategoriaDAO {
             while (resultado.next()) {
                 Categoria categoria = this.extrairLinhaResultado(resultado);
                 //Adiciona um item à lista que será retornada
-                listaCursos.add(categoria);
+                listaCategorias.add(categoria);
             }
         } finally {
             //Todo objeto que referencie o banco de dados deve ser fechado
             BancoDadosUtil.fecharChamadasBancoDados(conexao, comando, resultado);
         }
-        return listaCursos;
+        return listaCategorias;
     }
 
     private Categoria extrairLinhaResultado(ResultSet resultado) throws SQLException {
@@ -134,9 +132,9 @@ public class CategoriaDAO {
             comando = conexao.prepareStatement(SQL_UPDATE);
             //Atribui os parâmetros (Note que no BD o index inicia por 1)               
                   
-            comando.setString(2, categoria.getNome());
-            comando.setString(3, categoria.getDescricao());
-            comando.setInt(1, categoria.getId());    
+            comando.setString(1, categoria.getNome());
+            comando.setString(2, categoria.getDescricao());
+            comando.setInt(3, categoria.getId());    
             //Executa o comando
             comando.execute();
             //Persiste o comando no banco de dados

@@ -57,13 +57,10 @@ public class ManobraDAO {
     }
 
     public List<Manobra> buscarTodasManobras() throws SQLException {
-
         Connection conexao = null;
         PreparedStatement comando = null;
         ResultSet resultado = null;
-
         List<Manobra> listaManobras = new ArrayList<>();
-
         try {
             //Recupera a conexão
             conexao = BancoDadosUtil.getConnection();

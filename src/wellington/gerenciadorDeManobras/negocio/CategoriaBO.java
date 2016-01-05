@@ -22,9 +22,9 @@ public class CategoriaBO {
         return categoriaDAO.buscarTodasCategorias();
     }
 
-    public void inserir(Categoria categoriaEmEdicao) throws SQLException {      
+    public void incluirCategoria(Categoria categoriaEmEdicao) throws SQLException {      
         CategoriaDAO categoriaDAO = new CategoriaDAO();
-        categoriaDAO.inserir(categoriaEmEdicao);
+        categoriaDAO.incluirCategoria(categoriaEmEdicao);
     }
    
     
