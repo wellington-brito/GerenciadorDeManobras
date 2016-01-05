@@ -5,10 +5,31 @@
  */
 package wellington.gerenciadorDeManobras.negocio;
 
+import java.sql.SQLException;
+import wellington.gerenciadorDeManobras.entidade.Manobra;
+import wellington.gerenciadorDeManobras.entidade.Treino;
+import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
+import wellington.gerenciadorDeManobras.persistencia.TreinoDAO;
+
 /**
  *
  * @author Wellington
  */
 public class TreinoBO {
-    
+
+    public void inserir(Treino treino) throws SQLException {
+        TreinoDAO treinoDAO = new TreinoDAO();
+        treinoDAO.inserir(treino);
+    }
+
+    public void validarCamposObrigatoriosIdManobra(Treino t) throws CampoObrigatorioException {
+        if (t.getIdManobra() == 0) {
+            throw new CampoObrigatorioException();
+        }
+    }
+    public void validarCamposObrigatoriosAtualizar(Treino t) throws CampoObrigatorioException {
+        if (t.getIdManobra() == 0 || t.getProgresso() == 0 || t.getQntddias() == 0) {
+            throw new CampoObrigatorioException();
+        }
+    }
 }

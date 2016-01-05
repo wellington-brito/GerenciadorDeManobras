@@ -28,6 +28,7 @@ public class InfoManobras extends javax.swing.JFrame {
     private FormCadastroManobra formCadastroManobra;
     private FormCadastroManobra editarManobraForm;
     private GerenciarCategorias adicionarCategoriaForm;
+    private GerenciarTreinos telaGerenciarTreinos;
     private InfoManobras infoManobras;
     private List<Manobra> manobras;
     private List<Categoria> categorias;
@@ -69,6 +70,7 @@ public class InfoManobras extends javax.swing.JFrame {
         btnEditarManobra = new javax.swing.JButton();
         barraDeMenuPrincipal = new javax.swing.JMenuBar();
         menuOpçoes = new javax.swing.JMenu();
+        mnuItemNovoTreino = new javax.swing.JMenuItem();
         mnuItemNovaCategoria = new javax.swing.JMenuItem();
         mnuItemRelatorio = new javax.swing.JMenuItem();
         itemMenuSair = new javax.swing.JMenuItem();
@@ -155,7 +157,15 @@ public class InfoManobras extends javax.swing.JFrame {
 
         menuOpçoes.setText("Opções");
 
-        mnuItemNovaCategoria.setText("Nova Categoria");
+        mnuItemNovoTreino.setText("Treino");
+        mnuItemNovoTreino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemNovoTreinoActionPerformed(evt);
+            }
+        });
+        menuOpçoes.add(mnuItemNovoTreino);
+
+        mnuItemNovaCategoria.setText("Categoria");
         mnuItemNovaCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuItemNovaCategoriaActionPerformed(evt);
@@ -245,6 +255,10 @@ public class InfoManobras extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnNovaManobra1ActionPerformed
 
+    private void mnuItemNovoTreinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemNovoTreinoActionPerformed
+        this.carregarFomrNovoTreino();
+    }//GEN-LAST:event_mnuItemNovoTreinoActionPerformed
+
     private void carregarFormCadastroCategoria() throws SQLException {
         if (adicionarCategoriaForm == null) {
             adicionarCategoriaForm = new GerenciarCategorias();
@@ -252,6 +266,14 @@ public class InfoManobras extends javax.swing.JFrame {
         adicionarCategoriaForm.setVisible(true);
         adicionarCategoriaForm.toFront();
 
+    }
+
+    private void carregarFomrNovoTreino() {
+        if (telaGerenciarTreinos == null) {
+            this.telaGerenciarTreinos = new GerenciarTreinos(this);
+        }
+        telaGerenciarTreinos.setVisible(true);
+        telaGerenciarTreinos.toFront();
     }
 
     private void carregarFormCadastroManobra() throws SQLException, ParseException {
@@ -262,8 +284,6 @@ public class InfoManobras extends javax.swing.JFrame {
         formCadastroManobra.toFront();
 
     }
-
-
 
     @Override
     public void setVisible(boolean exibir) {
@@ -365,6 +385,7 @@ public class InfoManobras extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JMenu menuOpçoes;
     private javax.swing.JMenuItem mnuItemNovaCategoria;
+    private javax.swing.JMenuItem mnuItemNovoTreino;
     private javax.swing.JMenuItem mnuItemRelatorio;
     private javax.swing.JTable tabelaManobras;
     // End of variables declaration//GEN-END:variables

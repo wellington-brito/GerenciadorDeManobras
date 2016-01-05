@@ -7,37 +7,91 @@ package wellington.gerenciadorDeManobras.apresentacao;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.entidade.Treino;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
+import wellington.gerenciadorDeManobras.negocio.TreinoBO;
 
 /**
  *
  * @author Wellington
  */
 public class FormCadastrarEditarTreino extends javax.swing.JFrame {
-private List<Manobra> manobras;
-private GerenciarTreinos gerenciarTreinos;
-private Treino treinoEmEdicao;
+
+    private List<Manobra> manobras;
+    private GerenciarTreinos gerenciarTreinos;
+    private Treino treinoEmEdicao;
+    String item = " ";
+
     /**
      * Creates new form FormCadastrarEditarTreino
      */
+    FormCadastrarEditarTreino(GerenciarTreinos gerenciarTreinos, Treino treinoSelecionado) throws SQLException {
+        this(gerenciarTreinos);
+        this.treinoEmEdicao = treinoSelecionado;
+        this.inicializaComboManobra();
+
+    }
+
     public FormCadastrarEditarTreino(GerenciarTreinos gerenciarTreinos) throws SQLException {
         this.gerenciarTreinos = gerenciarTreinos;
         this.treinoEmEdicao = new Treino();
-        initComponents();
-        carregarComboManobras();
-        
+        this.initComponents();
+        this.carregarComboManobras();
+        //this.recuperarCamposTela();
+
+    }
+
+    @Override
+    public void setVisible(boolean exibir) {
+        super.setVisible(exibir);
+        if (exibir == true) {
+            try {
+                this.carregarComboManobras();
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     private void carregarComboManobras() throws SQLException {
-        ManobraBO ManobraBO = new ManobraBO();
-        manobras = ManobraBO.buscarTodasManobras();
+        ManobraBO manobraBO = new ManobraBO();
+        manobras = manobraBO.buscarTodasManobras();
         cbxManobras.removeAllItems();
         for (Manobra m : manobras) {
             cbxManobras.addItem(m.getNome());
         }
+
     }
+
+    private void inicializaComboManobra() {
+        for (Manobra m : manobras) {
+            if (treinoEmEdicao.getIdManobra() == m.getId()) {
+                cbxManobras.addItem(m.getNome());
+            }
+        }
+    }
+
+    public void getItemComboManobras(String itemCombo) {
+        this.item = itemCombo;
+    }
+
+    private void recuperarCamposTela() {
+        int posicaoSelecionada = 0;
+        for (Manobra manobra : manobras) {
+            if (manobra.getNome().equals(item)) {
+                posicaoSelecionada = manobra.getId();
+                treinoEmEdicao.setIdManobra(posicaoSelecionada);
+            }
+        }
+        int progresso = Integer.parseInt(txtProgressoTreino.getText());
+        treinoEmEdicao.setProgresso(progresso);
+        int qntddias = Integer.parseInt(txtQntddiaTreinando.getText());
+        treinoEmEdicao.setQntddias(qntddias);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -72,6 +126,11 @@ private Treino treinoEmEdicao;
         jLabel3.setText("Quantidade de dias treinando");
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnFecharTela.setText("Voltar");
 
@@ -138,8 +197,21 @@ private Treino treinoEmEdicao;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        try {
+            this.incluirTreino();
+        } catch (SQLException ex) {
+            Logger.getLogger(FormCadastrarEditarTreino.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void incluirTreino() throws SQLException {
+        this.getItemComboManobras(cbxManobras.getSelectedItem().toString());
+        this.recuperarCamposTela();
+        TreinoBO treinoBO = new TreinoBO();
+        treinoBO.validarCamposObrigatoriosIdManobra(treinoEmEdicao);
+        treinoBO.inserir(treinoEmEdicao);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFecharTela;
     private javax.swing.JButton btnSalvar;
@@ -152,4 +224,5 @@ private Treino treinoEmEdicao;
     private javax.swing.JTextField txtProgressoTreino;
     private javax.swing.JTextField txtQntddiaTreinando;
     // End of variables declaration//GEN-END:variables
+
 }
