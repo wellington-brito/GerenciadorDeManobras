@@ -8,6 +8,8 @@ package wellington.gerenciadorDeManobras.apresentacao;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
@@ -21,28 +23,28 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
 
     private Categoria categoriaEmEdicao;
     private GerenciarCategorias gerenciarCategorias;
+    // private GerenciarCategorias editarCategoriasform;
     private List<Categoria> categorias;
-   
+
     /**
      * Creates new form FormCadastrarCategoria
      */
-    
-     FormCadastrarEditarCategoria(GerenciarCategorias gerenciarCategorias) {
-       this.gerenciarCategorias = gerenciarCategorias;
-       this.categoriaEmEdicao = new Categoria();
-       this.initComponents();
-       this.recuperarCamposTela();
-    }
-     
-    public FormCadastrarEditarCategoria(GerenciarCategorias gerenciarCategorias, Categoria categoriaSelecionado)  throws ParseException, SQLException{
+    public FormCadastrarEditarCategoria(GerenciarCategorias gerenciarCategorias, Categoria categoriaSelecionado) throws ParseException, SQLException {
+        this(gerenciarCategorias);
         this.categoriaEmEdicao = categoriaSelecionado;
+        this.inicializaCamposCategoria();
+    }
+
+    FormCadastrarEditarCategoria(GerenciarCategorias gerenciarCategorias) throws SQLException {
+        this.gerenciarCategorias = gerenciarCategorias;
+        this.categoriaEmEdicao = new Categoria();
         this.initComponents();
+        this.recuperarCamposTela();
     }
 
 //    public FormCadastrarCategoria(FormGerenciarCategorias aThis, Categoria categoriaSelecionado) {
 //        initComponents();
 //    }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -162,8 +164,19 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDescricaoCategoriaActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        // TODO add your handling code here:
-        this.salvar();
+        if (editarCategoriaForm == 1) {
+            try {
+                this.atualizar();
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastrarEditarCategoria.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                this.incluirCategoria();
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastrarEditarCategoria.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -171,27 +184,38 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void salvar() {
-        try {
-            this.recuperarCamposTela();
-            CategoriaBO categoriaBO = new CategoriaBO();
-            categoriaBO.validarCamposObrigatorios(categoriaEmEdicao);
-            categoriaBO.inserir(categoriaEmEdicao);
+    private void incluirCategoria() throws SQLException {
+        this.recuperarCamposTela();
+        CategoriaBO categoriaBO = new CategoriaBO();
+        categoriaBO.validarCamposObrigatorios(categoriaEmEdicao);
+        categoriaBO.incluirCategoria(categoriaEmEdicao);
+        JOptionPane.showMessageDialog(this, "Categoria cadastrada com sucesso!", "Cadastro de nova Catagoria", JOptionPane.INFORMATION_MESSAGE);
+        this.limparCamposTela();
+        this.gerenciarCategorias.carregarTabelaDeCategorias();
+    }
 
-            JOptionPane.showMessageDialog(this, "Categoria cadastrada com sucesso!", "Cadastro de nova Catagoria", JOptionPane.INFORMATION_MESSAGE);
-            this.limparCamposTela();
-            this.gerenciarCategorias.carregarTabelaDeCategorias();
+    private void atualizar() throws CampoObrigatorioException, SQLException {
+        this.recuperarCamposTela();
+        CategoriaBO categoriaBO = new CategoriaBO();
+        categoriaBO.validarCamposObrigatorios(categoriaEmEdicao);
+        categoriaBO.atualizar(categoriaEmEdicao);
+        JOptionPane.showMessageDialog(this, "Categoria atualizada com sucesso!", "Edição de Catagoria", JOptionPane.INFORMATION_MESSAGE);
+        this.limparCamposTela();
+        this.gerenciarCategorias.carregarTabelaDeCategorias();
+    }
 
-        } catch (Exception e) {
-            String mensagem = "Erro ao realizar operação:\n" + e.getMessage();
-            JOptionPane.showMessageDialog(this, mensagem, "Cadastro de nova Catagoria", JOptionPane.ERROR_MESSAGE);
-        }
-    }   
-
-    private void recuperarCamposTela() {
+    private void recuperarCamposTela() throws SQLException {
         categoriaEmEdicao = new Categoria();
         categoriaEmEdicao.setNome(txtNomeCategoria.getText());
         categoriaEmEdicao.setDescricao(txtDescricaoCategoria.getText());
+        CategoriaBO categoriaBO = new CategoriaBO();
+        categorias = categoriaBO.buscarTodasCategorias();
+        for (Categoria categoria : categorias) {
+            if (categoriaEmEdicao.getNome().equals(categoria.getNome())) {
+                categoriaEmEdicao.setId(categoria.getId());
+            }
+        }
+
     }
 
     private void limparCamposTela() {
@@ -199,6 +223,10 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
         this.txtDescricaoCategoria.setText("");
     }
 
+    public void inicializaCamposCategoria() {
+        txtNomeCategoria.setText(categoriaEmEdicao.getNome());
+        txtDescricaoCategoria.setText(categoriaEmEdicao.getDescricao());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalvar;
@@ -209,4 +237,16 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
     private javax.swing.JTextField txtDescricaoCategoria;
     private javax.swing.JTextField txtNomeCategoria;
     // End of variables declaration//GEN-END:variables
+
+    public int editarCategoriaForm;
+
+    public int getVerificaEditarOuSalvar() {
+        return editarCategoriaForm;
+    }
+
+    public void setVerificaEditarOuSalvar(int editarManobrasFor) {
+        this.editarCategoriaForm = editarManobrasFor;
+
+    }
+
 }
