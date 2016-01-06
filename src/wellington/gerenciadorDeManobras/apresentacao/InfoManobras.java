@@ -471,9 +471,9 @@ public class InfoManobras extends javax.swing.JFrame {
 
             } else if (columnIndex == 2) {
                 if (m.getStatus() == 0) {
-                    return "100%";
+                     return "Não sabe fazer ainda";
                 }
-                return "Não sabe fazer ainda";
+                return "100%";
 
             } else {
                 if (columnIndex == 3) {

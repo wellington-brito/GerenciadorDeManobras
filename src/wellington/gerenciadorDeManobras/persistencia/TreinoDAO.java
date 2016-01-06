@@ -20,7 +20,7 @@ import wellington.gerenciadorDeManobras.entidade.Treino;
 public class TreinoDAO {
 
     private static final String SQL_INSERT = "INSERT INTO TREINO (IDMANOBRA, PROGRESSO, QNTDDIAS) VALUES (?, ?,?)";
-    private static final String SQL_SELECT_TREINO = "SELECT ID, IDMANOBRA, PROGRESSO, QNTDDIAS  FROM TREINO";
+    private static final String SQL_SELECT_TREINO = "SELECT ID, IDMANOBRA, PROGRESSO, QNTDDIAS  FROM TREINO ORDER BY IDMANOBRA";
     private static final String SQL_UPDATE = "UPDATE TREINO SET  IDMANOBRA = ?, PROGRESSO = ?, QNTDDIAS = ? WHERE ID = ?";
     private static final String SQL_DELETE = "DELETE FROM TREINO WHERE ID = ?";
 

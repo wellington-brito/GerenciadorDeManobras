@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.entidade.Requisito;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
@@ -21,20 +22,35 @@ import wellington.gerenciadorDeManobras.negocio.RequisitoBO;
 public class FormAdicionarRequisito extends javax.swing.JFrame {
 
     private Manobra manobraEmEdicao;
-    private FormCadastroManobra formCadastroManobra;
+    //private FormCadastroManobra formCadastroManobra;
     private Requisito requisitoEmEdicao;
     private List<Manobra> manobras;
-    String item= "";
+    String item = "";
 
     /**
      * Creates new form FormAdicionarRequisito
      */
+    public FormAdicionarRequisito() throws SQLException {
+        this.manobraEmEdicao = new Manobra();
+        this.prepararTela();
+    }
+
     public FormAdicionarRequisito(Manobra manobraEmEdicao) throws SQLException {
-        initComponents();
-        this.formCadastroManobra = formCadastroManobra;
         this.manobraEmEdicao = manobraEmEdicao;
-        this.inicializaCampoNomeManobra();
-        this.carregarComboManobras();
+        this.prepararTela();
+    }
+
+    public void prepararTela() throws SQLException {
+        try {
+            this.initComponents();
+            this.inicializaCampoNomeManobra();
+            this.carregarComboManobras();
+        } catch (Exception e) {
+            String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
+            mensagem += "\nMensagem de erro:\n" + e.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Categorias de manobras cadastradas", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        }
     }
 
     public void inicializaCampoNomeManobra() {
@@ -46,6 +62,7 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
         super.setVisible(exibir);
         if (exibir == true) {
             try {
+                this.inicializaCampoNomeManobra();
                 this.carregarComboManobras();
             } catch (SQLException ex) {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,6 +116,11 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
         });
 
         jButton2.setText("Fechar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -160,32 +182,37 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     private void incluiRequisito() throws SQLException {
         this.getItemComboManobras(cbxManobrasRequisitos.getSelectedItem().toString());
         this.recuperarCamposTela();
         RequisitoBO requisitoBO = new RequisitoBO();
         requisitoBO.inlcuirRequisito(requisitoEmEdicao);
-        
+        JOptionPane.showMessageDialog(this, "Requisito para a manobra " + cbxManobrasRequisitos.getSelectedItem()+ "Foi salvo com sucesso" , "Adicionar requisito de Manobra", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void recuperarCamposTela() {
+        requisitoEmEdicao = new Requisito();
         for (Manobra m : manobras) {
             if (m.getNome().equals(txtManobraRecente.getText())) {
                 requisitoEmEdicao.setIdManobraRecente(m.getId());// null pointer exception bem aqui
             }
         }
         for (Manobra m : manobras) {
-            if(m.getNome().equals(item)){              
+            if (m.getNome().equals(item)) {
                 requisitoEmEdicao.setIdManobraRequisito(m.getId());
-            }            
+            }
         }
     }
-    
-    public void getItemComboManobras(String manobraSlecionado){
+
+    public void getItemComboManobras(String manobraSlecionado) {
         this.item = manobraSlecionado;
     }
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox<String> cbxManobrasRequisitos;

@@ -19,7 +19,7 @@ import wellington.gerenciadorDeManobras.entidade.Categoria;
  */
 public class CategoriaDAO {
 
-    private static final String SQL_SELECT_TODAS = "SELECT ID, NOME, DESCRICAO FROM CATEGORIA";
+    private static final String SQL_SELECT_TODAS = "SELECT ID, NOME, DESCRICAO FROM CATEGORIA ORDER BY NOME";
     private static final String SQL_INSERT = "INSERT INTO CATEGORIA (NOME, DESCRICAO) VALUES (?, ?)";
     private static final String SQL_DELETE = "DELETE FROM CATEGORIA WHERE ID = ?";
     private static final String SQL_UPDATE = "UPDATE CATEGORIA SET  NOME = ?, DESCRICAO = ? WHERE ID = ?";

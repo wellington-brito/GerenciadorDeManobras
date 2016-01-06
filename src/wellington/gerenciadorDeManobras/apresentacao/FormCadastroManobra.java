@@ -272,6 +272,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             try {
                 this.incluirManobra();
                 this.carregaTelaAddRequisito();
+                this.dispose();
             } catch (SQLException ex) {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
             }

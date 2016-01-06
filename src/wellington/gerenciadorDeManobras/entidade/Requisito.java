@@ -10,9 +10,20 @@ package wellington.gerenciadorDeManobras.entidade;
  * @author Wellington
  */
 public class Requisito {
+
+    
+    private int id;
     private int idManobraRecente;
     private int idManobraRequisito;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public int getIdManobraRecente() {
         return idManobraRecente;
     }
