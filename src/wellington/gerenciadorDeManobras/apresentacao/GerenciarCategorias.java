@@ -219,8 +219,7 @@ public class GerenciarCategorias extends javax.swing.JFrame {
         tabelaCategorias.setModel(modelo);
     }
 
-    public void excluirCategoria() {
-
+    public void excluirCategoria(){
         try {
             int linhaSelecionada = tabelaCategorias.getSelectedRow();
             if (linhaSelecionada != -1) {
@@ -247,7 +246,6 @@ public class GerenciarCategorias extends javax.swing.JFrame {
             mensagem += "\nMensagem de erro:\n" + e.getMessage();
             JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria ", JOptionPane.ERROR_MESSAGE);
             this.dispose();
-
         }
     }
 

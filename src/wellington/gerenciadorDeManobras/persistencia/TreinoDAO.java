@@ -22,6 +22,7 @@ public class TreinoDAO {
     private static final String SQL_INSERT = "INSERT INTO TREINO (IDMANOBRA, PROGRESSO, QNTDDIAS) VALUES (?, ?,?)";
     private static final String SQL_SELECT_TREINO = "SELECT ID, IDMANOBRA, PROGRESSO, QNTDDIAS  FROM TREINO";
     private static final String SQL_UPDATE = "UPDATE TREINO SET  IDMANOBRA = ?, PROGRESSO = ?, QNTDDIAS = ? WHERE ID = ?";
+    private static final String SQL_DELETE = "DELETE FROM TREINO WHERE ID = ?";
 
     public void inserir(Treino treino) throws SQLException {
         Connection conexao = null;
@@ -54,6 +55,67 @@ public class TreinoDAO {
         }
     }
 
+    
+    public void atualizar(Treino treino) throws SQLException {
+        Connection conexao = null;
+        PreparedStatement comando = null;
+        try {
+            //Recupera a conexão
+            conexao = BancoDadosUtil.getConnection();
+            //Cria o comando de inserir dados
+            comando = conexao.prepareStatement(SQL_UPDATE);
+            //Atribui os parâmetros (Note que no BD o index inicia por 1)               
+
+            comando.setInt(1, treino.getIdManobra());
+            comando.setInt(2, treino.getProgresso());
+            comando.setInt(3, treino.getQntddias());
+            comando.setInt(4, treino.getId());
+            //Executa o comando
+            comando.execute();
+            //Persiste o comando no banco de dados
+            conexao.commit();
+        } catch (Exception e) {
+            //Caso aconteça alguma exeção é feito um rollback para o banco de
+            //dados retornar ao seu estado anterior.
+            if (conexao != null) {
+                conexao.rollback();
+            }
+            throw e;
+        } finally {
+            //Todo objeto que referencie o banco de dados deve ser fechado
+            BancoDadosUtil.fecharChamadasBancoDados(conexao, comando);
+        }
+    }
+
+    public void removerTreino(int id) throws Exception {
+       
+        Connection conexao = null;
+        PreparedStatement comando = null;
+        ///id = 4;
+        try {
+            //Recupera a conexão
+            conexao = BancoDadosUtil.getConnection();
+            //Cria o comando de inserir dados
+            comando = conexao.prepareStatement(SQL_DELETE);
+            //Atribui os parâmetros (Note que no BD o index inicia por 1)
+            comando.setInt(1, id);
+            //Executa o comando
+            comando.execute();
+            //Persiste o comando no banco de dados
+            conexao.commit();
+        } catch (Exception e) {
+            //Caso aconteça alguma exeção é feito um rollback para o banco de
+            //dados retornar ao seu estado anterior.
+            if (conexao != null) {
+                conexao.rollback();
+            }
+            throw e;
+        } finally {
+            //Todo objeto que referencie o banco de dados deve ser fechado
+            BancoDadosUtil.fecharChamadasBancoDados(conexao, comando);
+        }
+    }
+    
     public List<Treino> buscarTodosTrienos() throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
@@ -90,37 +152,6 @@ public class TreinoDAO {
         treino.setQntddias(resultado.getInt(4));
 
         return treino;
-    }
-
-    public void atualizar(Treino treino) throws SQLException {
-        Connection conexao = null;
-        PreparedStatement comando = null;
-        try {
-            //Recupera a conexão
-            conexao = BancoDadosUtil.getConnection();
-            //Cria o comando de inserir dados
-            comando = conexao.prepareStatement(SQL_UPDATE);
-            //Atribui os parâmetros (Note que no BD o index inicia por 1)               
-
-            comando.setInt(1, treino.getIdManobra());
-            comando.setInt(2, treino.getProgresso());
-            comando.setInt(3, treino.getQntddias());
-            comando.setInt(4, treino.getId());
-            //Executa o comando
-            comando.execute();
-            //Persiste o comando no banco de dados
-            conexao.commit();
-        } catch (Exception e) {
-            //Caso aconteça alguma exeção é feito um rollback para o banco de
-            //dados retornar ao seu estado anterior.
-            if (conexao != null) {
-                conexao.rollback();
-            }
-            throw e;
-        } finally {
-            //Todo objeto que referencie o banco de dados deve ser fechado
-            BancoDadosUtil.fecharChamadasBancoDados(conexao, comando);
-        }
     }
 
 }

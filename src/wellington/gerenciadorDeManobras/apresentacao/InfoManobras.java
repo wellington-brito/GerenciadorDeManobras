@@ -65,9 +65,10 @@ public class InfoManobras extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaManobras = new javax.swing.JTable();
         btnNovaManobra1 = new javax.swing.JButton();
-        btnAdicionarDicaManobra = new javax.swing.JButton();
+        btnSair = new javax.swing.JButton();
         btnExcluirManobra = new javax.swing.JButton();
         btnEditarManobra = new javax.swing.JButton();
+        btnAddRequisito = new javax.swing.JButton();
         barraDeMenuPrincipal = new javax.swing.JMenuBar();
         menuOpçoes = new javax.swing.JMenu();
         mnuItemNovoTreino = new javax.swing.JMenuItem();
@@ -101,10 +102,10 @@ public class InfoManobras extends javax.swing.JFrame {
             }
         });
 
-        btnAdicionarDicaManobra.setText("Add Dica");
-        btnAdicionarDicaManobra.addActionListener(new java.awt.event.ActionListener() {
+        btnSair.setText("Sair");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdicionarDicaManobraActionPerformed(evt);
+                btnSairActionPerformed(evt);
             }
         });
 
@@ -122,6 +123,13 @@ public class InfoManobras extends javax.swing.JFrame {
             }
         });
 
+        btnAddRequisito.setText("AddRequisito");
+        btnAddRequisito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddRequisitoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -134,11 +142,13 @@ public class InfoManobras extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnNovaManobra1)
                 .addGap(18, 18, 18)
-                .addComponent(btnAdicionarDicaManobra)
-                .addGap(18, 18, 18)
                 .addComponent(btnEditarManobra)
                 .addGap(18, 18, 18)
+                .addComponent(btnAddRequisito)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnExcluirManobra)
+                .addGap(18, 18, 18)
+                .addComponent(btnSair)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -148,10 +158,11 @@ public class InfoManobras extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdicionarDicaManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNovaManobra1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditarManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExcluirManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnExcluirManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddRequisito, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -240,9 +251,9 @@ public class InfoManobras extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnExcluirManobraActionPerformed
 
-    private void btnAdicionarDicaManobraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarDicaManobraActionPerformed
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAdicionarDicaManobraActionPerformed
+    }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnNovaManobra1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaManobra1ActionPerformed
         try {
@@ -262,6 +273,10 @@ public class InfoManobras extends javax.swing.JFrame {
             Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mnuItemNovoTreinoActionPerformed
+
+    private void btnAddRequisitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRequisitoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddRequisitoActionPerformed
 
     private void carregarFormCadastroCategoria() throws SQLException {
         if (adicionarCategoriaForm == null) {
@@ -379,10 +394,11 @@ public class InfoManobras extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraDeMenuPrincipal;
-    private javax.swing.JButton btnAdicionarDicaManobra;
+    private javax.swing.JButton btnAddRequisito;
     private javax.swing.JButton btnEditarManobra;
     private javax.swing.JButton btnExcluirManobra;
     private javax.swing.JButton btnNovaManobra1;
+    private javax.swing.JButton btnSair;
     private javax.swing.JMenuItem itemMenuSair;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;

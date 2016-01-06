@@ -55,45 +55,7 @@ public class CategoriaDAO {
         }
     }
 
-    public List<Categoria> buscarTodasCategorias() throws SQLException {
-        Connection conexao = null;
-        PreparedStatement comando = null;
-        ResultSet resultado = null;
-        List<Categoria> listaCategorias = new ArrayList<>();
-        try {
-            //Recupera a conexão
-            conexao = BancoDadosUtil.getConnection();
-            //Cria o comando de consulta dos dados
-            comando = conexao.prepareStatement(SQL_SELECT_TODAS);
-            //Executa o comando e obtém o resultado da consulta
-            resultado = comando.executeQuery();
-            //O método next retornar boolean informando se existe um próximo
-            //elemento para iterar
-            while (resultado.next()) {
-                Categoria categoria = this.extrairLinhaResultado(resultado);
-                //Adiciona um item à lista que será retornada
-                listaCategorias.add(categoria);
-            }
-        } finally {
-            //Todo objeto que referencie o banco de dados deve ser fechado
-            BancoDadosUtil.fecharChamadasBancoDados(conexao, comando, resultado);
-        }
-        return listaCategorias;
-    }
-
-    private Categoria extrairLinhaResultado(ResultSet resultado) throws SQLException {
-//        //Instancia um novo objeto e atribui os valores vindo do BD
-//        //(Note que no BD o index inicia por 1)
-        Categoria categoria = new Categoria();
-        categoria.setId(resultado.getInt(1));
-        categoria.setNome(resultado.getString(2));
-        categoria.setDescricao(resultado.getString(3));
-
-        return categoria;
-    }
-
     public void removerManobra(int id) throws SQLException {
-
         Connection conexao = null;
         PreparedStatement comando = null;
         ///id = 4;
@@ -130,10 +92,10 @@ public class CategoriaDAO {
             //Cria o comando de inserir dados
             comando = conexao.prepareStatement(SQL_UPDATE);
             //Atribui os parâmetros (Note que no BD o index inicia por 1)               
-                  
+
             comando.setString(1, categoria.getNome());
             comando.setString(2, categoria.getDescricao());
-            comando.setInt(3, categoria.getId());    
+            comando.setInt(3, categoria.getId());
             //Executa o comando
             comando.execute();
             //Persiste o comando no banco de dados
@@ -148,6 +110,42 @@ public class CategoriaDAO {
         } finally {
             //Todo objeto que referencie o banco de dados deve ser fechado
             BancoDadosUtil.fecharChamadasBancoDados(conexao, comando);
-        } 
+        }
+    }
+    
+     public List<Categoria> buscarTodasCategorias() throws SQLException {
+        Connection conexao = null;
+        PreparedStatement comando = null;
+        ResultSet resultado = null;
+        List<Categoria> listaCategorias = new ArrayList<>();
+        try {
+            //Recupera a conexão
+            conexao = BancoDadosUtil.getConnection();
+            //Cria o comando de consulta dos dados
+            comando = conexao.prepareStatement(SQL_SELECT_TODAS);
+            //Executa o comando e obtém o resultado da consulta
+            resultado = comando.executeQuery();
+            //O método next retornar boolean informando se existe um próximo
+            //elemento para iterar
+            while (resultado.next()) {
+                Categoria categoria = this.extrairLinhaResultado(resultado);
+                //Adiciona um item à lista que será retornada
+                listaCategorias.add(categoria);
+            }
+        } finally {
+            //Todo objeto que referencie o banco de dados deve ser fechado
+            BancoDadosUtil.fecharChamadasBancoDados(conexao, comando, resultado);
+        }
+        return listaCategorias;
+    }
+
+    private Categoria extrairLinhaResultado(ResultSet resultado) throws SQLException {
+//        //Instancia um novo objeto e atribui os valores vindo do BD
+//        //(Note que no BD o index inicia por 1)
+        Categoria categoria = new Categoria();
+        categoria.setId(resultado.getInt(1));
+        categoria.setNome(resultado.getString(2));
+        categoria.setDescricao(resultado.getString(3));
+        return categoria;
     }
 }

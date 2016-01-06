@@ -205,7 +205,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
     }
 
     private void recuperarCamposTela() throws SQLException {
-        categoriaEmEdicao = new Categoria();
+       
         categoriaEmEdicao.setNome(txtNomeCategoria.getText());
         categoriaEmEdicao.setDescricao(txtDescricaoCategoria.getText());
         CategoriaBO categoriaBO = new CategoriaBO();

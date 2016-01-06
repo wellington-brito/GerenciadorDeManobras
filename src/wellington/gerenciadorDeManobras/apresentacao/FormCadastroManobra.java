@@ -30,7 +30,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     private List<Categoria> categorias;
     private List<Manobra> manobras;
     private InfoManobras infoManobra;
-    // private InfoManobras editarManobrasFor;
+    private FormAdicionarRequisito formAddRequisito;
     public int verificaEditarOuSalvar;
     private Categoria categoria;
     String item = " ";
@@ -269,8 +269,12 @@ public class FormCadastroManobra extends javax.swing.JFrame {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-
-            this.incluirManobra();
+            try {
+                this.incluirManobra();
+                this.carregaTelaAddRequisito();
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -331,6 +335,14 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
     private void limparCamposTela() {
         this.txtNomeManobra.setText("");
+    }
+
+    public void carregaTelaAddRequisito() throws SQLException {
+        if (formAddRequisito == null) {
+            formAddRequisito = new FormAdicionarRequisito(manobraEmEdicao);
+        }
+        formAddRequisito.setVisible(true);
+        formAddRequisito.toFront();
     }
 
 

@@ -26,10 +26,8 @@ import wellington.gerenciadorDeManobras.negocio.TreinoBO;
 public class GerenciarTreinos extends javax.swing.JFrame {
 
     public FormCadastrarEditarTreino formCadastrarTreino;
-    public FormCadastrarEditarTreino formEditarTreino;
-    
-    public InfoManobras infoManobras;
-  
+    public FormCadastrarEditarTreino formEditarTreino;    
+    public InfoManobras infoManobras;  
     private List<Treino> treinos;
     private List<Manobra> manobras;
     /**
@@ -75,7 +73,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         btnExcluirTreino = new javax.swing.JButton();
         btnFecharTela = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Treinos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
@@ -191,7 +189,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAlterarTreinoActionPerformed
 
     private void btnExcluirTreinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirTreinoActionPerformed
-       // this.excluirCategoria();
+        this.excluirCategoria();
     }//GEN-LAST:event_btnExcluirTreinoActionPerformed
 
     private void btnFecharTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharTelaActionPerformed
@@ -206,7 +204,51 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             formCadastrarTreino.setVisible(true);       
             formCadastrarTreino.toFront();       
      }
+    
+     private void editarTreino() throws SQLException, ParseException {
+        int linhaSelecionada = tabelaTreinos.getSelectedRow();
+        if (linhaSelecionada != -1) {
+            Treino treinoSelecionado = treinos.get(linhaSelecionada);
+            if (formEditarTreino != null) {
+                formEditarTreino.dispose();
+            }
+            formEditarTreino = new FormCadastrarEditarTreino(this, treinoSelecionado);
+            formEditarTreino.setVisible(true);
+            
+        } else {
+            throw new NoSelectionException();
+        }
+    }
+     public void excluirCategoria(){
+       try {
+            int linhaSelecionada = tabelaTreinos.getSelectedRow();
+            if (linhaSelecionada != -1) {
+                Treino treinoSelecionado = treinos.get(linhaSelecionada);
 
+                int resposta;
+                String mensagem = "Desseja realmente excluir treino selecionado?";
+                String titulo = "Exclusão de treino";
+                resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
+
+                if (resposta == JOptionPane.YES_NO_OPTION) {
+                    TreinoBO treinoBO = new TreinoBO();
+                    treinoBO.removerTreino(treinoSelecionado.getId());
+                    mensagem = "Treino " + treinoSelecionado.getId() + " Id maobra: " + treinoSelecionado.getId() + " excluída com sucesso!";
+                    JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria", JOptionPane.INFORMATION_MESSAGE);
+                    this.carregarTabelaDeTreino();
+                }
+            } else {
+                String mensagem = "Selecione uma categoria antes!";
+                JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception e) {
+            String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
+            mensagem += "\nMensagem de erro:\n" + e.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria ", JOptionPane.ERROR_MESSAGE);
+            this.dispose();
+        }
+     }
+     
     @Override
     public void setVisible(boolean exibir) {
         super.setVisible(exibir);
@@ -218,27 +260,15 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             }
         }
     }
-    
-    private void editarTreino() throws SQLException, ParseException {
-        int linhaSelecionada = tabelaTreinos.getSelectedRow();
-        if (linhaSelecionada != -1) {
-            Treino treinoSelecionado = treinos.get(linhaSelecionada);
-            if (formEditarTreino != null) {
-                formEditarTreino.dispose();
-            }
-            formEditarTreino = new FormCadastrarEditarTreino(this, treinoSelecionado);
-            formEditarTreino.setVisible(true);
-        } else {
-            throw new NoSelectionException();
-        }
-    }
-    
      public void carregarTabelaDeTreino() throws SQLException {
         TreinoBO treinoBO = new TreinoBO();
         this.treinos = treinoBO.buscarTodosTreinos();
         ModeloTabelaTreinos modelo = new ModeloTabelaTreinos();
         tabelaTreinos.setModel(modelo);
      }
+   
+    
+    
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterarTreino;
