@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
+import wellington.gerenciadorDeManobras.entidade.Requisito;
 import wellington.gerenciadorDeManobras.entidade.Treino;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
@@ -24,8 +25,10 @@ import wellington.gerenciadorDeManobras.negocio.TreinoBO;
 public class FormCadastrarEditarTreino extends javax.swing.JFrame {
 
     private List<Manobra> manobras;
+    private List<String> requisitos;
     private GerenciarTreinos gerenciarTreinos;
     private Treino treinoEmEdicao;
+    private TreinoBO treinoBO;
     String item = "";
 
     /**
@@ -34,8 +37,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     FormCadastrarEditarTreino(GerenciarTreinos gerenciarTreinos, Treino treinoSelecionado) throws SQLException {
         this(gerenciarTreinos);
         this.treinoEmEdicao = treinoSelecionado;
-        //this.carregarComboManobras();
-        this.inicializaCampostela();      
+        this.inicializaCampostela();
     }
 
     public FormCadastrarEditarTreino(GerenciarTreinos gerenciarTreinos) throws SQLException {
@@ -43,7 +45,6 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         this.treinoEmEdicao = new Treino();
         this.initComponents();
         this.carregarComboManobras();
-
     }
 
     @Override
@@ -52,6 +53,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         if (exibir == true) {
             try {
                 this.carregarComboManobras();
+                this.inicializaCampostela();
             } catch (SQLException ex) {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -211,11 +213,12 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnFecharTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharTelaActionPerformed
+        this.gerenciarTreinos.toFront();
         this.dispose();
     }//GEN-LAST:event_btnFecharTelaActionPerformed
 
     private void incluirTreino() throws SQLException {
-        TreinoBO treinoBO = new TreinoBO();
+        this.treinoBO = new TreinoBO();
         this.recuperarCamposTela();
         treinoBO.validarCamposObrigatoriosIdManobra(treinoEmEdicao);
         treinoBO.inserir(treinoEmEdicao);
@@ -225,18 +228,36 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     }
 
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
-                      
-        TreinoBO treinoBO = new TreinoBO();
+        this.treinoBO = new TreinoBO();
         this.recuperarCamposTela();
         treinoBO.validarCamposObrigatoriosAtualizar(treinoEmEdicao);
         treinoBO.atualizar(treinoEmEdicao);
-        JOptionPane.showMessageDialog(this, "Dados da manobra alterado com sucesso", "Ediçao de manobra", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Dados do treino alterado com sucesso", "Ediçao de treino", JOptionPane.INFORMATION_MESSAGE);
+        this.sugerirNovoTreino();
         this.limparCamposTela();
         this.gerenciarTreinos.carregarTabelaDeTreino();
+        
+    }
+
+    private void sugerirNovoTreino() throws SQLException {
+        this.treinoBO = new TreinoBO();
+        requisitos = treinoBO.verificaProgresso(treinoEmEdicao);
+
+        String mensagem = "";
+        for (String idManobrasRequisitos : requisitos) {
+            int id = Integer.parseInt(idManobrasRequisitos);
+            for (Manobra m : manobras) {
+                if (m.getId() == id) {
+                    mensagem = m.getNome();
+                }
+            }
+        }       
+         JOptionPane.showMessageDialog(this, mensagem, "Sugestão de Manobra", JOptionPane.INFORMATION_MESSAGE);
+                  
     }
 
     private void recuperarCamposTela() {
-        this.getItemComboManobras(cbxManobras.getSelectedItem().toString());//recuperar valor selecionado no combobox de categoria, para poder resgatar o id do banco de dados e não do indice do combobox
+        this.getItemComboManobras(cbxManobras.getSelectedItem().toString());                                            //recuperar valor selecionado no combobox de categoria, para poder resgatar o id do banco de dados e não do indice do combobox
         int posicaoSelecionada = 0;
         for (Manobra m : manobras) {
             if (m.getNome().equals(item)) {
@@ -244,20 +265,8 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
                 treinoEmEdicao.setIdManobra(posicaoSelecionada);
             }
         }
-        if (txtProgressoTreino.getText() == null) {
-            treinoEmEdicao.setProgresso(0);
-        } else {
-            if(treinoEmEdicao.getProgresso() > 100 || treinoEmEdicao.getProgresso() < 0){
-                lblinfo.setText("O seu treino parece que chegou ao fim verifique se o progresso está correto!");
-            }
-        }
-        
-        if (txtQntddiaTreinando.getText() == null) {
-            treinoEmEdicao.setQntddias(0);
-        } else {
-            if(treinoEmEdicao.getQntddias() < 0 )
-          lblinfo.setText("O seu treino parece que chegou ao fim verifique se o progresso está correto!");
-        }
+        treinoEmEdicao.setProgresso(Integer.parseInt(txtProgressoTreino.getText()));
+        treinoEmEdicao.setQntddias(Integer.parseInt(txtQntddiaTreinando.getText()));
     }
 
     private void inicializaCampostela() {
@@ -266,8 +275,10 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
                 cbxManobras.setSelectedItem(m.getNome());
             }
         }
-        txtProgressoTreino.setText(Integer.toString(treinoEmEdicao.getProgresso()));
-        txtQntddiaTreinando.setText(Integer.toString(treinoEmEdicao.getQntddias()));
+        String progresso = Integer.toString(treinoEmEdicao.getProgresso());
+        txtProgressoTreino.setText(progresso);
+        String qntddias = Integer.toString(treinoEmEdicao.getQntddias());
+        txtQntddiaTreinando.setText(qntddias);
     }
 
     private void limparCamposTela() {

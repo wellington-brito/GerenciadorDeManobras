@@ -6,6 +6,7 @@
 package wellington.gerenciadorDeManobras.negocio;
 
 import java.sql.SQLException;
+import java.util.List;
 import wellington.gerenciadorDeManobras.entidade.Requisito;
 import wellington.gerenciadorDeManobras.persistencia.RequisitoDAO;
 
@@ -18,6 +19,11 @@ public class RequisitoBO {
     public void inlcuirRequisito(Requisito requisitoEmEdicao) throws SQLException {
         RequisitoDAO requisitoDAO = new RequisitoDAO();
         requisitoDAO.incluirRequisito(requisitoEmEdicao);
+    }
+
+    public List<Requisito> buscarTodosRequisitosEspecificos(int idManobra) throws SQLException {
+        RequisitoDAO requisitoDAO = new RequisitoDAO();
+        return requisitoDAO.buscarTodosRequisitosEspecificos(idManobra);
     }
 
 }

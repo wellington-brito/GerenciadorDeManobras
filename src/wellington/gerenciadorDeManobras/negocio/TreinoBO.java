@@ -7,9 +7,12 @@ package wellington.gerenciadorDeManobras.negocio;
 
 import java.sql.SQLException;
 import java.util.List;
+import javax.swing.JOptionPane;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
+import wellington.gerenciadorDeManobras.entidade.Requisito;
 import wellington.gerenciadorDeManobras.entidade.Treino;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
+import wellington.gerenciadorDeManobras.persistencia.RequisitoDAO;
 import wellington.gerenciadorDeManobras.persistencia.TreinoDAO;
 
 /**
@@ -17,6 +20,9 @@ import wellington.gerenciadorDeManobras.persistencia.TreinoDAO;
  * @author Wellington
  */
 public class TreinoBO {
+
+    private List<String> idManobrasSugeridas;
+    private List<Requisito> requisitos;
 
     public void inserir(Treino treino) throws SQLException {
         TreinoDAO treinoDAO = new TreinoDAO();
@@ -28,25 +34,39 @@ public class TreinoBO {
             throw new CampoObrigatorioException();
         }
     }
+
     public void validarCamposObrigatoriosAtualizar(Treino t) throws CampoObrigatorioException {
         if (t.getIdManobra() == 0 || t.getProgresso() == 0 || t.getQntddias() == 0) {
             throw new CampoObrigatorioException();
         }
-    }   
+    }
 
     public void atualizar(Treino treinoEmEdicao) throws SQLException {
-        TreinoDAO treinoDAO =  new TreinoDAO();
+        TreinoDAO treinoDAO = new TreinoDAO();
         treinoDAO.atualizar(treinoEmEdicao);
-        
+
     }
 
     public void removerTreino(int id) throws Exception {
-         TreinoDAO treinoDAO =  new TreinoDAO();
-         treinoDAO.removerTreino(id);
+        TreinoDAO treinoDAO = new TreinoDAO();
+        treinoDAO.removerTreino(id);
     }
-    
-     public List<Treino> buscarTodosTreinos() throws SQLException {
+
+    public List<Treino> buscarTodosTreinos() throws SQLException {
         TreinoDAO treinoDAO = new TreinoDAO();
         return treinoDAO.buscarTodosTrienos();
+    }
+
+    public List<String> verificaProgresso(Treino treinoEmEdicao) throws SQLException {
+        if (treinoEmEdicao.getProgresso() == 100) {
+            RequisitoDAO requisitoDAO = new RequisitoDAO();
+            requisitos = requisitoDAO.buscarTodosRequisitosEspecificos(treinoEmEdicao.getIdManobra()); // where idmanobrarequisito == treino em treinoEmEdicao.getIdManobra(
+            
+            for(Requisito requisito : requisitos){                                
+                idManobrasSugeridas.add(Integer.toString(requisito.getIdManobraRecente()));                        
+            }
+            return idManobrasSugeridas;
+        }
+        return null;
     }
 }

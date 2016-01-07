@@ -42,9 +42,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
         this.recuperarCamposTela();
     }
 
-//    public FormCadastrarCategoria(FormGerenciarCategorias aThis, Categoria categoriaSelecionado) {
-//        initComponents();
-//    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,7 +58,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
         lblNomeCategoria1 = new javax.swing.JLabel();
         txtDescricaoCategoria = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnFecharTela = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nova Categoria");
@@ -91,10 +89,10 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Voltar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnFecharTela.setText("Voltar");
+        btnFecharTela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnFecharTelaActionPerformed(evt);
             }
         });
 
@@ -114,7 +112,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addComponent(btnSalvar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(btnFecharTela)
                 .addGap(1, 1, 1))
         );
         painelAdicionarCategoriaLayout.setVerticalGroup(
@@ -127,7 +125,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
                     .addComponent(lblNomeCategoria1)
                     .addComponent(txtDescricaoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnFecharTela, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(111, Short.MAX_VALUE))
         );
 
@@ -179,10 +177,11 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnFecharTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharTelaActionPerformed
         // TODO add your handling code here:
+        gerenciarCategorias.toFront();
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnFecharTelaActionPerformed
 
     private void incluirCategoria() throws SQLException {
         this.recuperarCamposTela();
@@ -227,8 +226,8 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFecharTela;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lblNomeCategoria;
     private javax.swing.JLabel lblNomeCategoria1;
     private javax.swing.JPanel painelAdicionarCategoria;

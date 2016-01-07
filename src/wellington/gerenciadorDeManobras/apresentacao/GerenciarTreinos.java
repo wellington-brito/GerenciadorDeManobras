@@ -34,6 +34,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
      * Creates new form GerenciarTreinos
      */
     public GerenciarTreinos() throws SQLException {
+        
        this.prepararTela();
     }
 
