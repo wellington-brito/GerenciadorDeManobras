@@ -20,7 +20,7 @@ import wellington.gerenciadorDeManobras.entidade.Requisito;
 public class RequisitoDAO {
 
     private static final String SQL_INSERT = "INSERT INTO REQUISITO (IDMANOBRARECENTE, IDMANOBRAREQUISITO) VALUES (?, ?)";
-    private static final String SQl_BUSCAR_REQUISITOS = "SELECT IDMANOBRARECENTE FROM REQUISITO WHERE IDMANOBRAREQUISITO = ? ";
+    private static final String SQl_BUSCAR_REQUISITOS = "SELECT IDMANOBRARECENTE, IDMANOBRAREQUISITO FROM REQUISITO";
 
     public void incluirRequisito(Requisito requisitoEmEdicao) throws SQLException {
         Connection conexao = null;
@@ -53,7 +53,7 @@ public class RequisitoDAO {
         }
     }
 
-    public List<Requisito> buscarTodosRequisitosEspecificos(int idManobra) throws SQLException {
+    public List<Requisito> buscarTodosRequisitosEspecificos() throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
         ResultSet resultado = null;
@@ -64,7 +64,6 @@ public class RequisitoDAO {
             //Cria o comando de consulta dos dados
             comando = conexao.prepareStatement(SQl_BUSCAR_REQUISITOS);
             //Executa o comando e obtém o resultado da consulta
-            comando.setInt(1, idManobra);
             resultado = comando.executeQuery();
             //O método next retornar boolean informando se existe um próximo
             //elemento para iterar
@@ -85,7 +84,7 @@ public class RequisitoDAO {
         //(Note que no BD o index inicia por 1)
         Requisito requisito = new Requisito();
         requisito.setIdManobraRecente(resultado.getInt(1));
-        //requisito.setIdManobraRequisito(resultado.getInt(2));
+        requisito.setIdManobraRequisito(resultado.getInt(2));
         return requisito;
     }
 }
