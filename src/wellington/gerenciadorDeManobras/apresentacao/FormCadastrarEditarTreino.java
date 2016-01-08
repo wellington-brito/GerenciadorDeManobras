@@ -25,7 +25,7 @@ import wellington.gerenciadorDeManobras.negocio.TreinoBO;
 public class FormCadastrarEditarTreino extends javax.swing.JFrame {
 
     private List<Manobra> manobras;
-    private List<String> requisitos;
+    private List<Requisito> listaRquisitos;
     private GerenciarTreinos gerenciarTreinos;
     private Treino treinoEmEdicao;
     private TreinoBO treinoBO;
@@ -92,7 +92,6 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         btnFecharTela = new javax.swing.JButton();
         txtProgressoTreino = new javax.swing.JFormattedTextField();
         txtQntddiaTreinando = new javax.swing.JFormattedTextField();
-        lblinfo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setExtendedState(6);
@@ -123,36 +122,28 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
 
         txtProgressoTreino.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
 
-        lblinfo.setText("info");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblManobra)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtProgressoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtQntddiaTreinando, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
-                        .addComponent(btnSalvar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnFecharTela))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblinfo)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(lblManobra)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbxManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtProgressoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtQntddiaTreinando, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                .addComponent(btnSalvar)
+                .addGap(18, 18, 18)
+                .addComponent(btnFecharTela)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -171,9 +162,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addComponent(txtProgressoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtQntddiaTreinando, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(78, 78, 78)
-                .addComponent(lblinfo)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(197, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -236,24 +225,27 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         this.sugerirNovoTreino();
         this.limparCamposTela();
         this.gerenciarTreinos.carregarTabelaDeTreino();
-        
+
     }
 
     private void sugerirNovoTreino() throws SQLException {
         this.treinoBO = new TreinoBO();
-        requisitos = treinoBO.verificaProgresso(treinoEmEdicao);
+        listaRquisitos = treinoBO.verificaProgresso(treinoEmEdicao);
 
         String mensagem = "";
-        for (String idManobrasRequisitos : requisitos) {
-            int id = Integer.parseInt(idManobrasRequisitos);
-            for (Manobra m : manobras) {
-                if (m.getId() == id) {
-                    mensagem = m.getNome();
+        for (Requisito requisitos : listaRquisitos) {
+            if (requisitos.getIdManobraRequisito() == treinoEmEdicao.getIdManobra()) {
+                int idManobraSugerida = requisitos.getIdManobraRecente();
+                for (Manobra m : manobras) {
+                    if (m.getId() == idManobraSugerida) {
+                        mensagem = m.getNome();
+                    }
                 }
             }
-        }       
-         JOptionPane.showMessageDialog(this, mensagem, "Sugestão de Manobra", JOptionPane.INFORMATION_MESSAGE);
-                  
+
+        }
+        JOptionPane.showMessageDialog(this, mensagem, "Sugestão de Manobra", JOptionPane.INFORMATION_MESSAGE);
+
     }
 
     private void recuperarCamposTela() {
@@ -296,7 +288,6 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblManobra;
-    private javax.swing.JLabel lblinfo;
     private javax.swing.JFormattedTextField txtProgressoTreino;
     private javax.swing.JFormattedTextField txtQntddiaTreinando;
     // End of variables declaration//GEN-END:variables
