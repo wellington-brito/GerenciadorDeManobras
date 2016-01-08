@@ -182,9 +182,9 @@ public class GerenciarCategorias extends javax.swing.JFrame {
         try {
             this.carregarFormCadastroCategoria();
         } catch (SQLException ex) {
-            Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnNovaCategoriaActionPerformed
 

@@ -22,7 +22,7 @@ import wellington.gerenciadorDeManobras.persistencia.TreinoDAO;
 public class TreinoBO {
 
     private List<String> idManobrasSugeridas;
-    private List<Requisito> requisitos;
+    private List<Requisito> listaRquisitos;
 
     public void inserir(Treino treino) throws SQLException {
         TreinoDAO treinoDAO = new TreinoDAO();
@@ -57,16 +57,16 @@ public class TreinoBO {
         return treinoDAO.buscarTodosTrienos();
     }
 
-    public List<String> verificaProgresso(Treino treinoEmEdicao) throws SQLException {
+    public List<Requisito> verificaProgresso(Treino treinoEmEdicao) throws SQLException {
         if (treinoEmEdicao.getProgresso() == 100) {
             RequisitoDAO requisitoDAO = new RequisitoDAO();
-            requisitos = requisitoDAO.buscarTodosRequisitosEspecificos(treinoEmEdicao.getIdManobra()); // where idmanobrarequisito == treino em treinoEmEdicao.getIdManobra(
+            listaRquisitos = requisitoDAO.buscarTodosRequisitosEspecificos(); // where idmanobrarequisito == treino em treinoEmEdicao.getIdManobra(
             
-            for(Requisito requisito : requisitos){                                
-                idManobrasSugeridas.add(Integer.toString(requisito.getIdManobraRecente()));                        
-            }
-            return idManobrasSugeridas;
+//            for(Requisito requisito : listaRquisitos){                                
+//                idManobrasSugeridas.add(Integer.toString(requisito.getIdManobraRecente()));                        
+//            }
+//            return idManobrasSugeridas;
         }
-        return null;
+        return listaRquisitos;
     }
 }

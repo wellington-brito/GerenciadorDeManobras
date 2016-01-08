@@ -23,20 +23,21 @@ import wellington.gerenciadorDeManobras.negocio.ManobraBO;
  *
  * @author were
  */
-public class InfoManobras extends javax.swing.JFrame {
+public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
     private FormCadastroManobra formCadastroManobra;
     private FormCadastroManobra editarManobraForm;
     private GerenciarCategorias adicionarCategoriaForm;
     private GerenciarTreinos telaGerenciarTreinos;
-    private InfoManobras infoManobras;
+    private GerenciarManobrasTelaInicial infoManobras;
+    private GerenciarRequisitos gerenciarRequisitos;
     private List<Manobra> manobras;
     private List<Categoria> categorias;
 
     /**
      * Creates new form InfoManobras
      */
-    public InfoManobras() throws SQLException {
+    public GerenciarManobrasTelaInicial() throws SQLException {
         prepararTela();
     }
 
@@ -68,7 +69,8 @@ public class InfoManobras extends javax.swing.JFrame {
         btnSair = new javax.swing.JButton();
         btnExcluirManobra = new javax.swing.JButton();
         btnEditarManobra = new javax.swing.JButton();
-        btnAddRequisito = new javax.swing.JButton();
+        btnVerRequisitos = new javax.swing.JButton();
+        lblDica = new javax.swing.JLabel();
         barraDeMenuPrincipal = new javax.swing.JMenuBar();
         menuOpçoes = new javax.swing.JMenu();
         mnuItemNovoTreino = new javax.swing.JMenuItem();
@@ -123,46 +125,53 @@ public class InfoManobras extends javax.swing.JFrame {
             }
         });
 
-        btnAddRequisito.setText("AddRequisito");
-        btnAddRequisito.addActionListener(new java.awt.event.ActionListener() {
+        btnVerRequisitos.setText("Ver Requisitos");
+        btnVerRequisitos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddRequisitoActionPerformed(evt);
+                btnVerRequisitosActionPerformed(evt);
             }
         });
+
+        lblDica.setText("Ao usar o sistema pela 1ª vez, antes de adicionar uma manobra  insira as categorias as quais elas vão pertencer!!");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
-                .addGap(6, 6, 6))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNovaManobra1)
-                .addGap(18, 18, 18)
-                .addComponent(btnEditarManobra)
-                .addGap(18, 18, 18)
-                .addComponent(btnAddRequisito)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnExcluirManobra)
-                .addGap(18, 18, 18)
-                .addComponent(btnSair)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnNovaManobra1)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnEditarManobra)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnVerRequisitos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnExcluirManobra)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSair))
+                            .addComponent(lblDica, javax.swing.GroupLayout.DEFAULT_SIZE, 697, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblDica)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNovaManobra1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditarManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExcluirManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddRequisito, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnVerRequisitos, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -205,11 +214,16 @@ public class InfoManobras extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -226,7 +240,7 @@ public class InfoManobras extends javax.swing.JFrame {
             // TODO add your handling code here:
             this.carregarFormCadastroCategoria();
         } catch (SQLException ex) {
-            Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_mnuItemNovaCategoriaActionPerformed
@@ -236,9 +250,9 @@ public class InfoManobras extends javax.swing.JFrame {
             this.editarManobra();
             this.editarManobraForm.setVerificaEditarOuSalvar(1);
         } catch (SQLException ex) {
-            Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_btnEditarManobraActionPerformed
@@ -247,7 +261,7 @@ public class InfoManobras extends javax.swing.JFrame {
         try {
             this.excluirManobra();
         } catch (SQLException ex) {
-            Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnExcluirManobraActionPerformed
 
@@ -260,9 +274,9 @@ public class InfoManobras extends javax.swing.JFrame {
             // TODO add your handling code here:
             this.carregarFormCadastroManobra();
         } catch (SQLException ex) {
-            Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnNovaManobra1ActionPerformed
 
@@ -270,13 +284,17 @@ public class InfoManobras extends javax.swing.JFrame {
         try {
             this.carregarFomrNovoTreino();
         } catch (SQLException ex) {
-            Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mnuItemNovoTreinoActionPerformed
 
-    private void btnAddRequisitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRequisitoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddRequisitoActionPerformed
+    private void btnVerRequisitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerRequisitosActionPerformed
+        try {
+            this.carregarTelaGerenciarRequisitos();
+        } catch (SQLException ex) {
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnVerRequisitosActionPerformed
 
     private void carregarFormCadastroCategoria() throws SQLException {
         if (adicionarCategoriaForm == null) {
@@ -320,6 +338,15 @@ public class InfoManobras extends javax.swing.JFrame {
         this.manobras = manobrasBO.buscarTodasManobras();
         ModeloTabelaManobras modelo = new ModeloTabelaManobras();
         tabelaManobras.setModel(modelo);
+    }
+
+    public void carregarTelaGerenciarRequisitos() throws SQLException {
+        if (gerenciarRequisitos == null) {
+            gerenciarRequisitos = new GerenciarRequisitos();
+        }
+        gerenciarRequisitos.setVisible(true);
+        gerenciarRequisitos.toFront();
+
     }
 
     public void excluirManobra() throws SQLException {
@@ -371,37 +398,39 @@ public class InfoManobras extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InfoManobras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InfoManobras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InfoManobras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InfoManobras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new InfoManobras().setVisible(true);
+                    new GerenciarManobrasTelaInicial().setVisible(true);
                 } catch (SQLException ex) {
-                    Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraDeMenuPrincipal;
-    private javax.swing.JButton btnAddRequisito;
     private javax.swing.JButton btnEditarManobra;
     private javax.swing.JButton btnExcluirManobra;
     private javax.swing.JButton btnNovaManobra1;
     private javax.swing.JButton btnSair;
+    private javax.swing.JButton btnVerRequisitos;
     private javax.swing.JMenuItem itemMenuSair;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblDica;
     private javax.swing.JMenu menuOpçoes;
     private javax.swing.JMenuItem mnuItemNovaCategoria;
     private javax.swing.JMenuItem mnuItemNovoTreino;
@@ -470,10 +499,11 @@ public class InfoManobras extends javax.swing.JFrame {
                 return null;
 
             } else if (columnIndex == 2) {
-                if (m.getStatus() == 0) {
-                     return "Não sabe fazer ainda";
+                if (m.getStatus() < 100) {
+                    return "Não sabe fazer ainda";
+                } else {
+                    return "100%";
                 }
-                return "100%";
 
             } else {
                 if (columnIndex == 3) {
@@ -487,7 +517,7 @@ public class InfoManobras extends javax.swing.JFrame {
                         }
 
                     } catch (SQLException ex) {
-                        Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 return null;

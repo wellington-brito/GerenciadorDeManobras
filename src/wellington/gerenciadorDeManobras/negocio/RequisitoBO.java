@@ -21,9 +21,9 @@ public class RequisitoBO {
         requisitoDAO.incluirRequisito(requisitoEmEdicao);
     }
 
-    public List<Requisito> buscarTodosRequisitosEspecificos(int idManobra) throws SQLException {
+    public List<Requisito> buscarTodosRequisitosEspecificos( ) throws SQLException {
         RequisitoDAO requisitoDAO = new RequisitoDAO();
-        return requisitoDAO.buscarTodosRequisitosEspecificos(idManobra);
+        return requisitoDAO.buscarTodosRequisitosEspecificos();
     }
 
 }

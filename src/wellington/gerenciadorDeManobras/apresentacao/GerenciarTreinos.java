@@ -27,7 +27,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
 
     public FormCadastrarEditarTreino formCadastrarTreino;
     public FormCadastrarEditarTreino formEditarTreino;    
-    public InfoManobras infoManobras;  
+    public GerenciarManobrasTelaInicial infoManobras;  
     private List<Treino> treinos;
     private List<Manobra> manobras;
     /**
@@ -174,7 +174,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         try {
             this.novoTreino();
         } catch (SQLException ex) {
-            Logger.getLogger(InfoManobras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnNovoTreinoActionPerformed
 

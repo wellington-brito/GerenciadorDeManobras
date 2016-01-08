@@ -29,7 +29,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     private Manobra manobraEmEdicao;
     private List<Categoria> categorias;
     private List<Manobra> manobras;
-    private InfoManobras infoManobra;
+    private GerenciarManobrasTelaInicial infoManobra;
     private FormAdicionarRequisito formAddRequisito;
     public int verificaEditarOuSalvar;
     private Categoria categoria;
@@ -38,13 +38,13 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     /**
      * Creates metodos construtuores FormCadastroManobra
      */
-    public FormCadastroManobra(InfoManobras infoManobras, Manobra manobraSelecionada) throws ParseException, SQLException {
+    public FormCadastroManobra(GerenciarManobrasTelaInicial infoManobras, Manobra manobraSelecionada) throws ParseException, SQLException {
         this(infoManobras);
         this.manobraEmEdicao = manobraSelecionada;
         this.inicializaCampoNomeManobra();
     }
 
-    public FormCadastroManobra(InfoManobras infoManobras) throws ParseException, SQLException {
+    public FormCadastroManobra(GerenciarManobrasTelaInicial infoManobras) throws ParseException, SQLException {
         this.infoManobra = infoManobras;
         this.manobraEmEdicao = new Manobra();
         this.initComponents();
