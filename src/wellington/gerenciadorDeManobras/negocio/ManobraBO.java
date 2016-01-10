@@ -44,6 +44,11 @@ public class ManobraBO {
         }
     }
 
+    public void atualizaStatus(int id, int status) throws SQLException {
+        ManobraDAO manobraDAO = new ManobraDAO();
+        manobraDAO.atualizarStatus(id, status);
+    }
+
   
     
     

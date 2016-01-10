@@ -83,6 +83,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         btnAlterarTreino = new javax.swing.JButton();
         btnExcluirTreino = new javax.swing.JButton();
         btnFecharTela = new javax.swing.JButton();
+        lblTeste = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -129,6 +130,8 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             }
         });
 
+        lblTeste.setText("Info.");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -136,13 +139,16 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNovoTreino)
-                .addGap(18, 18, 18)
-                .addComponent(btnAlterarTreino)
-                .addGap(18, 18, 18)
-                .addComponent(btnExcluirTreino)
-                .addGap(11, 11, 11)
-                .addComponent(btnFecharTela)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTeste)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnNovoTreino)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAlterarTreino)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnExcluirTreino)
+                        .addGap(11, 11, 11)
+                        .addComponent(btnFecharTela)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -150,7 +156,9 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(lblTeste)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExcluirTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAlterarTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -176,7 +184,8 @@ public class GerenciarTreinos extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(791, 541));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoTreinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoTreinoActionPerformed
@@ -226,6 +235,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             formEditarTreino.setVisible(true);
             
         } else {
+            this.lblTeste.setText("Selecione Um treinos antes!");
             throw new NoSelectionException();
         }
     }
@@ -277,6 +287,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
     private javax.swing.JButton btnNovoTreino;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblTeste;
     private javax.swing.JTable tabelaTreinos;
     // End of variables declaration//GEN-END:variables
 

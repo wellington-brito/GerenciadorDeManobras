@@ -23,6 +23,9 @@ public class ManobraDAO {
     private static final String SQL_SELECT_MANOBRAS = "SELECT ID, NOME, DIFICULDADE, STATUS, ID_CATEGORIA  FROM MANOBRA ORDER BY NOME";
     private static final String SQL_DELETE = "DELETE FROM MANOBRA WHERE ID = ?";
     private static final String SQL_UPDATE = "UPDATE MANOBRA SET  NOME = ?, DIFICULDADE = ?, ID_CATEGORIA = ?, STATUS = ?  WHERE ID = ?";
+    private static final String SQL_UPDATE_STATUS = "UPDATE MANOBRA SET  STATUS = ?  WHERE ID = ?";
+    
+    
     public void inserir(Manobra manobra) throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
@@ -136,6 +139,36 @@ public class ManobraDAO {
             comando.setInt(3, manobra.getCategoria());
             comando.setInt(4, manobra.getStatus());
             comando.setInt(5, manobra.getId());
+            //Executa o comando
+            comando.execute();
+            //Persiste o comando no banco de dados
+            conexao.commit();
+        } catch (Exception e) {
+            //Caso aconteça alguma exeção é feito um rollback para o banco de
+            //dados retornar ao seu estado anterior.
+            if (conexao != null) {
+                conexao.rollback();
+            }
+            throw e;
+        } finally {
+            //Todo objeto que referencie o banco de dados deve ser fechado
+            BancoDadosUtil.fecharChamadasBancoDados(conexao, comando);
+        }
+    }
+
+    public void atualizarStatus(int id, int status) throws SQLException {
+       Connection conexao = null;
+        PreparedStatement comando = null;
+        Manobra manobra = new Manobra();
+        try {
+            //Recupera a conexão
+            conexao = BancoDadosUtil.getConnection();
+            //Cria o comando de inserir dados
+            comando = conexao.prepareStatement(SQL_UPDATE_STATUS);
+            //Atribui os parâmetros (Note que no BD o index inicia por 1)     
+            comando.setInt(1, status);
+            comando.setInt(2, id);
+            
             //Executa o comando
             comando.execute();
             //Persiste o comando no banco de dados

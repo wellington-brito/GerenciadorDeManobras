@@ -22,21 +22,31 @@ import wellington.gerenciadorDeManobras.negocio.RequisitoBO;
 public class FormAdicionarRequisito extends javax.swing.JFrame {
 
     private Manobra manobraEmEdicao;
-    //private FormCadastroManobra formCadastroManobra;
     private Requisito requisitoEmEdicao;
     private List<Manobra> manobras;
+    public int verificaEditarOuSalvarRequisitos;
     String item = "";
 
     /**
      * Creates new form FormAdicionarRequisito
      */
-    public FormAdicionarRequisito() throws SQLException {
-        this.manobraEmEdicao = new Manobra();
-        this.prepararTela();
+    public FormAdicionarRequisito(GerenciarRequisitos gerenciarRequisitos, Requisito requisitoSelecionado) throws SQLException {
+        this(gerenciarRequisitos);
+        this.requisitoEmEdicao = requisitoSelecionado;
+        this.prepararTelaEditar();
+        //this.manobraEmEdicao = new Manobra();
+        // this.prepararTela();
     }
 
-    public FormAdicionarRequisito(Manobra manobraEmEdicao) throws SQLException {
-        this.manobraEmEdicao = manobraEmEdicao;
+    public FormAdicionarRequisito(GerenciarRequisitos gerenciarRequisitos) throws SQLException {
+        this.manobraEmEdicao = new Manobra();
+        this.prepararTela();
+        // this.requisitoEmEdicao = requisitoSelecionado;
+        // this.prepararTela();
+    }
+
+    public FormAdicionarRequisito(Manobra manobra) throws SQLException {
+        this.manobraEmEdicao = manobra;
         this.prepararTela();
     }
 
@@ -48,13 +58,42 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
         } catch (Exception e) {
             String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
             mensagem += "\nMensagem de erro:\n" + e.getMessage();
-            JOptionPane.showMessageDialog(this, mensagem, "Categorias de manobras cadastradas", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, mensagem, "Tela Requisito de manobras", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        }
+    }
+
+    public void prepararTelaEditar() throws SQLException {
+        try {
+            this.initComponents();
+            this.inicializaCampoNomeManobraEditar();
+            this.carregarComboManobras();
+        } catch (Exception e) {
+            String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
+            mensagem += "\nMensagem de erro:\n" + e.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Tela Requisito de manobras", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         }
     }
 
     public void inicializaCampoNomeManobra() {
         txtManobraRecente.setText(manobraEmEdicao.getNome());
+    }
+
+    public void inicializaCampoNomeManobraEditar() {
+        try {
+            ManobraBO manobraBO = new ManobraBO();
+            manobras = manobraBO.buscarTodasManobras();
+            for (Manobra m : manobras) {
+
+                if (this.requisitoEmEdicao.getIdManobraRecente() == m.getId()) {
+                    int x = requisitoEmEdicao.getIdManobraRecente();
+                    txtManobraRecente.setText("teste");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FormAdicionarRequisito.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -139,16 +178,19 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
                         .addComponent(lblEscolherManobra)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxManobrasRequisitos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(112, 112, 112)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSalvar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
-                .addGap(0, 53, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
+                        .addGap(82, 82, 82)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(14, 14, 14)
+                .addComponent(lblDicaAdicionarRequisito)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblManobraRecente)
                     .addComponent(txtManobraRecente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -156,9 +198,7 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
                     .addComponent(lblEscolherManobra)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
-                .addComponent(lblDicaAdicionarRequisito)
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -167,23 +207,28 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(661, 180));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            this.incluiRequisito();
+            if (verificaEditarOuSalvarRequisitos == 1) {
+                this.atualizarRequisito();
+            } else {
+                this.incluiRequisito();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(FormAdicionarRequisito.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -198,7 +243,11 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
         this.recuperarCamposTela();
         RequisitoBO requisitoBO = new RequisitoBO();
         requisitoBO.inlcuirRequisito(requisitoEmEdicao);
-        JOptionPane.showMessageDialog(this, "Requisito para a manobra " + cbxManobrasRequisitos.getSelectedItem()+ "Foi salvo com sucesso" , "Adicionar requisito de Manobra", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Requisito para a manobra " + cbxManobrasRequisitos.getSelectedItem() + "Foi salvo com sucesso", "Adicionar requisito de Manobra", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void atualizarRequisito() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void recuperarCamposTela() {
@@ -230,5 +279,13 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
     private javax.swing.JLabel lblManobraRecente;
     private javax.swing.JTextField txtManobraRecente;
     // End of variables declaration//GEN-END:variables
+
+    public int getFormRequisitos() {
+        return verificaEditarOuSalvarRequisitos;
+    }
+
+    public void setFormRequisitos(int formRequisitos) {
+        this.verificaEditarOuSalvarRequisitos = formRequisitos;
+    }
 
 }

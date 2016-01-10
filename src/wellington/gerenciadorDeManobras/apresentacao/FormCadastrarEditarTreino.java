@@ -142,11 +142,11 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtQntddiaTreinando, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnSalvar)
                 .addGap(18, 18, 18)
                 .addComponent(btnFecharTela)
-                .addContainerGap())
+                .addContainerGap(122, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +164,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addComponent(txtProgressoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtQntddiaTreinando, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(219, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -178,10 +178,13 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(830, 232));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -224,10 +227,13 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             throw new CampoObrigatorioException();
         }
         treinoBO.atualizar(treinoEmEdicao);
-        JOptionPane.showMessageDialog(this, "Dados do treino alterado com sucesso", "Ediçao de treino", JOptionPane.INFORMATION_MESSAGE);
-        this.sugerirNovoTreino();
         this.limparCamposTela();
         this.gerenciarTreinos.carregarTabelaDeTreino();
+        JOptionPane.showMessageDialog(this, "Dados do treino alterado com sucesso", "Ediçao de treino", JOptionPane.INFORMATION_MESSAGE);
+        this.atualizaStatus(treinoEmEdicao.getIdManobra(), 100);
+        this.sugerirNovoTreino();
+       
+        
 
     }
 
@@ -241,14 +247,18 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
                 int idManobraSugerida = requisitos.getIdManobraRecente();
                 for (Manobra m : manobras) {
                     if (m.getId() == idManobraSugerida) {
-                        mensagem = m.getNome();
+                        mensagem = mensagem + "-"+m.getNome()+"\n";
                     }
                 }
             }
-
         }
-        JOptionPane.showMessageDialog(this, mensagem, "Sugestão de Manobra", JOptionPane.INFORMATION_MESSAGE);
-
+        JOptionPane.showMessageDialog(this, "PARABÉNS!! Agora é possivel treinar: \n" + mensagem, "Sugestão de Manobra", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void atualizaStatus(int id,int status) throws SQLException{
+        ManobraBO manobraBO = new ManobraBO();
+        manobraBO.atualizaStatus(id,status);
+    
     }
 
     private void recuperarCamposTela() {

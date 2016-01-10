@@ -25,7 +25,7 @@ import wellington.gerenciadorDeManobras.negocio.ManobraBO;
  */
 public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
-    private FormCadastroManobra formCadastroManobra;
+    // private FormCadastroManobra formCadastroManobra;
     private FormCadastroManobra editarManobraForm;
     private GerenciarCategorias adicionarCategoriaForm;
     private GerenciarTreinos telaGerenciarTreinos;
@@ -69,11 +69,11 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         btnSair = new javax.swing.JButton();
         btnExcluirManobra = new javax.swing.JButton();
         btnEditarManobra = new javax.swing.JButton();
-        btnVerRequisitos = new javax.swing.JButton();
+        btnTreinos = new javax.swing.JButton();
         lblDica = new javax.swing.JLabel();
         barraDeMenuPrincipal = new javax.swing.JMenuBar();
         menuOpçoes = new javax.swing.JMenu();
-        mnuItemNovoTreino = new javax.swing.JMenuItem();
+        itemMenuRequisitos = new javax.swing.JMenuItem();
         mnuItemNovaCategoria = new javax.swing.JMenuItem();
         mnuItemRelatorio = new javax.swing.JMenuItem();
         itemMenuSair = new javax.swing.JMenuItem();
@@ -124,10 +124,10 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             }
         });
 
-        btnVerRequisitos.setText("Ver Requisitos");
-        btnVerRequisitos.addActionListener(new java.awt.event.ActionListener() {
+        btnTreinos.setText("Treinos");
+        btnTreinos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerRequisitosActionPerformed(evt);
+                btnTreinosActionPerformed(evt);
             }
         });
 
@@ -149,7 +149,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnEditarManobra)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnVerRequisitos)
+                                .addComponent(btnTreinos)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnExcluirManobra)
                                 .addGap(18, 18, 18)
@@ -170,19 +170,19 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                     .addComponent(btnNovaManobra1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditarManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExcluirManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVerRequisitos, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnTreinos, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         menuOpçoes.setText("Opções");
 
-        mnuItemNovoTreino.setText("Treino");
-        mnuItemNovoTreino.addActionListener(new java.awt.event.ActionListener() {
+        itemMenuRequisitos.setText("Requisitos de manobras");
+        itemMenuRequisitos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemNovoTreinoActionPerformed(evt);
+                itemMenuRequisitosActionPerformed(evt);
             }
         });
-        menuOpçoes.add(mnuItemNovoTreino);
+        menuOpçoes.add(itemMenuRequisitos);
 
         mnuItemNovaCategoria.setText("Categoria");
         mnuItemNovaCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -225,7 +225,8 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(853, 539));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -272,6 +273,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             this.carregarFormCadastroManobra();
+
         } catch (SQLException ex) {
             Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -279,21 +281,21 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnNovaManobra1ActionPerformed
 
-    private void mnuItemNovoTreinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemNovoTreinoActionPerformed
+    private void btnTreinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTreinosActionPerformed
         try {
             this.carregarFomrNovoTreino();
         } catch (SQLException ex) {
             Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_mnuItemNovoTreinoActionPerformed
+    }//GEN-LAST:event_btnTreinosActionPerformed
 
-    private void btnVerRequisitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerRequisitosActionPerformed
+    private void itemMenuRequisitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuRequisitosActionPerformed
         try {
             this.carregarTelaGerenciarRequisitos();
         } catch (SQLException ex) {
             Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_btnVerRequisitosActionPerformed
+    }//GEN-LAST:event_itemMenuRequisitosActionPerformed
 
     private void carregarFormCadastroCategoria() throws SQLException {
         if (adicionarCategoriaForm == null) {
@@ -312,11 +314,11 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
     }
 
     private void carregarFormCadastroManobra() throws SQLException, ParseException {
-        if (formCadastroManobra == null) {
-            formCadastroManobra = new FormCadastroManobra(this);
+        if (editarManobraForm == null) {
+            editarManobraForm = new FormCadastroManobra(this);
         }
-        formCadastroManobra.setVisible(true);
-        formCadastroManobra.toFront();
+        editarManobraForm.setVisible(true);
+        editarManobraForm.toFront();
 
     }
 
@@ -368,7 +370,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                 }
 
             } else {
-                String mensagem = "Nenhum manobra selecionada.";
+                String mensagem = "Selencine uma manobra antes.";
                 JOptionPane.showMessageDialog(this, mensagem, "Exclusão de manobra", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
@@ -424,14 +426,14 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
     private javax.swing.JButton btnExcluirManobra;
     private javax.swing.JButton btnNovaManobra1;
     private javax.swing.JButton btnSair;
-    private javax.swing.JButton btnVerRequisitos;
+    private javax.swing.JButton btnTreinos;
+    private javax.swing.JMenuItem itemMenuRequisitos;
     private javax.swing.JMenuItem itemMenuSair;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblDica;
     private javax.swing.JMenu menuOpçoes;
     private javax.swing.JMenuItem mnuItemNovaCategoria;
-    private javax.swing.JMenuItem mnuItemNovoTreino;
     private javax.swing.JMenuItem mnuItemRelatorio;
     private javax.swing.JTable tabelaManobras;
     // End of variables declaration//GEN-END:variables
@@ -446,6 +448,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             editarManobraForm = new FormCadastroManobra(this, manobraSelecionado);
             editarManobraForm.setVisible(true);
         } else {
+            this.lblDica.setText("Selecione uma manobra antes!");
             throw new NoSelectionException();
         }
     }

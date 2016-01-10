@@ -6,6 +6,7 @@
 package wellington.gerenciadorDeManobras.apresentacao;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.entidade.Requisito;
+import wellington.gerenciadorDeManobras.excecao.NoSelectionException;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
 import wellington.gerenciadorDeManobras.negocio.RequisitoBO;
 
@@ -24,6 +26,8 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
 
     private List<Requisito> requisitos;
     private List<Manobra> manobras;
+   // private FormAdicionarRequisito forVerificaEditarOuSalvarRequisito;
+    private FormAdicionarRequisito formEditarRequisito;
 
     /**
      * Creates new form GerenciarRequisitos
@@ -43,6 +47,18 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
             this.dispose();
         }
     }
+        
+    @Override
+    public void setVisible(boolean exibir) {
+        super.setVisible(exibir);
+        if (exibir == true) {
+            try {
+                this.carregarTabelaDeRequisitos();
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,10 +75,10 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
         btnAlterarRequisito = new javax.swing.JButton();
         btnExcluirRequisito = new javax.swing.JButton();
         btnFecharTela = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lblDica = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setEnabled(false);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gerenciar Requisitos");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Requisitos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
@@ -100,30 +116,34 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("jLabel1");
+        lblDica.setText("Info");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAlterarRequisito)
-                .addGap(18, 18, 18)
-                .addComponent(btnExcluirRequisito)
-                .addGap(11, 11, 11)
-                .addComponent(btnFecharTela)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblDica))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(626, 626, 626)
+                        .addComponent(btnAlterarRequisito)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnExcluirRequisito)
+                        .addGap(11, 11, 11)
+                        .addComponent(btnFecharTela)))
                 .addContainerGap())
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDica, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExcluirRequisito, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -149,7 +169,8 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(907, 500));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     private void btnExcluirRequisitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirRequisitoActionPerformed
         this.excluirRequisito();
@@ -160,32 +181,51 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFecharTelaActionPerformed
 
     private void btnAlterarRequisitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarRequisitoActionPerformed
-//        try {
-//            this.editarTreino();
-//            this.formEditarTreino.setVerificaEditarOuSalvar(1);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(GerenciarCategorias.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (ParseException ex) {
-//            Logger.getLogger(GerenciarTreinos.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            this.editarRequisito();
+            this.formEditarRequisito.setFormRequisitos(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(GerenciarRequisitos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAlterarRequisitoActionPerformed
 
-    public void excluirRequisito(){
-         try {
+     public void carregarTabelaDeRequisitos() throws SQLException {
+        RequisitoBO requisitoBO = new RequisitoBO();
+        this.requisitos = requisitoBO.buscarTodosRequisitosEspecificos();
+        ModeloTabelaRequisitos modelo = new ModeloTabelaRequisitos();
+        tabelaRequisitos.setModel(modelo);
+    }
+     
+    public void editarRequisito() throws SQLException {
+        int linhaSelecionada = tabelaRequisitos.getSelectedRow();
+        if (linhaSelecionada != -1) {
+            Requisito requisitoSelecionado = requisitos.get(linhaSelecionada);
+            if (formEditarRequisito != null) {
+                formEditarRequisito.dispose();
+            }
+            formEditarRequisito = new FormAdicionarRequisito(this, requisitoSelecionado);
+            formEditarRequisito.setVisible(true);
+        } else {
+            this.lblDica.setText("Selecione um requisito antes!");
+            throw new NoSelectionException();
+        }
+    }
+    
+    public void excluirRequisito() {
+        try {
             int linhaSelecionada = tabelaRequisitos.getSelectedRow();
             if (linhaSelecionada != -1) {
                 Requisito requisitoSelecionado = requisitos.get(linhaSelecionada);
-
                 int resposta;
                 String mensagem = "Deseja realmente excluir requisito selecionado?";
                 String titulo = "Exclusão de requisito";
                 resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
 
                 if (resposta == JOptionPane.YES_NO_OPTION) {
-                    RequisitoBO RequisitoBO = new RequisitoBO();
-                    RequisitoBO.removerRequisito(requisitoSelecionado.getId());
-                    mensagem = "Treino " + requisitoSelecionado.getId() + " Id maobra: " + requisitoSelecionado.getId() + " excluída com sucesso!";
-                    JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria", JOptionPane.INFORMATION_MESSAGE);
+                    RequisitoBO requisitoBO = new RequisitoBO();
+                    requisitoBO.removerRequisito(requisitoSelecionado.getId());
+                    mensagem = "Excluído com sucesso!Id requisito: " + requisitoSelecionado.getId();
+                    JOptionPane.showMessageDialog(this, mensagem, "Exclusão de requisito", JOptionPane.INFORMATION_MESSAGE);
                     this.carregarTabelaDeRequisitos();
                 }
             } else {
@@ -195,25 +235,20 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
         } catch (Exception e) {
             String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
             mensagem += "\nMensagem de erro:\n" + e.getMessage();
-            JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria ", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, mensagem, "Exclusão de requisito", JOptionPane.ERROR_MESSAGE);
             this.dispose();
-        }    
+        }
     }
-    
-    public void carregarTabelaDeRequisitos() throws SQLException {
-        RequisitoBO requisitoBO = new RequisitoBO();
-        this.requisitos = requisitoBO.buscarTodosRequisitosEspecificos();
-        ModeloTabelaRequisitos modelo = new ModeloTabelaRequisitos();
-        tabelaRequisitos.setModel(modelo);
-    }
-  
+
+   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterarRequisito;
     private javax.swing.JButton btnExcluirRequisito;
     private javax.swing.JButton btnFecharTela;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDica;
     private javax.swing.JTable tabelaRequisitos;
     // End of variables declaration//GEN-END:variables
 
@@ -241,29 +276,31 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            ManobraBO manobraBO = new ManobraBO();
             try {
+                ManobraBO manobraBO = new ManobraBO();
                 manobras = manobraBO.buscarTodasManobras();
             } catch (SQLException ex) {
                 Logger.getLogger(GerenciarRequisitos.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Requisito r = requisitos.get(rowIndex);
             
-            if (columnIndex == 0) {
+            Requisito r = requisitos.get(rowIndex);
+
+            if (columnIndex == 0){
                 for (Manobra m : manobras) {
-                    if (m.getId() == r.getIdManobraRecente()) {
+                    if (r.getIdManobraRecente() == m.getId()) {
                         return m.getNome();
                     }
                 }
                 return "Problemas para exibir o nome da manobra";
-            } else{
+            } else {
                 for (Manobra m : manobras) {
-                    if (m.getId() == r.getIdManobraRequisito()) {
+                    if (r.getIdManobraRequisito() == m.getId()) {
                         return m.getNome();
                     }
-                }          
+                }
                 return " ";
             }
         }
     }
+
 }

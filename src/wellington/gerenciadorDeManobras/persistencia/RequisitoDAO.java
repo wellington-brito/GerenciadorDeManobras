@@ -20,7 +20,7 @@ import wellington.gerenciadorDeManobras.entidade.Requisito;
 public class RequisitoDAO {
 
     private static final String SQL_INSERT = "INSERT INTO REQUISITO (IDMANOBRARECENTE, IDMANOBRAREQUISITO) VALUES (?, ?)";
-    private static final String SQl_BUSCAR_REQUISITOS = "SELECT IDMANOBRARECENTE, IDMANOBRAREQUISITO FROM REQUISITO";
+    private static final String SQl_BUSCAR_REQUISITOS = "SELECT ID, IDMANOBRARECENTE, IDMANOBRAREQUISITO FROM REQUISITO";
     private static final String SQL_DELETE = "DELETE FROM REQUISITO WHERE ID = ?";
    
     
@@ -85,8 +85,9 @@ public class RequisitoDAO {
         //Instancia um novo objeto e atribui os valores vindo do BD
         //(Note que no BD o index inicia por 1)
         Requisito requisito = new Requisito();
-        requisito.setIdManobraRecente(resultado.getInt(1));
-        requisito.setIdManobraRequisito(resultado.getInt(2));
+        requisito.setId(resultado.getInt(1));
+        requisito.setIdManobraRecente(resultado.getInt(2));
+        requisito.setIdManobraRequisito(resultado.getInt(3));
         return requisito;
     }
 
