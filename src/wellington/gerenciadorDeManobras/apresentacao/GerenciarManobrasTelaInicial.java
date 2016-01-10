@@ -80,7 +80,6 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Manobras");
-        setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Manobras", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 18))); // NOI18N
 
@@ -155,7 +154,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                                 .addComponent(btnExcluirManobra)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnSair))
-                            .addComponent(lblDica, javax.swing.GroupLayout.DEFAULT_SIZE, 697, Short.MAX_VALUE))))
+                            .addComponent(lblDica, javax.swing.GroupLayout.DEFAULT_SIZE, 785, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -373,11 +372,10 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, mensagem, "Exclusão de manobra", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
-            String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
+            String mensagem = "Erro inesperado! Não possivel excluir uma manora q é requisito de outras.";
             mensagem += "\nMensagem de erro:\n" + e.getMessage();
             JOptionPane.showMessageDialog(this, mensagem, "Exclusão de manobra ", JOptionPane.ERROR_MESSAGE);
-            this.dispose();
-
+            //this.dispose();
         }
     }
 

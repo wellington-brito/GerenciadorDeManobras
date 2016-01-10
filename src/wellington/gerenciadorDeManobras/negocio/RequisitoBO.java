@@ -26,4 +26,9 @@ public class RequisitoBO {
         return requisitoDAO.buscarTodosRequisitosEspecificos();
     }
 
+    public void removerRequisito(int id) throws SQLException {
+        RequisitoDAO  requisitoDAO = new RequisitoDAO();
+        requisitoDAO.removerRequisito(id);
+    }
+
 }

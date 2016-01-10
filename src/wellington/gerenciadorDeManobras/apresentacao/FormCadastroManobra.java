@@ -140,7 +140,6 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Manobra");
-        setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrar Manobra", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 18))); // NOI18N
 

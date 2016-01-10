@@ -62,7 +62,6 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nova Categoria");
-        setExtendedState(6);
 
         painelAdicionarCategoria.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Adicionar Categoria", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 18))); // NOI18N
 

@@ -33,8 +33,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
     /**
      * Creates new form GerenciarTreinos
      */
-    public GerenciarTreinos() throws SQLException {
-        
+    public GerenciarTreinos() throws SQLException {        
        this.prepararTela();
     }
 
@@ -57,6 +56,17 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         }
     }
 
+     @Override
+    public void setVisible(boolean exibir) {
+        super.setVisible(exibir);
+        if (exibir == true) {
+            try {
+                this.carregarTabelaDeTreino();
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,7 +85,6 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         btnFecharTela = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Treinos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
@@ -250,17 +259,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         }
      }
      
-    @Override
-    public void setVisible(boolean exibir) {
-        super.setVisible(exibir);
-        if (exibir == true) {
-            try {
-                this.carregarTabelaDeTreino();
-            } catch (SQLException ex) {
-                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+   
      public void carregarTabelaDeTreino() throws SQLException {
         TreinoBO treinoBO = new TreinoBO();
         this.treinos = treinoBO.buscarTodosTreinos();

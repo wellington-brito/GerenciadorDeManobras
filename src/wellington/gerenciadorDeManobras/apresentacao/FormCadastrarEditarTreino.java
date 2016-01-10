@@ -94,7 +94,6 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         txtQntddiaTreinando = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Novo Treino", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
@@ -120,7 +119,10 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             }
         });
 
+        txtProgressoTreino.setColumns(3);
         txtProgressoTreino.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
+
+        txtQntddiaTreinando.setColumns(3);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -162,7 +164,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addComponent(txtProgressoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtQntddiaTreinando, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(197, Short.MAX_VALUE))
+                .addContainerGap(219, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -176,10 +178,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -219,7 +218,11 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
         this.treinoBO = new TreinoBO();
         this.recuperarCamposTela();
-        treinoBO.validarCamposObrigatoriosAtualizar(treinoEmEdicao);
+        //treinoBO.validarCamposObrigatoriosAtualizar(treinoEmEdicao);
+        if (treinoEmEdicao.getIdManobra() == 0 || treinoEmEdicao.getProgresso() == 0 || treinoEmEdicao.getQntddias() == 0) {
+            JOptionPane.showMessageDialog(this, "Preencha todos os campos", "Editar Treino", JOptionPane.INFORMATION_MESSAGE);
+            throw new CampoObrigatorioException();
+        }
         treinoBO.atualizar(treinoEmEdicao);
         JOptionPane.showMessageDialog(this, "Dados do treino alterado com sucesso", "Ediçao de treino", JOptionPane.INFORMATION_MESSAGE);
         this.sugerirNovoTreino();

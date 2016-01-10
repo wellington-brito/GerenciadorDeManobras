@@ -30,16 +30,14 @@ public class TreinoBO {
     }
 
     public void validarCamposObrigatoriosIdManobra(Treino t) throws CampoObrigatorioException {
-        if (t.getIdManobra() == 0) {
+        if (t.getIdManobra() == 0 ) {
             throw new CampoObrigatorioException();
         }
     }
 
-    public void validarCamposObrigatoriosAtualizar(Treino t) throws CampoObrigatorioException {
-        if (t.getIdManobra() == 0 || t.getProgresso() == 0 || t.getQntddias() == 0) {
-            throw new CampoObrigatorioException();
-        }
-    }
+//    public void validarCamposObrigatoriosAtualizar(Treino t) throws CampoObrigatorioException {
+//       
+//    }
 
     public void atualizar(Treino treinoEmEdicao) throws SQLException {
         TreinoDAO treinoDAO = new TreinoDAO();
@@ -61,7 +59,7 @@ public class TreinoBO {
         if (treinoEmEdicao.getProgresso() == 100) {
             RequisitoDAO requisitoDAO = new RequisitoDAO();
             listaRquisitos = requisitoDAO.buscarTodosRequisitosEspecificos(); // where idmanobrarequisito == treino em treinoEmEdicao.getIdManobra(
-            
+
 //            for(Requisito requisito : listaRquisitos){                                
 //                idManobrasSugeridas.add(Integer.toString(requisito.getIdManobraRecente()));                        
 //            }

@@ -3,7 +3,6 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="extendedState" type="int" value="6"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -33,11 +32,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
+          <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -97,7 +92,7 @@
                           <Component id="txtQntddiaTreinando" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="197" max="32767" attributes="0"/>
+                  <EmptySpace pref="219" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -151,12 +146,16 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="txtProgressoTreino">
           <Properties>
+            <Property name="columns" type="int" value="3"/>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
               <Format format="#" subtype="-1" type="0"/>
             </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="txtQntddiaTreinando">
+          <Properties>
+            <Property name="columns" type="int" value="3"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

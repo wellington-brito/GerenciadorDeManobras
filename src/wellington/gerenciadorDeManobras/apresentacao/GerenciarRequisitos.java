@@ -62,7 +62,7 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setExtendedState(6);
+        setEnabled(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Requisitos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
@@ -151,17 +151,8 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    public void carregarTabelaDeRequisitos() throws SQLException {
-        RequisitoBO requisitoBO = new RequisitoBO();
-        this.requisitos = requisitoBO.buscarTodosRequisitosEspecificos();
-        ModeloTabelaRequisitos modelo = new ModeloTabelaRequisitos();
-        tabelaRequisitos.setModel(modelo);
-    }
-
-
     private void btnExcluirRequisitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirRequisitoActionPerformed
-        // this.excluirRequisito();
+        this.excluirRequisito();
     }//GEN-LAST:event_btnExcluirRequisitoActionPerformed
 
     private void btnFecharTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharTelaActionPerformed
@@ -179,6 +170,42 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
 //        }
     }//GEN-LAST:event_btnAlterarRequisitoActionPerformed
 
+    public void excluirRequisito(){
+         try {
+            int linhaSelecionada = tabelaRequisitos.getSelectedRow();
+            if (linhaSelecionada != -1) {
+                Requisito requisitoSelecionado = requisitos.get(linhaSelecionada);
+
+                int resposta;
+                String mensagem = "Deseja realmente excluir requisito selecionado?";
+                String titulo = "Exclusão de requisito";
+                resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
+
+                if (resposta == JOptionPane.YES_NO_OPTION) {
+                    RequisitoBO RequisitoBO = new RequisitoBO();
+                    RequisitoBO.removerRequisito(requisitoSelecionado.getId());
+                    mensagem = "Treino " + requisitoSelecionado.getId() + " Id maobra: " + requisitoSelecionado.getId() + " excluída com sucesso!";
+                    JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria", JOptionPane.INFORMATION_MESSAGE);
+                    this.carregarTabelaDeRequisitos();
+                }
+            } else {
+                String mensagem = "Selecione uma categoria antes!";
+                JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception e) {
+            String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
+            mensagem += "\nMensagem de erro:\n" + e.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria ", JOptionPane.ERROR_MESSAGE);
+            this.dispose();
+        }    
+    }
+    
+    public void carregarTabelaDeRequisitos() throws SQLException {
+        RequisitoBO requisitoBO = new RequisitoBO();
+        this.requisitos = requisitoBO.buscarTodosRequisitosEspecificos();
+        ModeloTabelaRequisitos modelo = new ModeloTabelaRequisitos();
+        tabelaRequisitos.setModel(modelo);
+    }
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterarRequisito;
@@ -228,7 +255,7 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
                         return m.getNome();
                     }
                 }
-                return "sem nome";
+                return "Problemas para exibir o nome da manobra";
             } else{
                 for (Manobra m : manobras) {
                     if (m.getId() == r.getIdManobraRequisito()) {
