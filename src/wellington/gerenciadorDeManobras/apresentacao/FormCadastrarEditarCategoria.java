@@ -59,9 +59,11 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
         txtDescricaoCategoria = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
         btnFecharTela = new javax.swing.JButton();
+        lblinfo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nova Categoria");
+        setExtendedState(6);
 
         painelAdicionarCategoria.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Adicionar Categoria", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 18))); // NOI18N
 
@@ -95,23 +97,31 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
             }
         });
 
+        lblinfo.setText("info");
+
         javax.swing.GroupLayout painelAdicionarCategoriaLayout = new javax.swing.GroupLayout(painelAdicionarCategoria);
         painelAdicionarCategoria.setLayout(painelAdicionarCategoriaLayout);
         painelAdicionarCategoriaLayout.setHorizontalGroup(
             painelAdicionarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelAdicionarCategoriaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblNomeCategoria)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblNomeCategoria1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDescricaoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSalvar)
-                .addGap(18, 18, 18)
-                .addComponent(btnFecharTela))
+                .addContainerGap()
+                .addGroup(painelAdicionarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelAdicionarCategoriaLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblNomeCategoria)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblNomeCategoria1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDescricaoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSalvar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFecharTela))
+                    .addGroup(painelAdicionarCategoriaLayout.createSequentialGroup()
+                        .addComponent(lblinfo)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         painelAdicionarCategoriaLayout.setVerticalGroup(
             painelAdicionarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,7 +134,9 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
                     .addComponent(txtDescricaoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFecharTela, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(lblinfo)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -185,7 +197,8 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
     private void incluirCategoria() throws SQLException {
         this.recuperarCamposTela();
         CategoriaBO categoriaBO = new CategoriaBO();
-        categoriaBO.validarCamposObrigatorios(categoriaEmEdicao);
+        this.validarCamposObrigatorios();
+        this.verificarCategoria();
         categoriaBO.incluirCategoria(categoriaEmEdicao);
         JOptionPane.showMessageDialog(this, "Categoria cadastrada com sucesso!", "Cadastro de nova Catagoria", JOptionPane.INFORMATION_MESSAGE);
         this.limparCamposTela();
@@ -195,13 +208,36 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
     private void atualizar() throws CampoObrigatorioException, SQLException {
         this.recuperarCamposTela();
         CategoriaBO categoriaBO = new CategoriaBO();
-        categoriaBO.validarCamposObrigatorios(categoriaEmEdicao);
+        this.validarCamposObrigatorios();
         categoriaBO.atualizar(categoriaEmEdicao);
         JOptionPane.showMessageDialog(this, "Categoria atualizada com sucesso!", "Edição de Catagoria", JOptionPane.INFORMATION_MESSAGE);
         this.limparCamposTela();
         this.gerenciarCategorias.carregarTabelaDeCategorias();
     }
 
+    
+    public void verificarCategoria() throws SQLException{
+        CategoriaBO categoriaBO = new CategoriaBO();
+         categorias = categoriaBO.buscarTodasCategorias();
+        for (Categoria categoria : categorias) {
+            if (categoriaEmEdicao.getNome().equals(categoria.getNome())) {
+                this.lblinfo.setText("Uma categoria como o mesmo nome já existe no sistema!");
+            }
+        }
+    }
+    
+     public void validarCamposObrigatorios( ) throws CampoObrigatorioException {
+        if (txtDescricaoCategoria.getText().trim().isEmpty()){
+            this.lblinfo.setText("Campo descrição está vazio!");
+            throw new CampoObrigatorioException();        
+        }        
+        if(txtNomeCategoria.getText().trim().isEmpty()) {
+            this.lblinfo.setText("Campo Nome está vazio!");
+            throw new CampoObrigatorioException();
+        }
+        this.lblinfo.setText("Info");
+    }
+    
     private void recuperarCamposTela() throws SQLException {
         categoriaEmEdicao.setNome(txtNomeCategoria.getText());
         categoriaEmEdicao.setDescricao(txtDescricaoCategoria.getText());
@@ -229,6 +265,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel lblNomeCategoria;
     private javax.swing.JLabel lblNomeCategoria1;
+    private javax.swing.JLabel lblinfo;
     private javax.swing.JPanel painelAdicionarCategoria;
     private javax.swing.JTextField txtDescricaoCategoria;
     private javax.swing.JTextField txtNomeCategoria;

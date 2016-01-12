@@ -38,9 +38,5 @@ public class CategoriaBO {
         categoriaDAO.atualizar(categoria);
     }
 
-     public void validarCamposObrigatorios(Categoria c) throws CampoObrigatorioException {
-        if (c.getDescricao().trim().isEmpty() && c.getNome().trim().isEmpty()) {
-            throw new CampoObrigatorioException();
-        }
-    }
+    
 }

@@ -86,6 +86,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         lblTeste = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Treinos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
@@ -139,26 +140,27 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTeste)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnNovoTreino)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAlterarTreino)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnExcluirTreino)
-                        .addGap(11, 11, 11)
-                        .addComponent(btnFecharTela)))
+                .addComponent(btnNovoTreino)
+                .addGap(18, 18, 18)
+                .addComponent(btnAlterarTreino)
+                .addGap(18, 18, 18)
+                .addComponent(btnExcluirTreino)
+                .addGap(11, 11, 11)
+                .addComponent(btnFecharTela)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTeste)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                 .addComponent(lblTeste)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExcluirTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAlterarTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,8 +255,8 @@ public class GerenciarTreinos extends javax.swing.JFrame {
                 if (resposta == JOptionPane.YES_NO_OPTION) {
                     TreinoBO treinoBO = new TreinoBO();
                     treinoBO.removerTreino(treinoSelecionado.getId());
-                    mensagem = "Treino " + treinoSelecionado.getId() + " Id maobra: " + treinoSelecionado.getId() + " excluída com sucesso!";
-                    JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria", JOptionPane.INFORMATION_MESSAGE);
+                    mensagem = "Treino " + treinoSelecionado.getId() + " Id manobra: " + treinoSelecionado.getId() + " excluída com sucesso!";
+                    JOptionPane.showMessageDialog(this, mensagem, "Exclusão de treino", JOptionPane.INFORMATION_MESSAGE);
                     this.carregarTabelaDeTreino();
                 }
             } else {
@@ -317,8 +319,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            Treino t = treinos.get(rowIndex);
-                   
+            Treino t = treinos.get(rowIndex);                   
             if (columnIndex == 0){
                 try {
                     ManobraBO manobraBO = new ManobraBO();

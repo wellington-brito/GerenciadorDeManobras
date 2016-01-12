@@ -5,16 +5,33 @@
  */
 package wellington.gerenciadorDeManobras.apresentacao;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import wellington.gerenciadorDeManobras.entidade.Dica;
+import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
+import wellington.gerenciadorDeManobras.negocio.DicaBO;
+
 /**
  *
  * @author Wellington
  */
 public class FormAdicionarDicaManobra extends javax.swing.JFrame {
 
+    private Dica dicaEmEdicao;
+    private int idManobra=0;
+    private FormCadastrarEditarTreino formCadastrarEditarTreino;
     /**
      * Creates new form FormAdicionarDicaManobra
      */
     public FormAdicionarDicaManobra() {
+        initComponents();
+    }
+
+    FormAdicionarDicaManobra(FormCadastrarEditarTreino formCadastrarEditarTreino, int id) {
+        this.formCadastrarEditarTreino = formCadastrarEditarTreino;
+        this.idManobra = id;
         initComponents();
     }
 
@@ -33,6 +50,7 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnSalvarDica = new javax.swing.JButton();
         btnFechar = new javax.swing.JButton();
+        lblinfo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adicionar Dica");
@@ -46,6 +64,11 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
         jLabel1.setText("Caso você fique possa relembrar como executa-la corretamente.");
 
         btnSalvarDica.setText("Salvar");
+        btnSalvarDica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarDicaActionPerformed(evt);
+            }
+        });
 
         btnFechar.setText("Voltar");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
@@ -54,21 +77,24 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
             }
         });
 
+        lblinfo.setText("info");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 30, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalvarDica, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblinfo))
+                .addGap(0, 30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -77,7 +103,9 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addComponent(lblinfo)
+                .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvarDica, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -100,7 +128,7 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(540, 336));
+        setSize(new java.awt.Dimension(556, 367));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -108,47 +136,48 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnFecharActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void btnSalvarDicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarDicaActionPerformed
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormAdicionarDicaManobra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormAdicionarDicaManobra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormAdicionarDicaManobra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormAdicionarDicaManobra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            this.inserirDica();
+        } catch (SQLException ex) {
+            Logger.getLogger(FormAdicionarDicaManobra.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+    }//GEN-LAST:event_btnSalvarDicaActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FormAdicionarDicaManobra().setVisible(true);
-            }
-        });
+    public void inserirDica() throws SQLException{
+        this.veririficarCampoDica();
+        this.recuperarDica();
+        this.dicaEmEdicao.setIdManobra(idManobra);
+        DicaBO dicaBO = new DicaBO();
+        dicaBO.incluirNovaDica(dicaEmEdicao);
+        JOptionPane.showMessageDialog(this, "Dica cadastrada com sucesso", "Adicionar dica", JOptionPane.INFORMATION_MESSAGE);
+        this.formCadastrarEditarTreino.sugerirNovoTreino();
+        this.dispose();
+    
     }
-
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnSalvarDica;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblinfo;
     private javax.swing.JTextArea txtDicaManobra;
     // End of variables declaration//GEN-END:variables
+
+   
+
+    private void recuperarDica() {
+        this.dicaEmEdicao = new Dica();
+        this.dicaEmEdicao.setDescricao(txtDicaManobra.getText());
+        
+    }
+
+    private void veririficarCampoDica() {
+        if(txtDicaManobra.getText().trim().isEmpty()){
+        this.lblinfo.setText("Infome sua dica para a manobra q acaba de concluir o treino!");
+        throw new CampoObrigatorioException();
+        }
+    }
 }

@@ -26,18 +26,23 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
 
     private List<Manobra> manobras;
     private List<Requisito> listaRquisitos;
+    private List<Treino> treinos;
     private GerenciarTreinos gerenciarTreinos;
     private Treino treinoEmEdicao;
+    private FormAdicionarDicaManobra formCadastrarDicaManobra;
     private TreinoBO treinoBO;
+    private ManobraBO manobraBO;
     String item = "";
 
     /**
      * Creates new form FormCadastrarEditarTreino
      */
-    FormCadastrarEditarTreino(GerenciarTreinos gerenciarTreinos, Treino treinoSelecionado) throws SQLException {
+    FormCadastrarEditarTreino(GerenciarTreinos gerenciarTreinos, Treino treinoSelecionado) throws SQLException, CampoObrigatorioException, ParseException {
         this(gerenciarTreinos);
         this.treinoEmEdicao = treinoSelecionado;
         this.inicializaCampostela();
+        this.confirmarEdicao();
+
     }
 
     public FormCadastrarEditarTreino(GerenciarTreinos gerenciarTreinos) throws SQLException {
@@ -61,9 +66,9 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     }
 
     private void carregarComboManobras() throws SQLException {
-        ManobraBO manobraBO = new ManobraBO();
-        manobras = manobraBO.buscarTodasManobras();
-        cbxManobras.removeAllItems();
+        this.manobraBO = new ManobraBO();
+        this.manobras = manobraBO.buscarTodasManobras();
+        this.cbxManobras.removeAllItems();
         for (Manobra m : manobras) {
             cbxManobras.addItem(m.getNome());
         }
@@ -90,10 +95,13 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
         btnFecharTela = new javax.swing.JButton();
-        txtProgressoTreino = new javax.swing.JFormattedTextField();
-        txtQntddiaTreinando = new javax.swing.JFormattedTextField();
+        txtProgressoTreino = new javax.swing.JTextField();
+        txtQntddiaTreinando = new javax.swing.JTextField();
+        lblinfo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Adicionar Editar Treino");
+        setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Novo Treino", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
@@ -119,52 +127,54 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             }
         });
 
-        txtProgressoTreino.setColumns(3);
-        txtProgressoTreino.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
-
-        txtQntddiaTreinando.setColumns(3);
+        lblinfo.setText("info");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(lblManobra)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtProgressoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addGap(26, 26, 26)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtQntddiaTreinando, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSalvar)
-                .addGap(18, 18, 18)
-                .addComponent(btnFecharTela)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblinfo))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblManobra)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbxManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtProgressoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel3)
+                        .addGap(1, 1, 1)
+                        .addComponent(txtQntddiaTreinando, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFecharTela)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSalvar)))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnFecharTela, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblManobra)
-                        .addComponent(cbxManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)
-                        .addComponent(txtProgressoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtQntddiaTreinando, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblManobra)
+                    .addComponent(cbxManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(txtProgressoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtQntddiaTreinando, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFecharTela, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 184, Short.MAX_VALUE)
+                .addComponent(lblinfo)
+                .addGap(31, 31, 31))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -183,7 +193,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(830, 232));
+        setSize(new java.awt.Dimension(768, 360));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -191,13 +201,21 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         if (verificaEditarOuSalvar == 1) {
             try {
                 this.atualizar();
-            } catch (CampoObrigatorioException | ParseException | SQLException ex) {
+
+            } catch (CampoObrigatorioException ex) {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastrarEditarTreino.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(FormCadastrarEditarTreino.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             try {
+
                 this.incluirTreino();
             } catch (SQLException ex) {
+                Logger.getLogger(FormCadastrarEditarTreino.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (CampoObrigatorioException ex) {
                 Logger.getLogger(FormCadastrarEditarTreino.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -210,55 +228,89 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
 
     private void incluirTreino() throws SQLException {
         this.treinoBO = new TreinoBO();
+        this.validarCamposObrigatorios();
+        this.verificaQuantidadeDigitos();
         this.recuperarCamposTela();
-        treinoBO.validarCamposObrigatoriosIdManobra(treinoEmEdicao);
         treinoBO.inserir(treinoEmEdicao);
         JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso!", "Novo Treino", JOptionPane.INFORMATION_MESSAGE);
+
         this.limparCamposTela();
         this.gerenciarTreinos.carregarTabelaDeTreino();
     }
 
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
         this.treinoBO = new TreinoBO();
+        this.validarCamposObrigatorios();
+        this.verificaQuantidadeDigitos();
         this.recuperarCamposTela();
-        //treinoBO.validarCamposObrigatoriosAtualizar(treinoEmEdicao);
-        if (treinoEmEdicao.getIdManobra() == 0 || treinoEmEdicao.getProgresso() == 0 || treinoEmEdicao.getQntddias() == 0) {
-            JOptionPane.showMessageDialog(this, "Preencha todos os campos", "Editar Treino", JOptionPane.INFORMATION_MESSAGE);
-            throw new CampoObrigatorioException();
-        }
         treinoBO.atualizar(treinoEmEdicao);
+        JOptionPane.showMessageDialog(this, "Dados do treino alterado com sucesso", "Ediçao de treino", JOptionPane.INFORMATION_MESSAGE);
         this.limparCamposTela();
         this.gerenciarTreinos.carregarTabelaDeTreino();
-        JOptionPane.showMessageDialog(this, "Dados do treino alterado com sucesso", "Ediçao de treino", JOptionPane.INFORMATION_MESSAGE);
         this.atualizaStatus(treinoEmEdicao.getIdManobra(), 100);
-        this.sugerirNovoTreino();
-       
-        
+        this.addDicaManobra(treinoEmEdicao.getIdManobra());
+        //this.sugerirNovoTreino();
 
     }
 
-    private void sugerirNovoTreino() throws SQLException {
+    public void sugerirNovoTreino() throws SQLException {
         this.treinoBO = new TreinoBO();
         listaRquisitos = treinoBO.verificaProgresso(treinoEmEdicao);
 
         String mensagem = "";
         for (Requisito requisitos : listaRquisitos) {
             if (requisitos.getIdManobraRequisito() == treinoEmEdicao.getIdManobra()) {
-                int idManobraSugerida = requisitos.getIdManobraRecente();
+                int idManobraSugerida = requisitos.getIdManobra();
                 for (Manobra m : manobras) {
                     if (m.getId() == idManobraSugerida) {
-                        mensagem = mensagem + "-"+m.getNome()+"\n";
+                        mensagem = mensagem + "-" + m.getNome() + "\n";
                     }
                 }
             }
         }
         JOptionPane.showMessageDialog(this, "PARABÉNS!! Agora é possivel treinar: \n" + mensagem, "Sugestão de Manobra", JOptionPane.INFORMATION_MESSAGE);
     }
-    
-    public void atualizaStatus(int id,int status) throws SQLException{
+
+    public void addDicaManobra(int idManobra) {
+        if (formCadastrarDicaManobra == null) {
+            formCadastrarDicaManobra = new FormAdicionarDicaManobra(this, idManobra);
+        }
+        formCadastrarDicaManobra.setVisible(true);
+        formCadastrarDicaManobra.toFront();
+
+    }
+
+    public void validarCamposObrigatorios() {
+        if (txtProgressoTreino.getText().trim().isEmpty() || txtQntddiaTreinando.getText().trim().isEmpty()) {
+            this.lblinfo.setText("Preencha todo os campos corretamente!\n");
+            throw new CampoObrigatorioException();
+        }
+        //this.lblinfo.setText("Info");
+    }
+
+    public void verificaQuantidadeDigitos() {
+        if (txtProgressoTreino.getText().trim().length() > 3) {
+            this.lblinfo.setText("Campo progresso deve ser preenchido com até 3 digitos!\n");
+            throw new CampoObrigatorioException();
+        }
+
+        int x = Integer.parseInt(txtProgressoTreino.getText());
+        if (x > 100) {
+            this.lblinfo.setText("Campo progresso deve ser preenchido até 100\n");
+            throw new CampoObrigatorioException();
+        }
+
+        if (txtQntddiaTreinando.getText().trim().length() < 0) {
+            this.lblinfo.setText("Campo quandtidade de dias deve ter no minimo 2 dias!");
+            throw new CampoObrigatorioException();
+        }
+        //this.lblinfo.setText("Info");
+    }
+
+    public void atualizaStatus(int id, int status) throws SQLException {
         ManobraBO manobraBO = new ManobraBO();
-        manobraBO.atualizaStatus(id,status);
-    
+        manobraBO.atualizaStatus(id, status);
+
     }
 
     private void recuperarCamposTela() {
@@ -301,8 +353,9 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblManobra;
-    private javax.swing.JFormattedTextField txtProgressoTreino;
-    private javax.swing.JFormattedTextField txtQntddiaTreinando;
+    private javax.swing.JLabel lblinfo;
+    private javax.swing.JTextField txtProgressoTreino;
+    private javax.swing.JTextField txtQntddiaTreinando;
     // End of variables declaration//GEN-END:variables
 
     int verificaEditarOuSalvar;
@@ -315,5 +368,21 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         this.verificaEditarOuSalvar = verificaEditarOuSalvar;
 
     }
+
+    private void confirmarEdicao() throws CampoObrigatorioException, ParseException, SQLException {
+      this.treinoBO = new TreinoBO();
+                boolean retornoDaVerificacao = treinoBO.verificaTreinoConcluido(treinoEmEdicao);
+
+                if (retornoDaVerificacao) {
+                    int resposta;
+                    String mensagem = "Desseja realmente editar o treino selecionado? Ele já atingiu 100% anteriormente!";
+                    String titulo = "Exclusão de treino";
+                    resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
+                    if (resposta == JOptionPane.YES_NO_OPTION) {
+                        this.atualizar();
+                    }
+                } else {
+                    this.atualizar();
+                }}
 
 }

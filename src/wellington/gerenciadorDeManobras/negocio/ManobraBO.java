@@ -37,12 +37,7 @@ public class ManobraBO {
         manobraDAO.atualizar(manobra);
     }
     
-    public void validarCamposObrigatorios(Manobra m) throws CampoObrigatorioException {
-        if (m.getNome().trim().isEmpty()) {
-            throw new CampoObrigatorioException();
-
-        }
-    }
+  
 
     public void atualizaStatus(int id, int status) throws SQLException {
         ManobraDAO manobraDAO = new ManobraDAO();

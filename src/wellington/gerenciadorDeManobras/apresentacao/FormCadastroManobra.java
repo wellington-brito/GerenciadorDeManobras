@@ -33,6 +33,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     private FormAdicionarRequisito formAddRequisito;
     public int verificaEditarOuSalvar;
     private Categoria categoria;
+    private ManobraBO manobraBO;
     String item = " ";
 
     /**
@@ -107,18 +108,6 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         }
     }
 
-//    public void carregarComboStatus() {
-//        cbxStatusManobra.removeAllItems();
-//        for (int x = 0; x <= 1; x++) {
-//            if (x == 0) {
-//                cbxStatusManobra.addItem("Já sei fazer");
-//            } else if (x == 1) {
-//                cbxStatusManobra.addItem("Não sei fazer");
-//            } else {
-//                cbxStatusManobra.addItem("Status inexistente");
-//            }
-//        }
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -137,9 +126,11 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         cbxCategoriaManobras = new javax.swing.JComboBox();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        lblinfo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Manobra");
+        setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrar Manobra", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
@@ -181,27 +172,34 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             }
         });
 
+        lblinfo.setText("info");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNomeManobra)
-                    .addComponent(txtNomeManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblDificuldade3)
-                    .addComponent(cbxCategoriaManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbxGrauDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDificuldade))
-                .addGap(18, 18, 18)
-                .addComponent(btnSalvar)
-                .addGap(18, 18, 18)
-                .addComponent(btnCancelar)
-                .addContainerGap(104, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNomeManobra)
+                            .addComponent(txtNomeManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDificuldade3)
+                            .addComponent(cbxCategoriaManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbxGrauDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDificuldade))
+                        .addGap(26, 26, 26)
+                        .addComponent(btnSalvar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancelar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblinfo)))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,13 +214,15 @@ public class FormCadastroManobra extends javax.swing.JFrame {
                     .addComponent(txtNomeManobra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbxCategoriaManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbxGrauDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(lblinfo)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -238,11 +238,11 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(721, 186));
+        setSize(new java.awt.Dimension(721, 211));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -266,13 +266,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            try {
-                this.incluirManobra();
-                this.carregaTelaAddRequisito();
-                this.dispose();
-            } catch (SQLException ex) {
-                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            this.incluirManobra();
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -285,11 +279,12 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         try {
             this.getItemComboCategorias(cbxCategoriaManobras.getSelectedItem().toString());
             this.recuperarCamposTela();
-            ManobraBO manobraBO = new ManobraBO();
-            manobraBO.validarCamposObrigatorios(manobraEmEdicao);
+            this.manobraBO = new ManobraBO();
+            this.validarCamposObrigatorios();
+            this.verificarManobra(manobraEmEdicao);
             manobraBO.inserir(manobraEmEdicao);
-
             JOptionPane.showMessageDialog(this, "Manobra cadastrada com sucesso!", "Nova manobra", JOptionPane.INFORMATION_MESSAGE);
+            this.carregaTelaAddRequisito();
             this.limparCamposTela();
             this.infoManobra.carregarTabelaDeManobras();
 
@@ -306,12 +301,21 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
         this.getItemComboCategorias(cbxCategoriaManobras.getSelectedItem().toString());                 //recuperar valor selecionado no combobox de categoria, para poder resgatar o id do banco de dados e não do indice do combobox
         this.recuperarCamposTela();
-        ManobraBO manobraBO = new ManobraBO();
-        manobraBO.validarCamposObrigatorios(manobraEmEdicao);
+        this.manobraBO = new ManobraBO();
+        this.validarCamposObrigatorios();
         manobraBO.atualizar(manobraEmEdicao);
         JOptionPane.showMessageDialog(this, "Dados da manobra alterado com sucesso", "Ediçao de manobra", JOptionPane.INFORMATION_MESSAGE);
         this.limparCamposTela();
         this.infoManobra.carregarTabelaDeManobras();
+    }
+
+    public void validarCamposObrigatorios() throws CampoObrigatorioException {
+        if (txtNomeManobra.getText().trim().isEmpty()) {
+            this.lblinfo.setText("Campo nome manobra deve ser preenchido!");
+            this.lblinfo.setText("Info");
+            throw new CampoObrigatorioException();
+        }
+
     }
 
     public void inicializaCampoNomeManobra() {
@@ -328,6 +332,17 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             if (categoria.getNome().equals(item)) {
                 posicaoSelecionada3 = categoria.getId();
                 manobraEmEdicao.setCategoria(posicaoSelecionada3);
+            }
+        }
+    }
+
+    public void verificarManobra(Manobra manobra) throws SQLException {
+        this.manobraBO = new ManobraBO();
+        this.manobras = manobraBO.buscarTodasManobras();
+        for (Manobra m : manobras) {
+            if (manobraEmEdicao.getNome().equals(m.getNome())) {
+                JOptionPane.showMessageDialog(this, "Uma manobra com o mesmo nome ja existe no sistema!", "Adicionar  manobra", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
             }
         }
     }
@@ -354,6 +369,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     private javax.swing.JLabel lblDificuldade;
     private javax.swing.JLabel lblDificuldade3;
     private javax.swing.JLabel lblNomeManobra;
+    private javax.swing.JLabel lblinfo;
     private javax.swing.JTextField txtNomeManobra;
     // End of variables declaration//GEN-END:variables
 

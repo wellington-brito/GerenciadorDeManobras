@@ -72,13 +72,13 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaRequisitos = new javax.swing.JTable();
-        btnAlterarRequisito = new javax.swing.JButton();
         btnExcluirRequisito = new javax.swing.JButton();
         btnFecharTela = new javax.swing.JButton();
         lblDica = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Requisitos");
+        setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Requisitos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
@@ -94,13 +94,6 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(tabelaRequisitos);
-
-        btnAlterarRequisito.setText("Editar");
-        btnAlterarRequisito.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAlterarRequisitoActionPerformed(evt);
-            }
-        });
 
         btnExcluirRequisito.setText("Excluir");
         btnExcluirRequisito.addActionListener(new java.awt.event.ActionListener() {
@@ -122,19 +115,18 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblDica))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(626, 626, 626)
-                        .addComponent(btnAlterarRequisito)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnExcluirRequisito)
-                        .addGap(11, 11, 11)
-                        .addComponent(btnFecharTela)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDica, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnExcluirRequisito)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnFecharTela)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -144,12 +136,11 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDica, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExcluirRequisito, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAlterarRequisito, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFecharTela, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -158,8 +149,8 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,7 +160,7 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(907, 500));
+        setSize(new java.awt.Dimension(749, 493));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     private void btnExcluirRequisitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirRequisitoActionPerformed
@@ -179,15 +170,6 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
     private void btnFecharTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharTelaActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnFecharTelaActionPerformed
-
-    private void btnAlterarRequisitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarRequisitoActionPerformed
-        try {
-            this.editarRequisito();
-            this.formEditarRequisito.setFormRequisitos(1);
-        } catch (SQLException ex) {
-            Logger.getLogger(GerenciarRequisitos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnAlterarRequisitoActionPerformed
 
      public void carregarTabelaDeRequisitos() throws SQLException {
         RequisitoBO requisitoBO = new RequisitoBO();
@@ -243,7 +225,6 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAlterarRequisito;
     private javax.swing.JButton btnExcluirRequisito;
     private javax.swing.JButton btnFecharTela;
     private javax.swing.JPanel jPanel1;
@@ -287,7 +268,7 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
 
             if (columnIndex == 0){
                 for (Manobra m : manobras) {
-                    if (r.getIdManobraRecente() == m.getId()) {
+                    if (r.getIdManobra() == m.getId()) {
                         return m.getNome();
                     }
                 }

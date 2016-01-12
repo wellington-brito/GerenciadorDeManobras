@@ -9,12 +9,10 @@ package wellington.gerenciadorDeManobras.entidade;
  *
  * @author Wellington
  */
-public class Requisito {
-
-    
+public class Dica {
     private int id;
     private int idManobra;
-    private int idManobraRequisito;
+    private String descricao;
 
     public int getId() {
         return id;
@@ -23,20 +21,21 @@ public class Requisito {
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public int getIdManobra() {
         return idManobra;
     }
 
-    public void setIdManobra(int idManobraRecente) {
-        this.idManobra = idManobraRecente;
+    public void setIdManobra(int idManobra) {
+        this.idManobra = idManobra;
     }
 
-    public int getIdManobraRequisito() {
-        return idManobraRequisito;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setIdManobraRequisito(int idManobraRequisito) {
-        this.idManobraRequisito = idManobraRequisito;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
+    
 }

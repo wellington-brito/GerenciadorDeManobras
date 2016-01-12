@@ -66,7 +66,7 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
     public void prepararTelaEditar() throws SQLException {
         try {
             this.initComponents();
-            this.inicializaCampoNomeManobraEditar();
+           // this.inicializaCampoNomeManobraEditar();
             this.carregarComboManobras();
         } catch (Exception e) {
             String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
@@ -80,21 +80,21 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
         txtManobraRecente.setText(manobraEmEdicao.getNome());
     }
 
-    public void inicializaCampoNomeManobraEditar() {
-        try {
-            ManobraBO manobraBO = new ManobraBO();
-            manobras = manobraBO.buscarTodasManobras();
-            for (Manobra m : manobras) {
-
-                if (this.requisitoEmEdicao.getIdManobraRecente() == m.getId()) {
-                    int x = requisitoEmEdicao.getIdManobraRecente();
-                    txtManobraRecente.setText("teste");
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(FormAdicionarRequisito.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void inicializaCampoNomeManobraEditar() {
+//        try {
+//            ManobraBO manobraBO = new ManobraBO();
+//            manobras = manobraBO.buscarTodasManobras();
+//            for (Manobra m : manobras) {
+//
+//                if (this.requisitoEmEdicao.getIdManobra() == m.getId()) {
+//                    int x = requisitoEmEdicao.getIdManobra();
+//                    txtManobraRecente.setText("teste");
+//                }
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(FormAdicionarRequisito.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     @Override
     public void setVisible(boolean exibir) {
@@ -138,6 +138,7 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adicinar Reqisito de manobra");
+        setExtendedState(6);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Requisito de manobra", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
@@ -254,7 +255,7 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
         requisitoEmEdicao = new Requisito();
         for (Manobra m : manobras) {
             if (m.getNome().equals(txtManobraRecente.getText())) {
-                requisitoEmEdicao.setIdManobraRecente(m.getId());// null pointer exception bem aqui
+                requisitoEmEdicao.setIdManobra(m.getId());// null pointer exception bem aqui
             }
         }
         for (Manobra m : manobras) {

@@ -11,20 +11,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import wellington.gerenciadorDeManobras.entidade.Dica;
 import wellington.gerenciadorDeManobras.entidade.Requisito;
 
 /**
  *
  * @author Wellington
  */
-public class RequisitoDAO {
-
-    private static final String SQL_INSERT = "INSERT INTO REQUISITO (IDMANOBRA, IDMANOBRAREQUISITO) VALUES (?, ?)";
-    private static final String SQl_BUSCAR_REQUISITOS = "SELECT ID, IDMANOBRA, IDMANOBRAREQUISITO FROM REQUISITO";
-    private static final String SQL_DELETE = "DELETE FROM REQUISITO WHERE ID = ?";
+public class DicaDAO {
+   private static final String SQL_INSERT = "INSERT INTO DICA (IDMANOBRA, DESCRICAO) VALUES (?, ?)";
+    private static final String SQl_BUSCAR_DICAS = "SELECT ID, IDMANOBRA, DESCRICAO FROM DICA";
+    private static final String SQL_DELETE = "DELETE FROM DICA WHERE ID = ?";
    
     
-    public void incluirRequisito(Requisito requisitoEmEdicao) throws SQLException {
+    public void incluirDica(Dica dicaEmEdicao) throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
 
@@ -34,8 +34,8 @@ public class RequisitoDAO {
             //Cria o comando de inserir dados
             comando = conexao.prepareStatement(SQL_INSERT);
             //Atribui os parâmetros (Note que no BD o index inicia por 1)
-            comando.setInt(1, requisitoEmEdicao.getIdManobra());
-            comando.setInt(2, requisitoEmEdicao.getIdManobraRequisito());
+            comando.setInt(1, dicaEmEdicao.getIdManobra());
+            comando.setString(2, dicaEmEdicao.getDescricao());
 
             //Executa o comando
             comando.execute();
@@ -55,43 +55,43 @@ public class RequisitoDAO {
         }
     }
 
-    public List<Requisito> buscarTodosRequisitosEspecificos() throws SQLException {
+    public List<Dica> buscarTodosRequisitosEspecificos() throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
         ResultSet resultado = null;
-        List<Requisito> listaRequisitos = new ArrayList<>();
+        List<Dica> listaDicas = new ArrayList<>();
         try {
             //Recupera a conexão
             conexao = BancoDadosUtil.getConnection();
             //Cria o comando de consulta dos dados
-            comando = conexao.prepareStatement(SQl_BUSCAR_REQUISITOS);
+            comando = conexao.prepareStatement(SQl_BUSCAR_DICAS);
             //Executa o comando e obtém o resultado da consulta
             resultado = comando.executeQuery();
             //O método next retornar boolean informando se existe um próximo
             //elemento para iterar
             while (resultado.next()) {
-                 Requisito requisito = this.buscarTodosRequisitosEspecificos(resultado);
+                 Dica dica = this.buscarTodasDicas(resultado);
                 //Adiciona um item à lista que será retornada
-                listaRequisitos.add(requisito);
+                listaDicas.add(dica);
             }
         } finally {
             //Todo objeto que referencie o banco de dados deve ser fechado
             BancoDadosUtil.fecharChamadasBancoDados(conexao, comando, resultado);
         }
-        return listaRequisitos;
+        return listaDicas;
     }
 
-    private Requisito buscarTodosRequisitosEspecificos(ResultSet resultado) throws SQLException {
+    private Dica buscarTodasDicas(ResultSet resultado) throws SQLException {
         //Instancia um novo objeto e atribui os valores vindo do BD
         //(Note que no BD o index inicia por 1)
-        Requisito requisito = new Requisito();
-        requisito.setId(resultado.getInt(1));
-        requisito.setIdManobra(resultado.getInt(2));
-        requisito.setIdManobraRequisito(resultado.getInt(3));
-        return requisito;
+        Dica dica = new Dica();
+        dica.setId(resultado.getInt(1));
+        dica.setIdManobra(resultado.getInt(2));
+        dica.setDescricao(resultado.getString(3));
+        return dica;
     }
 
-    public void removerRequisito(int id) throws SQLException {
+    public void removerDica(int id) throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
         ///id = 4;
@@ -120,4 +120,6 @@ public class RequisitoDAO {
     }
 }
 
+
+  
 

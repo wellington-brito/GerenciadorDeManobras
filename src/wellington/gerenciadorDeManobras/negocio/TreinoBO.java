@@ -6,6 +6,7 @@
 package wellington.gerenciadorDeManobras.negocio;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
@@ -29,16 +30,9 @@ public class TreinoBO {
         treinoDAO.inserir(treino);
     }
 
-    public void validarCamposObrigatoriosIdManobra(Treino t) throws CampoObrigatorioException {
-        if (t.getIdManobra() == 0 ) {
-            throw new CampoObrigatorioException();
-        }
-    }
-
 //    public void validarCamposObrigatoriosAtualizar(Treino t) throws CampoObrigatorioException {
 //       
 //    }
-
     public void atualizar(Treino treinoEmEdicao) throws SQLException {
         TreinoDAO treinoDAO = new TreinoDAO();
         treinoDAO.atualizar(treinoEmEdicao);
@@ -66,5 +60,13 @@ public class TreinoBO {
 //            return idManobrasSugeridas;
         }
         return listaRquisitos;
+    }
+
+    public boolean verificaTreinoConcluido(Treino treinoEmEdicao) throws SQLException, CampoObrigatorioException, ParseException {
+        if(treinoEmEdicao.getProgresso() == 100) {
+            return true;
+        }else{
+            return false;
+        }
     }
 }

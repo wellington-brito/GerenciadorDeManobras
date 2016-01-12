@@ -9,9 +9,11 @@ package wellington.gerenciadorDeManobras.excecao;
  *
  * @author Wellington
  */
-public class NoSelectionException extends GerenciadorException{
-    public NoSelectionException(){
-        super("Por favor, selecione antes o item que deseja editar!");
+public class UsuarioDuplicadoException extends GerenciadorException{
+    
+    public UsuarioDuplicadoException(String mensagem) {
+        super(mensagem);
     }
+    
     
 }
