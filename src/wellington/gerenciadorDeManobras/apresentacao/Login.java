@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import wellington.gerenciadorDeManobras.entidade.Usuario;
+import wellington.gerenciadorDeManobras.excecao.UsuarioDuplicadoException;
 import wellington.gerenciadorDeManobras.negocio.UsuarioBO;
 
 /**
@@ -23,19 +24,20 @@ public class Login extends javax.swing.JFrame {
 
     private Inicio telaInicio;
     private Usuario usuarioEmEdicao;
-  
+
     private UsuarioBO usuarioBO;
 
     /**
      * Creates new form Login
      */
     public Login() {
-         this.usuarioEmEdicao = new Usuario();
+        this.usuarioEmEdicao = new Usuario();
         initComponents();
     }
 
     public Login(Inicio telaInicio) {
         this.usuarioEmEdicao = new Usuario();
+        initComponents();
 
     }
 
@@ -79,9 +81,9 @@ public class Login extends javax.swing.JFrame {
         getContentPane().add(btnEntrar);
         btnEntrar.setBounds(10, 200, 210, 40);
         getContentPane().add(txtSenhaNovo);
-        txtSenhaNovo.setBounds(490, 150, 210, 20);
+        txtSenhaNovo.setBounds(490, 150, 210, 30);
         getContentPane().add(txtSenha);
-        txtSenha.setBounds(10, 150, 210, 20);
+        txtSenha.setBounds(10, 150, 210, 30);
 
         lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/bmx.jpg"))); // NOI18N
         getContentPane().add(lblLogin);
@@ -107,9 +109,9 @@ public class Login extends javax.swing.JFrame {
         getContentPane().add(jLabel4);
         jLabel4.setBounds(10, 130, 190, 14);
         getContentPane().add(txtLogin1);
-        txtLogin1.setBounds(10, 100, 210, 20);
+        txtLogin1.setBounds(10, 100, 210, 30);
         getContentPane().add(txtLoginNovo);
-        txtLoginNovo.setBounds(490, 100, 210, 20);
+        txtLoginNovo.setBounds(490, 100, 210, 30);
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel5.setText("Senha:");
@@ -127,7 +129,6 @@ public class Login extends javax.swing.JFrame {
 
     private void btnAdicionarNovoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarNovoUserActionPerformed
         try {
-            this.usuarioBO.verificauUsuarioDuplicado(usuarioEmEdicao);
             this.incluiUsuario();
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,12 +157,20 @@ public class Login extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void incluiUsuario() throws NoSuchAlgorithmException, UnsupportedEncodingException, SQLException {
-        this.usuarioEmEdicao = new Usuario();
-        this.recuperarCamposTela();
-
+        
         this.usuarioBO = new UsuarioBO();
-        this.usuarioBO.incluirUsuario(usuarioEmEdicao);
-        JOptionPane.showMessageDialog(this, "Novo usuário cadastrado com sucesso! Agora Tente Efetuar seu Login!", "Nova Usuário", JOptionPane.INFORMATION_MESSAGE);
+        //boolean        
+        this.recuperarCamposTela();
+        if (this.usuarioBO.verificauUsuarioDuplicado(usuarioEmEdicao)) {
+            //throw new UsuarioDuplicadoException("Nome de usuário indisponivel tente outro nome!");                
+            JOptionPane.showMessageDialog(this, "Nome de usuário indisponivel tente outro nome!", "Novo Usuário", JOptionPane.INFORMATION_MESSAGE);
+            throw new UsuarioDuplicadoException("Nome de usuário indisponivel tente outro nome!");
+        } else {
+             
+            this.usuarioBO = new UsuarioBO();
+            this.usuarioBO.incluirUsuario(usuarioEmEdicao);
+            JOptionPane.showMessageDialog(this, "Novo usuário cadastrado com sucesso! Agora Tente Efetuar seu Login!", "Novo Usuário", JOptionPane.INFORMATION_MESSAGE);
+        }
 
     }
 
@@ -170,5 +179,4 @@ public class Login extends javax.swing.JFrame {
         usuarioEmEdicao.setSenha(txtSenhaNovo.getText());
     }
 
-   
 }

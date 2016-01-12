@@ -282,7 +282,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             this.manobraBO = new ManobraBO();
             this.validarCamposObrigatorios();
             this.verificarManobra(manobraEmEdicao);
-            manobraBO.inserir(manobraEmEdicao);
+            this.manobraBO.inserir(manobraEmEdicao);
             JOptionPane.showMessageDialog(this, "Manobra cadastrada com sucesso!", "Nova manobra", JOptionPane.INFORMATION_MESSAGE);
             this.carregaTelaAddRequisito();
             this.limparCamposTela();

@@ -20,12 +20,12 @@ import wellington.gerenciadorDeManobras.persistencia.UsuarioDAO;
  * @author Wellington
  */
 public class UsuarioBO {
-    
+
     private UsuarioBO usuarioBO;
-    private   List<Usuario> usuarios;
+    private List<Usuario> usuarios;
 
     public void incluirUsuario(Usuario usuarioEmEdicao) throws NoSuchAlgorithmException, UnsupportedEncodingException, SQLException {
-        
+
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         usuarioEmEdicao.setSenha(this.exemploMD5(usuarioEmEdicao.getSenha()));
         usuarioDAO.incluirUsuario(usuarioEmEdicao);
@@ -49,23 +49,20 @@ public class UsuarioBO {
         return codigoHashFinal;
     }
 
-    
-     public void verificauUsuarioDuplicado(Usuario usuarioEmEdicao) throws SQLException {
+    public boolean verificauUsuarioDuplicado(Usuario usuarioEmEdicao) throws SQLException {
         this.usuarioBO = new UsuarioBO();
         this.usuarios = usuarioBO.buscarUsuarios();
-
+        String nomeUsuario = usuarioEmEdicao.getLogin();
         for (Usuario user : usuarios) {
-            if (usuarioEmEdicao.getLogin() == user.getLogin()) {
-                throw new UsuarioDuplicadoException("Nome de usuário indisponivel tente outro nome!");               
-                
-             //   JOptionPane.showMessageDialog(this, "Nome de usuário indisponivel tente outro nome!", "Nova Usuário", JOptionPane.INFORMATION_MESSAGE);
-
+            if (user.getLogin().equals(nomeUsuario)) {
+                return true;                               
             }
         }
+        return false;
     }
-     
+
     public List<Usuario> buscarUsuarios() throws SQLException {
-       UsuarioDAO usuarioDAO = new UsuarioDAO();
-       return usuarioDAO.buscarUsuarios();
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        return usuarioDAO.buscarUsuarios();
     }
 }

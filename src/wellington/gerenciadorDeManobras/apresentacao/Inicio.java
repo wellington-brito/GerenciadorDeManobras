@@ -11,6 +11,7 @@ package wellington.gerenciadorDeManobras.apresentacao;
  */
 public class Inicio extends javax.swing.JFrame {
 
+    private Inicio inicio;
     private Login abrirFormLogin;
     /**
      * Creates new form Inicio
@@ -18,7 +19,8 @@ public class Inicio extends javax.swing.JFrame {
     public Inicio() {
         initComponents();
     }
-
+    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
