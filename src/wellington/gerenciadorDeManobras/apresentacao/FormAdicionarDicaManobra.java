@@ -152,8 +152,8 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
         this.dicaEmEdicao.setIdManobra(idManobra);
         DicaBO dicaBO = new DicaBO();
         dicaBO.incluirNovaDica(dicaEmEdicao);
-        JOptionPane.showMessageDialog(this, "Dica cadastrada com sucesso", "Adicionar dica", JOptionPane.INFORMATION_MESSAGE);
-        this.formCadastrarEditarTreino.sugerirNovoTreino();
+        JOptionPane.showMessageDialog(this, "Dica cadastrada com sucesso", "Nova dica", JOptionPane.INFORMATION_MESSAGE);
+       // this.formCadastrarEditarTreino.sugerirNovoTreino();
         this.dispose();
     
     }

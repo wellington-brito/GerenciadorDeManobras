@@ -28,11 +28,13 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
     private List<Manobra> manobras;
    // private FormAdicionarRequisito forVerificaEditarOuSalvarRequisito;
     private FormAdicionarRequisito formEditarRequisito;
+    private int idUsuario;
 
     /**
      * Creates new form GerenciarRequisitos
      */
-    public GerenciarRequisitos() throws SQLException {
+    public GerenciarRequisitos(int idUsuario) throws SQLException {
+        this.idUsuario = idUsuario;
         this.prepararTela();
     }
 
@@ -259,7 +261,7 @@ public class GerenciarRequisitos extends javax.swing.JFrame {
         public Object getValueAt(int rowIndex, int columnIndex) {
             try {
                 ManobraBO manobraBO = new ManobraBO();
-                manobras = manobraBO.buscarTodasManobras();
+                manobras = manobraBO.buscarTodasManobras(idUsuario);
             } catch (SQLException ex) {
                 Logger.getLogger(GerenciarRequisitos.class.getName()).log(Level.SEVERE, null, ex);
             }

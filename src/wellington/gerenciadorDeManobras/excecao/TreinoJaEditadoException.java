@@ -9,9 +9,9 @@ package wellington.gerenciadorDeManobras.excecao;
  *
  * @author Wellington
  */
-public class TreinoDuplicadoException extends GerenciadorException {    
-    public TreinoDuplicadoException() {
-        super("Treino desta manobra já existe!");
+public class TreinoJaEditadoException extends GerenciadorException {    
+    public TreinoJaEditadoException() {
+        super("Treino desta manobra já foi editado ao 100%");
     }
     
 }

@@ -128,7 +128,7 @@
                                   <Component id="btnEditarManobra" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="btnTreinos" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
                                   <Component id="btnExcluirManobra" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="btnSair" min="-2" max="-2" attributes="0"/>
@@ -152,9 +152,9 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnSair" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
                       <Component id="btnNovaManobra1" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
-                      <Component id="btnEditarManobra" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
                       <Component id="btnExcluirManobra" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
                       <Component id="btnTreinos" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                      <Component id="btnEditarManobra" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>

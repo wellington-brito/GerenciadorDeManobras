@@ -19,8 +19,8 @@ import wellington.gerenciadorDeManobras.entidade.Manobra;
  */
 public class ManobraDAO {
 
-    private static final String SQL_INSERT = "INSERT INTO MANOBRA (NOME, DIFICULDADE, STATUS, ID_CATEGORIA) VALUES (?, ?, ?, ?)";
-    private static final String SQL_SELECT_MANOBRAS = "SELECT ID, NOME, DIFICULDADE, STATUS, ID_CATEGORIA  FROM MANOBRA ORDER BY NOME";
+    private static final String SQL_INSERT = "INSERT INTO MANOBRA (NOME, IDUSUARIO, DIFICULDADE, STATUS, ID_CATEGORIA) VALUES (?, ?, ?, ?, ?)";
+    private static final String SQL_SELECT_MANOBRAS = "SELECT ID, NOME, DIFICULDADE, STATUS, ID_CATEGORIA  FROM MANOBRA WHERE IDUSUARIO = ?";
     private static final String SQL_DELETE = "DELETE FROM MANOBRA WHERE ID = ?";
     private static final String SQL_UPDATE = "UPDATE MANOBRA SET  NOME = ?, DIFICULDADE = ?, ID_CATEGORIA = ?, STATUS = ?  WHERE ID = ?";
     private static final String SQL_UPDATE_STATUS = "UPDATE MANOBRA SET  STATUS = ?  WHERE ID = ?";
@@ -37,9 +37,10 @@ public class ManobraDAO {
             comando = conexao.prepareStatement(SQL_INSERT);
             //Atribui os parâmetros (Note que no BD o index inicia por 1)
             comando.setString(1, manobra.getNome());
-            comando.setInt(2, manobra.getDificuldade());
-            comando.setInt(3, manobra.getStatus());
-            comando.setInt(4, manobra.getCategoria());
+            comando.setInt(2,manobra.getIdUsuario());
+            comando.setInt(3, manobra.getDificuldade());
+            comando.setInt(4, manobra.getStatus());
+            comando.setInt(5, manobra.getCategoria());
 
             //Executa o comando
             comando.execute();
@@ -59,7 +60,7 @@ public class ManobraDAO {
         }
     }
 
-    public List<Manobra> buscarTodasManobras() throws SQLException {
+    public List<Manobra> buscarTodasManobras(int idUsuario) throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
         ResultSet resultado = null;
@@ -69,6 +70,7 @@ public class ManobraDAO {
             conexao = BancoDadosUtil.getConnection();
             //Cria o comando de consulta dos dados
             comando = conexao.prepareStatement(SQL_SELECT_MANOBRAS);
+            comando.setInt(1, idUsuario);
             //Executa o comando e obtém o resultado da consulta
             resultado = comando.executeQuery();
             //O método next retornar boolean informando se existe um próximo

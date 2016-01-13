@@ -25,5 +25,10 @@ public class DicaBO {
         DicaDAO dicaDAO = new DicaDAO();
         return dicaDAO.buscarTodasDicas();
     }
+
+    public void removerDica(int id) throws SQLException {
+        DicaDAO dicaDAO =  new DicaDAO();
+        dicaDAO.removerDica(id);    
+    }
     
 }

@@ -22,9 +22,9 @@ public class ManobraBO {
         manobraDAO.inserir(manobraEmEdicao);
     }
 
-    public List<Manobra> buscarTodasManobras() throws SQLException {
+    public List<Manobra> buscarTodasManobras(int idUsuario) throws SQLException {
         ManobraDAO manobraDAO = new ManobraDAO();
-        return manobraDAO.buscarTodasManobras();
+        return manobraDAO.buscarTodasManobras(idUsuario);
     }
 
     public void removerManobra(int id) throws SQLException {

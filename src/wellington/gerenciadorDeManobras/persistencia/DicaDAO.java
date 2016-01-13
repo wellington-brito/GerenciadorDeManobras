@@ -35,7 +35,8 @@ public class DicaDAO {
             comando = conexao.prepareStatement(SQL_INSERT);
             //Atribui os parâmetros (Note que no BD o index inicia por 1)
             comando.setInt(1, dicaEmEdicao.getIdManobra());
-            comando.setString(2, dicaEmEdicao.getDescricao());
+            comando.setInt(2, dicaEmEdicao.getIdUsuario());
+            comando.setString(3, dicaEmEdicao.getDescricao());
 
             //Executa o comando
             comando.execute();

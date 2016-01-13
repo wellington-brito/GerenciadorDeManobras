@@ -35,17 +35,19 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     private Categoria categoria;
     private ManobraBO manobraBO;
     String item = " ";
+    private int idUsuario;
 
     /**
      * Creates metodos construtuores FormCadastroManobra
      */
     public FormCadastroManobra(GerenciarManobrasTelaInicial infoManobras, Manobra manobraSelecionada) throws ParseException, SQLException {
-        this(infoManobras);
+       // this(infoManobras);
         this.manobraEmEdicao = manobraSelecionada;
         this.inicializaCampoNomeManobra();
     }
 
-    public FormCadastroManobra(GerenciarManobrasTelaInicial infoManobras) throws ParseException, SQLException {
+    public FormCadastroManobra(GerenciarManobrasTelaInicial infoManobras, int idUsuario) throws ParseException, SQLException {
+        this.idUsuario = idUsuario;
         this.infoManobra = infoManobras;
         this.manobraEmEdicao = new Manobra();
         this.initComponents();
@@ -100,8 +102,6 @@ public class FormCadastroManobra extends javax.swing.JFrame {
                 cbxGrauDificuldade.addItem("mediana");
             } else if (x == 3) {
                 cbxGrauDificuldade.addItem("difícil");
-            } else if (x == 4) {
-                cbxGrauDificuldade.addItem("muito dificíl");
             } else {
                 cbxGrauDificuldade.addItem("Dificuldade inexistente");
             }
@@ -324,6 +324,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
     private void recuperarCamposTela() throws ParseException {
         manobraEmEdicao.setNome(txtNomeManobra.getText());
+        manobraEmEdicao.setIdUsuario(idUsuario);
         int posicaoSelecionada1 = cbxGrauDificuldade.getSelectedIndex();
         manobraEmEdicao.setDificuldade(posicaoSelecionada1);
 
@@ -334,11 +335,13 @@ public class FormCadastroManobra extends javax.swing.JFrame {
                 manobraEmEdicao.setCategoria(posicaoSelecionada3);
             }
         }
+        
+        
     }
 
     public void verificarManobra(Manobra manobra) throws SQLException {
         this.manobraBO = new ManobraBO();
-        this.manobras = manobraBO.buscarTodasManobras();
+        this.manobras = manobraBO.buscarTodasManobras(idUsuario);
         for (Manobra m : manobras) {
             if (manobraEmEdicao.getNome().equals(m.getNome())) {
                 JOptionPane.showMessageDialog(this, "Uma manobra com o mesmo nome ja existe no sistema!", "Adicionar  manobra", JOptionPane.INFORMATION_MESSAGE);
@@ -353,7 +356,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
     public void carregaTelaAddRequisito() throws SQLException {
         if (formAddRequisito == null) {
-            formAddRequisito = new FormAdicionarRequisito(manobraEmEdicao);
+            formAddRequisito = new FormAdicionarRequisito(manobraEmEdicao, idUsuario);
         }
         formAddRequisito.setVisible(true);
         formAddRequisito.toFront();

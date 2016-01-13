@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import wellington.gerenciadorDeManobras.entidade.Dica;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
@@ -26,7 +27,7 @@ public class GerenciarDicas extends javax.swing.JFrame {
     private DicaBO dicaBO;
     private List<Manobra> manobras;
     private GerenciarManobrasTelaInicial gerenciarManobrasTelaInicial;
-
+    private int idUsuario;
     /**
      * Creates new form GerenciarDicas
      */
@@ -35,7 +36,8 @@ public class GerenciarDicas extends javax.swing.JFrame {
         this.carregarTabelaDeDicas();
     }
 
-    GerenciarDicas(GerenciarManobrasTelaInicial gerenciarManobrasTelaInicial) throws SQLException {
+    GerenciarDicas(GerenciarManobrasTelaInicial gerenciarManobrasTelaInicial, int idUsuario) throws SQLException {
+       this.idUsuario = idUsuario;
         this.gerenciarManobrasTelaInicial = gerenciarManobrasTelaInicial;
         initComponents();
         this.carregarTabelaDeDicas();
@@ -143,7 +145,7 @@ public class GerenciarDicas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExcluirRequisitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirRequisitoActionPerformed
-        // this.excluirRequisito();
+        this.excluirRequisito();
     }//GEN-LAST:event_btnExcluirRequisitoActionPerformed
 
     private void btnFecharTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharTelaActionPerformed
@@ -165,6 +167,37 @@ public class GerenciarDicas extends javax.swing.JFrame {
         this.dicas = this.dicaBO.buscarTodasDicas();
         ModeloTabelaDicas modelo = new ModeloTabelaDicas();
         tabelaDicas.setModel(modelo);
+    }
+
+    private void excluirRequisito() {
+        
+          try {
+            int linhaSelecionada = tabelaDicas.getSelectedRow();
+            if (linhaSelecionada != -1) {
+                Dica dicaSelecionada = dicas.get(linhaSelecionada);
+
+                int resposta;
+                String mensagem = "Desseja excluir a dica selecionada";
+                String titulo = "Exclusão de dica";
+                resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
+
+                if (resposta == JOptionPane.YES_NO_OPTION) {
+                    DicaBO dicaBO = new DicaBO();
+                    dicaBO.removerDica(dicaSelecionada.getId());
+                    mensagem = "Dica excluída com sucesso!";
+                    JOptionPane.showMessageDialog(this, mensagem, "Exclusão de dica", JOptionPane.INFORMATION_MESSAGE);
+                    this.carregarTabelaDeDicas();
+                }
+            } else {
+                String mensagem = "Selecione uma categoria antes!";
+                JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception e) {
+            String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
+            mensagem += "\nMensagem de erro:\n" + e.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria ", JOptionPane.ERROR_MESSAGE);
+            this.dispose();
+        }
     }
 
     //classe interna
@@ -202,7 +235,7 @@ public class GerenciarDicas extends javax.swing.JFrame {
             if (columnIndex == 0) {
                 try {
                     ManobraBO manobraBO = new ManobraBO();
-                    manobras = manobraBO.buscarTodasManobras();
+                    manobras = manobraBO.buscarTodasManobras(idUsuario);
 
                     for (Dica dica : dicas) {
                         for (Manobra m : manobras) {

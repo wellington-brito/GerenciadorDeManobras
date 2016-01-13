@@ -10,8 +10,7 @@ package wellington.gerenciadorDeManobras.entidade;
  * @author were
  */
 public class Usuario {
-    private int id;
-  
+    private int id;  
     private int idDica;
     private String login;
     private String senha;

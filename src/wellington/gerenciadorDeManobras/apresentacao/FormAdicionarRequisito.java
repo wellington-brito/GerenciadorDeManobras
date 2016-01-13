@@ -26,12 +26,13 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
     private List<Manobra> manobras;
     public int verificaEditarOuSalvarRequisitos;
     String item = "";
+    private int idUsuario;
 
     /**
      * Creates new form FormAdicionarRequisito
      */
     public FormAdicionarRequisito(GerenciarRequisitos gerenciarRequisitos, Requisito requisitoSelecionado) throws SQLException {
-        this(gerenciarRequisitos);
+       // this(gerenciarRequisitos);
         this.requisitoEmEdicao = requisitoSelecionado;
         this.prepararTelaEditar();
         //this.manobraEmEdicao = new Manobra();
@@ -45,7 +46,8 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
         // this.prepararTela();
     }
 
-    public FormAdicionarRequisito(Manobra manobra) throws SQLException {
+    public FormAdicionarRequisito(Manobra manobra, int idUsuario) throws SQLException {
+       this.idUsuario = idUsuario;
         this.manobraEmEdicao = manobra;
         this.prepararTela();
     }
@@ -111,7 +113,7 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
 
     private void carregarComboManobras() throws SQLException {
         ManobraBO manobraBO = new ManobraBO();
-        manobras = manobraBO.buscarTodasManobras();
+        manobras = manobraBO.buscarTodasManobras(idUsuario);
         cbxManobrasRequisitos.removeAllItems();
         for (Manobra m : manobras) {
             cbxManobrasRequisitos.addItem(m.getNome());

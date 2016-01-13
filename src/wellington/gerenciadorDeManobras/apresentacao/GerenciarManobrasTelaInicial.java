@@ -7,11 +7,18 @@ package wellington.gerenciadorDeManobras.apresentacao;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.entidade.Usuario;
@@ -162,7 +169,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                                 .addComponent(btnEditarManobra)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnTreinos)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(137, 137, 137)
                                 .addComponent(btnExcluirManobra)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnSair))
@@ -180,9 +187,9 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNovaManobra1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditarManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExcluirManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTreinos, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnTreinos, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -320,7 +327,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
     private void mnuItemDicasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemDicasActionPerformed
        if(this.gerenciarDicas == null){
            try {
-               this.gerenciarDicas = new GerenciarDicas(this);
+               this.gerenciarDicas = new GerenciarDicas(this,idUsuario);
            } catch (SQLException ex) {
                Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
            }
@@ -347,7 +354,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
     private void carregarFormCadastroManobra() throws SQLException, ParseException {
         if (editarManobraForm == null) {
-            editarManobraForm = new FormCadastroManobra(this);
+            editarManobraForm = new FormCadastroManobra(this,idUsuario);
         }
         editarManobraForm.setVisible(true);
         editarManobraForm.toFront();
@@ -368,14 +375,14 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
     public void carregarTabelaDeManobras() throws SQLException {
         ManobraBO manobrasBO = new ManobraBO();
-        this.manobras = manobrasBO.buscarTodasManobras();
+        this.manobras = manobrasBO.buscarTodasManobras(idUsuario);
         ModeloTabelaManobras modelo = new ModeloTabelaManobras();
         tabelaManobras.setModel(modelo);
     }
 
     public void carregarTelaGerenciarRequisitos() throws SQLException {
         if (gerenciarRequisitos == null) {
-            gerenciarRequisitos = new GerenciarRequisitos();
+            gerenciarRequisitos = new GerenciarRequisitos(idUsuario);
         }
         gerenciarRequisitos.setVisible(true);
         gerenciarRequisitos.toFront();
@@ -413,45 +420,45 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         }
     }
 
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                try {
-//                    new GerenciarManobrasTelaInicial().setVisible(true);
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        });
-//    }
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new GerenciarManobrasTelaInicial().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraDeMenuPrincipal;
     private javax.swing.JButton btnEditarManobra;
@@ -494,6 +501,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             this.inicio.toFront();
     }
 
+    
     //classe interna
     private class ModeloTabelaManobras extends AbstractTableModel {
 
@@ -535,8 +543,6 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                     return "mediana";
                 } else if (m.getDificuldade() == 3) {
                     return "difícil";
-                } else if (m.getDificuldade() == 4) {
-                    return "muito dificíl";
                 }
                 return null;
 

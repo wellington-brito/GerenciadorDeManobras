@@ -51,6 +51,15 @@ public class Manobra {
         this.categoria = categoria;
     }
 
+    
+     public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+    
     @Override
     public String toString() {
         return "Manobra{" + "id=" + id + ", nome=" + nome + ", dificuldade=" + dificuldade + ", status=" + status + ", categoria=" + categoria + '}';
@@ -60,4 +69,7 @@ public class Manobra {
     private int dificuldade;
     private int status;
     private int categoria;
+    private int idUsuario;
+
+   
 }
