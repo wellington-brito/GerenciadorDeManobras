@@ -6,6 +6,7 @@
 package wellington.gerenciadorDeManobras.negocio;
 
 import java.sql.SQLException;
+import java.util.List;
 import wellington.gerenciadorDeManobras.entidade.Dica;
 import wellington.gerenciadorDeManobras.persistencia.DicaDAO;
 
@@ -18,6 +19,11 @@ public class DicaBO {
     public void incluirNovaDica(Dica dicaEmEdicao) throws SQLException {
         DicaDAO dicaDAO = new DicaDAO();
         dicaDAO.incluirDica(dicaEmEdicao);      
+    }
+    
+    public List<Dica> buscarTodasDicas() throws SQLException{
+        DicaDAO dicaDAO = new DicaDAO();
+        return dicaDAO.buscarTodasDicas();
     }
     
 }

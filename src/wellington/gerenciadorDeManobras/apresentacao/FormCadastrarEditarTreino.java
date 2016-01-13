@@ -15,6 +15,7 @@ import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.entidade.Requisito;
 import wellington.gerenciadorDeManobras.entidade.Treino;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
+import wellington.gerenciadorDeManobras.excecao.TreinoDuplicadoException;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
 import wellington.gerenciadorDeManobras.negocio.TreinoBO;
 
@@ -26,26 +27,29 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
 
     private List<Manobra> manobras;
     private List<Requisito> listaRquisitos;
-    private List<Treino> treinos;
+    private TreinoBO treinoBO;
     private GerenciarTreinos gerenciarTreinos;
     private Treino treinoEmEdicao;
     private FormAdicionarDicaManobra formCadastrarDicaManobra;
-    private TreinoBO treinoBO;
+
     private ManobraBO manobraBO;
     String item = "";
+    private int idUsuario;
 
     /**
      * Creates new form FormCadastrarEditarTreino
      */
-    FormCadastrarEditarTreino(GerenciarTreinos gerenciarTreinos, Treino treinoSelecionado) throws SQLException, CampoObrigatorioException, ParseException {
-        this(gerenciarTreinos);
+    FormCadastrarEditarTreino(GerenciarTreinos gerenciarTreinos, Treino treinoSelecionado, int idUsuario) throws SQLException, CampoObrigatorioException, ParseException {
+        //this(gerenciarTreinos);
+        this.idUsuario = idUsuario;
         this.treinoEmEdicao = treinoSelecionado;
         this.inicializaCampostela();
         this.confirmarEdicao();
 
     }
 
-    public FormCadastrarEditarTreino(GerenciarTreinos gerenciarTreinos) throws SQLException {
+    public FormCadastrarEditarTreino(GerenciarTreinos gerenciarTreinos, int idUsuario) throws SQLException {
+        this.idUsuario = idUsuario;
         this.gerenciarTreinos = gerenciarTreinos;
         this.treinoEmEdicao = new Treino();
         this.initComponents();
@@ -227,15 +231,23 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFecharTelaActionPerformed
 
     private void incluirTreino() throws SQLException {
-        this.treinoBO = new TreinoBO();
-        this.validarCamposObrigatorios();
-        this.verificaQuantidadeDigitos();
-        this.recuperarCamposTela();
-        treinoBO.inserir(treinoEmEdicao);
-        JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso!", "Novo Treino", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            this.treinoBO = new TreinoBO();
+            this.validarCamposObrigatorios();
+            this.verificaQuantidadeDigitos();
+            // this.treinoBO.verificarTreinos(treinoEmEdicao);
+            this.recuperarCamposTela();
+            treinoBO.inserir(treinoEmEdicao);
+            JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso", "Novo treino", JOptionPane.INFORMATION_MESSAGE);
 
-        this.limparCamposTela();
-        this.gerenciarTreinos.carregarTabelaDeTreino();
+            this.limparCamposTela();
+            this.gerenciarTreinos.carregarTabelaDeTreino();
+        } catch (TreinoDuplicadoException ex) {
+            String mensagen = "Erro ao tentar cadastrar novo treino:\n" + ex.getMessage();
+            JOptionPane.showMessageDialog(this, mensagen, "Novo Treino", JOptionPane.ERROR_MESSAGE);
+
+        }
+
     }
 
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
@@ -273,7 +285,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
 
     public void addDicaManobra(int idManobra) {
         if (formCadastrarDicaManobra == null) {
-            formCadastrarDicaManobra = new FormAdicionarDicaManobra(this, idManobra);
+            formCadastrarDicaManobra = new FormAdicionarDicaManobra(this, idManobra, idUsuario);
         }
         formCadastrarDicaManobra.setVisible(true);
         formCadastrarDicaManobra.toFront();
@@ -324,6 +336,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         }
         treinoEmEdicao.setProgresso(Integer.parseInt(txtProgressoTreino.getText()));
         treinoEmEdicao.setQntddias(Integer.parseInt(txtQntddiaTreinando.getText()));
+        treinoEmEdicao.setIdUsuario(idUsuario);
     }
 
     private void inicializaCampostela() {
@@ -370,19 +383,20 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     }
 
     private void confirmarEdicao() throws CampoObrigatorioException, ParseException, SQLException {
-      this.treinoBO = new TreinoBO();
-                boolean retornoDaVerificacao = treinoBO.verificaTreinoConcluido(treinoEmEdicao);
+        this.treinoBO = new TreinoBO();
+        boolean retornoDaVerificacao = treinoBO.verificaTreinoConcluido(treinoEmEdicao);
 
-                if (retornoDaVerificacao) {
-                    int resposta;
-                    String mensagem = "Desseja realmente editar o treino selecionado? Ele já atingiu 100% anteriormente!";
-                    String titulo = "Exclusão de treino";
-                    resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
-                    if (resposta == JOptionPane.YES_NO_OPTION) {
-                        this.atualizar();
-                    }
-                } else {
-                    this.atualizar();
-                }}
+        if (retornoDaVerificacao) {
+            int resposta;
+            String mensagem = "Desseja realmente editar o treino selecionado? Ele já atingiu 100% anteriormente!";
+            String titulo = "Exclusão de treino";
+            resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_NO_OPTION) {
+                this.atualizar();
+            }
+        } else {
+            this.atualizar();
+        }
+    }
 
 }

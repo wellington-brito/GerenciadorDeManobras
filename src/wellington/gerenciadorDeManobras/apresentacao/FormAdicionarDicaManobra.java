@@ -21,6 +21,7 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
 
     private Dica dicaEmEdicao;
     private int idManobra=0;
+    private int idUsuario;
     private FormCadastrarEditarTreino formCadastrarEditarTreino;
     /**
      * Creates new form FormAdicionarDicaManobra
@@ -29,7 +30,8 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
         initComponents();
     }
 
-    FormAdicionarDicaManobra(FormCadastrarEditarTreino formCadastrarEditarTreino, int id) {
+    FormAdicionarDicaManobra(FormCadastrarEditarTreino formCadastrarEditarTreino, int id, int idUsuario) {
+        this.idUsuario = idUsuario;
         this.formCadastrarEditarTreino = formCadastrarEditarTreino;
         this.idManobra = id;
         initComponents();
@@ -171,6 +173,7 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
     private void recuperarDica() {
         this.dicaEmEdicao = new Dica();
         this.dicaEmEdicao.setDescricao(txtDicaManobra.getText());
+        this.dicaEmEdicao.setIdUsuario(idUsuario);
         
     }
 

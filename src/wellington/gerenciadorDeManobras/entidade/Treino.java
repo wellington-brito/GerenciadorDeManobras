@@ -12,10 +12,19 @@ package wellington.gerenciadorDeManobras.entidade;
 public class Treino {
 
     private int id;
+    private int idUsuario;
     private int idManobra;
     private int progresso;
     private int qntddias;
 
+     public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+    
     public int getId() {
         return id;
     }

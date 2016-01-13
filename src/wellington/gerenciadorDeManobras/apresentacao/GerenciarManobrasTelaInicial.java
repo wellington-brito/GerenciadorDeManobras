@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
+import wellington.gerenciadorDeManobras.entidade.Usuario;
 import wellington.gerenciadorDeManobras.excecao.NoSelectionException;
 
 import wellington.gerenciadorDeManobras.negocio.CategoriaBO;
@@ -33,12 +34,21 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
     private GerenciarRequisitos gerenciarRequisitos;
     private List<Manobra> manobras;
     private List<Categoria> categorias;
+    private Inicio inicio;
+    private GerenciarDicas gerenciarDicas;
+    private int idUsuario;
 
     /**
      * Creates new form InfoManobras
      */
     public GerenciarManobrasTelaInicial() throws SQLException {
         prepararTela();
+    }
+
+    GerenciarManobrasTelaInicial(Login loginUsuario, int idUsuario) throws SQLException {
+        this.idUsuario = idUsuario;
+        prepararTela();
+      
     }
 
     public void prepararTela() throws SQLException {
@@ -77,6 +87,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         mnuItemNovaCategoria = new javax.swing.JMenuItem();
         mnuItemRelatorio = new javax.swing.JMenuItem();
         itemMenuSair = new javax.swing.JMenuItem();
+        mnuItemDicas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Manobras");
@@ -206,6 +217,14 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         });
         menuOpçoes.add(itemMenuSair);
 
+        mnuItemDicas.setText("Dicas de manobras");
+        mnuItemDicas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemDicasActionPerformed(evt);
+            }
+        });
+        menuOpçoes.add(mnuItemDicas);
+
         barraDeMenuPrincipal.add(menuOpçoes);
 
         setJMenuBar(barraDeMenuPrincipal);
@@ -267,7 +286,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirManobraActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        // TODO add your handling code here:
+        this.logOut();
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnNovaManobra1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaManobra1ActionPerformed
@@ -298,6 +317,18 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_itemMenuRequisitosActionPerformed
 
+    private void mnuItemDicasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemDicasActionPerformed
+       if(this.gerenciarDicas == null){
+           try {
+               this.gerenciarDicas = new GerenciarDicas(this);
+           } catch (SQLException ex) {
+               Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
+       this.gerenciarDicas.setVisible(true);
+       this.gerenciarDicas.toFront();
+    }//GEN-LAST:event_mnuItemDicasActionPerformed
+
     private void carregarFormCadastroCategoria() throws SQLException {
         if (adicionarCategoriaForm == null) {
             adicionarCategoriaForm = new GerenciarCategorias();
@@ -308,7 +339,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
     private void carregarFomrNovoTreino() throws SQLException {
         if (telaGerenciarTreinos == null) {
-            this.telaGerenciarTreinos = new GerenciarTreinos();
+            this.telaGerenciarTreinos = new GerenciarTreinos(idUsuario);
         }
         telaGerenciarTreinos.setVisible(true);
         telaGerenciarTreinos.toFront();
@@ -434,6 +465,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblDica;
     private javax.swing.JMenu menuOpçoes;
+    private javax.swing.JMenuItem mnuItemDicas;
     private javax.swing.JMenuItem mnuItemNovaCategoria;
     private javax.swing.JMenuItem mnuItemRelatorio;
     private javax.swing.JTable tabelaManobras;
@@ -452,6 +484,14 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             this.lblDica.setText("Selecione uma manobra antes!");
             throw new NoSelectionException();
         }
+    }
+
+    private void logOut() {
+        if(this.inicio == null){
+            this.inicio = new Inicio();
+        }
+         this.inicio.setVisible(true);
+            this.inicio.toFront();
     }
 
     //classe interna

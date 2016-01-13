@@ -19,8 +19,8 @@ import wellington.gerenciadorDeManobras.entidade.Requisito;
  * @author Wellington
  */
 public class DicaDAO {
-   private static final String SQL_INSERT = "INSERT INTO DICA (IDMANOBRA, DESCRICAO) VALUES (?, ?)";
-    private static final String SQl_BUSCAR_DICAS = "SELECT ID, IDMANOBRA, DESCRICAO FROM DICA";
+   private static final String SQL_INSERT = "INSERT INTO DICA (IDMANOBRA,IDUSUARIO, DESCRICAO) VALUES (?, ?, ?)";
+    private static final String SQl_BUSCAR_DICAS = "SELECT ID, IDMANOBRA, IDUSUARIO, DESCRICAO FROM DICA";
     private static final String SQL_DELETE = "DELETE FROM DICA WHERE ID = ?";
    
     
@@ -55,7 +55,7 @@ public class DicaDAO {
         }
     }
 
-    public List<Dica> buscarTodosRequisitosEspecificos() throws SQLException {
+    public List<Dica> buscarTodasDicas() throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
         ResultSet resultado = null;
@@ -87,7 +87,8 @@ public class DicaDAO {
         Dica dica = new Dica();
         dica.setId(resultado.getInt(1));
         dica.setIdManobra(resultado.getInt(2));
-        dica.setDescricao(resultado.getString(3));
+        dica.setIdUsuario(resultado.getInt(3));
+        dica.setDescricao(resultado.getString(4));
         return dica;
     }
 

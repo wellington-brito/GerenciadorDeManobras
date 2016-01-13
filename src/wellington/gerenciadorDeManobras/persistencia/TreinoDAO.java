@@ -19,9 +19,9 @@ import wellington.gerenciadorDeManobras.entidade.Treino;
  */
 public class TreinoDAO {
 
-    private static final String SQL_INSERT = "INSERT INTO TREINO (IDMANOBRA, PROGRESSO, QNTDDIAS) VALUES (?, ?,?)";
+    private static final String SQL_INSERT = "INSERT INTO TREINO (IDMANOBRA, PROGRESSO, IDUSUARIO, QNTDDIAS) VALUES (?,?,?,?)";
     private static final String SQL_SELECT_TREINO = "SELECT ID, IDMANOBRA, PROGRESSO, QNTDDIAS  FROM TREINO ORDER BY IDMANOBRA";
-    private static final String SQL_UPDATE = "UPDATE TREINO SET  IDMANOBRA = ?, PROGRESSO = ?, QNTDDIAS = ? WHERE ID = ?";
+    private static final String SQL_UPDATE = "UPDATE TREINO SET  IDMANOBRA = ?, PROGRESSO = ?, IDUSUARIO = ?, QNTDDIAS = ? WHERE ID = ?";
     private static final String SQL_DELETE = "DELETE FROM TREINO WHERE ID = ?";
 
     public void inserir(Treino treino) throws SQLException {
@@ -36,7 +36,8 @@ public class TreinoDAO {
             //Atribui os parâmetros (Note que no BD o index inicia por 1)
             comando.setInt(1, treino.getIdManobra());
             comando.setInt(2, treino.getProgresso());
-            comando.setInt(3, treino.getQntddias());
+            comando.setInt(3, treino.getIdUsuario());
+            comando.setInt(4, treino.getQntddias());
             //Executa o comando
             comando.execute();
             //Persiste o comando no banco de dados
@@ -68,8 +69,9 @@ public class TreinoDAO {
 
             comando.setInt(1, treino.getIdManobra());
             comando.setInt(2, treino.getProgresso());
-            comando.setInt(3, treino.getQntddias());
-            comando.setInt(4, treino.getId());
+            comando.setInt(3, treino.getIdUsuario());
+            comando.setInt(4, treino.getQntddias());
+            comando.setInt(5, treino.getId());
             //Executa o comando
             comando.execute();
             //Persiste o comando no banco de dados

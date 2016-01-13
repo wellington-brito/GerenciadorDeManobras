@@ -13,6 +13,7 @@ import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.entidade.Requisito;
 import wellington.gerenciadorDeManobras.entidade.Treino;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
+import wellington.gerenciadorDeManobras.excecao.TreinoDuplicadoException;
 import wellington.gerenciadorDeManobras.persistencia.RequisitoDAO;
 import wellington.gerenciadorDeManobras.persistencia.TreinoDAO;
 
@@ -22,10 +23,13 @@ import wellington.gerenciadorDeManobras.persistencia.TreinoDAO;
  */
 public class TreinoBO {
 
+    private TreinoBO treinoBO;
+    private List<Treino> treinos;
     private List<String> idManobrasSugeridas;
     private List<Requisito> listaRquisitos;
 
     public void inserir(Treino treino) throws SQLException {
+        this.verificarTreinos(treino);
         TreinoDAO treinoDAO = new TreinoDAO();
         treinoDAO.inserir(treino);
     }
@@ -34,6 +38,7 @@ public class TreinoBO {
 //       
 //    }
     public void atualizar(Treino treinoEmEdicao) throws SQLException {
+        this.verificarTreinos(treinoEmEdicao);
         TreinoDAO treinoDAO = new TreinoDAO();
         treinoDAO.atualizar(treinoEmEdicao);
 
@@ -63,10 +68,20 @@ public class TreinoBO {
     }
 
     public boolean verificaTreinoConcluido(Treino treinoEmEdicao) throws SQLException, CampoObrigatorioException, ParseException {
-        if(treinoEmEdicao.getProgresso() == 100) {
+        if (treinoEmEdicao.getProgresso() == 100) {
             return true;
-        }else{
+        } else {
             return false;
+        }
+    }
+
+    public void verificarTreinos(Treino treinoEmEdicao) throws SQLException {
+        this.treinoBO = new TreinoBO();
+        this.treinos = treinoBO.buscarTodosTreinos();
+        for (Treino t : treinos) {
+            if (treinoEmEdicao.getIdManobra() == t.getIdManobra()) {
+                throw new TreinoDuplicadoException();
+            }
         }
     }
 }

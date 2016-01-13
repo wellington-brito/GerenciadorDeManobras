@@ -30,11 +30,17 @@ public class GerenciarTreinos extends javax.swing.JFrame {
     public GerenciarManobrasTelaInicial infoManobras;  
     private List<Treino> treinos;
     private List<Manobra> manobras;
+     private int idUsuario;
     /**
      * Creates new form GerenciarTreinos
      */
     public GerenciarTreinos() throws SQLException {        
        this.prepararTela();
+    }
+
+    GerenciarTreinos(int idUsuario) throws SQLException {
+        this.idUsuario = idUsuario;
+        this.prepararTela();
     }
 
 //    public GerenciarTreinos(InfoManobras infoManobroas) throws SQLException {
@@ -220,7 +226,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
    
     public void novoTreino() throws SQLException {                       
             if (formCadastrarTreino == null) {
-                formCadastrarTreino = new FormCadastrarEditarTreino(this);         
+                formCadastrarTreino = new FormCadastrarEditarTreino(this,idUsuario);         
             }            
             formCadastrarTreino.setVisible(true);       
             formCadastrarTreino.toFront();       
@@ -233,7 +239,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             if (formEditarTreino != null) {
                 formEditarTreino.dispose();
             }
-            formEditarTreino = new FormCadastrarEditarTreino(this, treinoSelecionado);
+            formEditarTreino = new FormCadastrarEditarTreino(this, treinoSelecionado, idUsuario);
             formEditarTreino.setVisible(true);
             
         } else {

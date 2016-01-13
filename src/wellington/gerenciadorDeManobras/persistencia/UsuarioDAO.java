@@ -21,7 +21,7 @@ import wellington.gerenciadorDeManobras.entidade.Usuario;
 public class UsuarioDAO {
 
     private static final String SQL_INSERT = "INSERT INTO USUARIO (LOGIN, SENHA) VALUES (?, ?)";
-    private static final String SQL_SELECT_USUARIOS = "SELECT LOGIN, SENHA FROM USUARIO";
+    private static final String SQL_SELECT_USUARIOS = "SELECT ID, LOGIN, SENHA FROM USUARIO";
     
             
     public void incluirUsuario(Usuario usuarioEmEdicao) throws SQLException{
@@ -87,8 +87,9 @@ public class UsuarioDAO {
         //Instancia um novo objeto e atribui os valores vindo do BD
         //(Note que no BD o index inicia por 1)
         Usuario usuario = new Usuario();
-        usuario.setLogin(resultado.getString(1));
-        usuario.setSenha(resultado.getString(2));
+        usuario.setId(resultado.getInt(1));
+        usuario.setLogin(resultado.getString(2));
+        usuario.setSenha(resultado.getString(3));
         return usuario;
     }
 

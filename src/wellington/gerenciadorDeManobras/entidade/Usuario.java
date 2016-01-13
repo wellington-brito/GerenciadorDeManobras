@@ -11,7 +11,7 @@ package wellington.gerenciadorDeManobras.entidade;
  */
 public class Usuario {
     private int id;
-    private int idTreino;
+  
     private int idDica;
     private String login;
     private String senha;
@@ -22,14 +22,6 @@ public class Usuario {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getIdTreino() {
-        return idTreino;
-    }
-
-    public void setIdTreino(int idTreino) {
-        this.idTreino = idTreino;
     }
 
     public int getIdDica() {
