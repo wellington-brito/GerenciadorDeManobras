@@ -13,6 +13,25 @@ public class Relatorio {
     private String login;
     private String manobra;
     private int dias;
+    private int status;
+    
+    private int total;
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getLogin() {
         return login;

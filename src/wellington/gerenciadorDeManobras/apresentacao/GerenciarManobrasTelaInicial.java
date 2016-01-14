@@ -21,11 +21,13 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
+import wellington.gerenciadorDeManobras.entidade.Relatorio;
 import wellington.gerenciadorDeManobras.entidade.Usuario;
 import wellington.gerenciadorDeManobras.excecao.NoSelectionException;
 
 import wellington.gerenciadorDeManobras.negocio.CategoriaBO;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
+import wellington.gerenciadorDeManobras.negocio.RelatorioBO;
 
 /**
  *
@@ -169,7 +171,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                                 .addComponent(btnEditarManobra)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnTreinos)
-                                .addGap(137, 137, 137)
+                                .addGap(203, 203, 203)
                                 .addComponent(btnExcluirManobra)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnSair))
@@ -272,6 +274,34 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
     }//GEN-LAST:event_mnuItemNovaCategoriaActionPerformed
 
+    private void itemMenuRequisitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuRequisitosActionPerformed
+        try {
+            this.carregarTelaGerenciarRequisitos();
+        } catch (SQLException ex) {
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_itemMenuRequisitosActionPerformed
+
+    private void mnuItemDicasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemDicasActionPerformed
+       if(this.gerenciarDicas == null){
+           try {
+               this.gerenciarDicas = new GerenciarDicas(this,idUsuario);
+           } catch (SQLException ex) {
+               Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
+       this.gerenciarDicas.setVisible(true);
+       this.gerenciarDicas.toFront();
+    }//GEN-LAST:event_mnuItemDicasActionPerformed
+
+    private void btnTreinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTreinosActionPerformed
+        try {
+            this.carregarFomrNovoTreino();
+        } catch (SQLException ex) {
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnTreinosActionPerformed
+
     private void btnEditarManobraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarManobraActionPerformed
         try {
             this.editarManobra();
@@ -281,7 +311,6 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_btnEditarManobraActionPerformed
 
     private void btnExcluirManobraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirManobraActionPerformed
@@ -307,34 +336,6 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnNovaManobra1ActionPerformed
-
-    private void btnTreinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTreinosActionPerformed
-        try {
-            this.carregarFomrNovoTreino();
-        } catch (SQLException ex) {
-            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnTreinosActionPerformed
-
-    private void itemMenuRequisitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuRequisitosActionPerformed
-        try {
-            this.carregarTelaGerenciarRequisitos();
-        } catch (SQLException ex) {
-            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_itemMenuRequisitosActionPerformed
-
-    private void mnuItemDicasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemDicasActionPerformed
-       if(this.gerenciarDicas == null){
-           try {
-               this.gerenciarDicas = new GerenciarDicas(this,idUsuario);
-           } catch (SQLException ex) {
-               Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
-           }
-       }
-       this.gerenciarDicas.setVisible(true);
-       this.gerenciarDicas.toFront();
-    }//GEN-LAST:event_mnuItemDicasActionPerformed
 
     private void carregarFormCadastroCategoria() throws SQLException {
         if (adicionarCategoriaForm == null) {
@@ -574,4 +575,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         }
 
     }
+    
+    
+    
 }

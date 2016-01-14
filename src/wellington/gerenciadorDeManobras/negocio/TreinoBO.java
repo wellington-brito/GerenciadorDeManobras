@@ -40,18 +40,18 @@ public class TreinoBO {
 //       
 //    }
     public void atualizar(Treino treinoEmEdicao) throws SQLException, CampoObrigatorioException, ParseException {
-        //this.verificarTreinos(treinoEmEdicao);
-        this.confirmarEdicao(treinoEmEdicao);
+       this.verificarTreinos(treinoEmEdicao);
+        //this.confirmarEdicao(treinoEmEdicao);
         TreinoDAO treinoDAO = new TreinoDAO();
         treinoDAO.atualizar(treinoEmEdicao);
 
     }
 
-    public void atualizarNovamente(Treino treinoEmEdicao, int respostaExcecao) throws SQLException, CampoObrigatorioException, ParseException {
-        // this.verificarTreinos(treinoEmEdicao);
-        TreinoDAO treinoDAO = new TreinoDAO();
-        treinoDAO.atualizar(treinoEmEdicao);
-    }
+//    public void atualizarNovamente(Treino treinoEmEdicao, int respostaExcecao) throws SQLException, CampoObrigatorioException, ParseException {
+//        //this.verificarTreinos(treinoEmEdicao);
+//        TreinoDAO treinoDAO = new TreinoDAO();
+//        treinoDAO.atualizar(treinoEmEdicao);
+//    }
 
     public void removerTreino(int id) throws Exception {
         TreinoDAO treinoDAO = new TreinoDAO();
@@ -95,12 +95,12 @@ public class TreinoBO {
         }
     }
 
-    private void confirmarEdicao(Treino treinoEmEdicao) throws CampoObrigatorioException, ParseException, SQLException {
-        this.treinoBO = new TreinoBO();
-        boolean retornoDaVerificacao = treinoBO.verificaTreinoConcluido(treinoEmEdicao);
-        if (retornoDaVerificacao) {
-            throw new TreinoJaEditadoException();
-        }
-
-    }
+//    private void confirmarEdicao(Treino treinoEmEdicao) throws CampoObrigatorioException, ParseException, SQLException {
+//        this.treinoBO = new TreinoBO();
+//        boolean retornoDaVerificacao = treinoBO.verificaTreinoConcluido(treinoEmEdicao);
+//        if (retornoDaVerificacao) {
+//            throw new TreinoJaEditadoException();
+//        }
+//
+//    }
 }

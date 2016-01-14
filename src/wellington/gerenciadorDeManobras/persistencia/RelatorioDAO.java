@@ -23,6 +23,13 @@ public class RelatorioDAO {
             + "	TREINO T ON M.ID  = T.IDMANOBRA JOIN\n"
             + "	USUARIO U ON U.ID = T.IDUSUARIO WHERE IDUSUARIO = ?";
 
+//    public static final String SQL_TOTAL_LOGIN = "SELECT COUNT(*) FROM MANOBRA M JOIN\n"
+//            + "	USUARIO U ON U.ID = M.IDUSUARIO \n"
+//            + "WHERE IDUSUARIO = ? AND M.STATUS =100";
+    
+     public static final String SQL_TOTAL_LOGIN = "SELECT U.LOGIN, COUNT(M.STATUS) FROM MANOBRA M JOIN\n" +
+"USUARIO U ON U.ID = M.IDUSUARIO WHERE  M.STATUS =100 GROUP BY U.ID";
+
     public List<Relatorio> recuperaManobraLoginDia(int idUsuario) throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
@@ -59,6 +66,38 @@ public class RelatorioDAO {
         manobraLoginDia.setDias(resultado.getInt(2));
         return manobraLoginDia;
     }
+
+    public List<Relatorio> recuperaTotalManobraPorLogin() throws SQLException {
+        Connection conexao = null;
+        PreparedStatement comando = null;
+        ResultSet resultado = null;
+        List<Relatorio> listaTotalManobras = new ArrayList<>();
+        try {
+            //Recupera a conexão
+            conexao = BancoDadosUtil.getConnection();
+            //Cria o comando de consulta dos dados
+            comando = conexao.prepareStatement(SQL_TOTAL_LOGIN);
+            
+            //Executa o comando e obtém o resultado da consulta
+            resultado = comando.executeQuery();
+            //O método next retornar boolean informando se existe um próximo
+            //elemento para iterar
+            while (resultado.next()) {
+                Relatorio resultadoTotal = this.extrairLinhaResultado(resultado);
+                //Adiciona um item à lista que será retornada
+                listaTotalManobras.add(resultadoTotal);
+            }
+        } finally {
+            //Todo objeto que referencie o banco de dados deve ser fechado
+            BancoDadosUtil.fecharChamadasBancoDados(conexao, comando, resultado);
+        }
+        return listaTotalManobras;
+    }
+
+    private Relatorio extrairLinhaResultado(ResultSet resultado) throws SQLException {
+        Relatorio totalManobra = new Relatorio();
+        totalManobra.setLogin(resultado.getString(1));
+        totalManobra.setTotal(resultado.getInt(2));         
+        return totalManobra;
+    }
 }
-
-

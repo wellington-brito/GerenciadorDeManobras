@@ -237,53 +237,48 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             this.treinoBO = new TreinoBO();
             this.validarCamposObrigatorios();
             this.verificaQuantidadeDigitos();
-            //this.treinoBO.verificarTreinos(treinoEmEdicao);
+           // this.treinoBO.verificarTreinos(treinoEmEdicao);
             this.recuperarCamposTela();
             treinoBO.inserir(treinoEmEdicao);
             JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso", "Novo treino", JOptionPane.INFORMATION_MESSAGE);
-
-           
+            
+            this.limparCamposTela();
             this.gerenciarTreinos.carregarTabelaDeTreino();
-             this.limparCamposTela();
         } catch (TreinoDuplicadoException ex) {
             String mensagen = "Erro ao tentar cadastrar novo treino:\n" + ex.getMessage();
             JOptionPane.showMessageDialog(this, mensagen, "Novo Treino", JOptionPane.ERROR_MESSAGE);
-
         }
-
     }
 
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
-        try {
+       // try {
             this.treinoBO = new TreinoBO();
             this.validarCamposObrigatorios();
             this.verificaQuantidadeDigitos();
             this.recuperarCamposTela();
             treinoBO.atualizar(treinoEmEdicao);
             JOptionPane.showMessageDialog(this, "Dados do treino alterado com sucesso", "Ediçao de treino", JOptionPane.INFORMATION_MESSAGE);
-           
             this.atualizaStatus(treinoEmEdicao.getIdManobra(), 100);
-            //this.addDicaManobra(treinoEmEdicao.getIdManobra());
-            this.sugerirNovoTreino();
+            
+            this.limparCamposTela();
             this.gerenciarTreinos.carregarTabelaDeTreino();
-             this.limparCamposTela();
-
-        } catch (TreinoJaEditadoException ex) {
-            int resposta;
-            String mensagem = "Desseja realmente editar o treino selecionado? Ele já atingiu 100% anteriormente!";
-            String titulo = "Editar treino";
-            resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
-            if (resposta == JOptionPane.YES_NO_OPTION) {
-                int respostaExcecao = 1;
-                treinoBO.atualizarNovamente(treinoEmEdicao, respostaExcecao);
-                this.limparCamposTela();
-                this.sugerirNovoTreino();
-                this.atualizaStatus(treinoEmEdicao.getIdManobra(), treinoEmEdicao.getProgresso());
-                this.gerenciarTreinos.carregarTabelaDeTreino();
-            }
-
-        }
-
+            this.addDicaManobra(treinoEmEdicao.getIdManobra());
+            //this.sugerirNovoTreino();         
+            
+//        } catch (TreinoJaEditadoException ex) {
+//            int resposta;
+//            String mensagem = "Desseja realmente editar o treino selecionado? Ele já atingiu 100% anteriormente!";
+//            String titulo = "Editar treino";
+//            resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
+//            if (resposta == JOptionPane.YES_NO_OPTION) {
+//                int respostaExcecao = 1;
+//                treinoBO.atualizarNovamente(treinoEmEdicao, respostaExcecao);
+//                this.limparCamposTela();
+//                this.sugerirNovoTreino();
+//                this.atualizaStatus(treinoEmEdicao.getIdManobra(), treinoEmEdicao.getProgresso());
+//                this.gerenciarTreinos.carregarTabelaDeTreino();
+//            }
+//        }
     }
 
     public void sugerirNovoTreino() throws SQLException {
@@ -302,7 +297,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             }
         }
         JOptionPane.showMessageDialog(this, "PARABÉNS!! Que tal treinar estas manobas? \n" + mensagem, "Sugestão de Manobra", JOptionPane.INFORMATION_MESSAGE);
-        this.addDicaManobra(treinoEmEdicao.getIdManobra());
+        //this.addDicaManobra(treinoEmEdicao.getIdManobra());
     }
 
     public void addDicaManobra(int idManobra) {

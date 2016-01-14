@@ -15,10 +15,15 @@ import wellington.gerenciadorDeManobras.persistencia.RelatorioDAO;
  * @author Wellington
  */
 public class RelatorioBO {
-    
-    public List<Relatorio> recuperaManobraLoginDia(int idUsuario) throws SQLException{        
+
+    public List<Relatorio> recuperaManobraLoginDia(int idUsuario) throws SQLException {
         RelatorioDAO manobraLoginDiaDAO = new RelatorioDAO();
         return manobraLoginDiaDAO.recuperaManobraLoginDia(idUsuario);
     }
-    
+
+    public List<Relatorio> recuperaTotalManobra() throws SQLException {
+        RelatorioDAO manobraLoginDiaDAO = new RelatorioDAO();
+        return manobraLoginDiaDAO.recuperaTotalManobraPorLogin();
+    }
+
 }

@@ -5,6 +5,21 @@
  */
 package wellington.gerenciadorDeManobras.apresentacao;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
+import wellington.gerenciadorDeManobras.entidade.Relatorio;
+import wellington.gerenciadorDeManobras.negocio.RelatorioBO;
+
 /**
  *
  * @author Wellington
@@ -36,6 +51,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        btnRelatorioTotalManobras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gerenciador de Manobras Bmx");
@@ -62,6 +78,13 @@ public class Inicio extends javax.swing.JFrame {
 
         jLabel3.setText("jLabel1");
 
+        btnRelatorioTotalManobras.setText("Total de manobras");
+        btnRelatorioTotalManobras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRelatorioTotalManobrasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -75,6 +98,8 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(103, 103, 103)
+                        .addComponent(btnRelatorioTotalManobras)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -88,7 +113,9 @@ public class Inicio extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRelatorioTotalManobras))
                 .addGap(110, 110, 110)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -131,6 +158,14 @@ public class Inicio extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
+    private void btnRelatorioTotalManobrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioTotalManobrasActionPerformed
+        try {
+            this.gerarRelatorioTotalDeManobras();
+        } catch (SQLException ex) {
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnRelatorioTotalManobrasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -168,6 +203,7 @@ public class Inicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnRelatorioTotalManobras;
     private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -182,4 +218,31 @@ public class Inicio extends javax.swing.JFrame {
         abrirFormLogin.setVisible(true);
         abrirFormLogin.toFront();
     }
+    
+    
+     private void gerarRelatorioTotalDeManobras() throws SQLException {
+        RelatorioBO manobraLoginDiaBO = new RelatorioBO();
+        List<Relatorio> listaTotalManobras = manobraLoginDiaBO.recuperaTotalManobra();
+       
+        try{
+            String arquivoRelatorio = System.getProperty("user.dir")+
+                    "/relatorios/TotaDeManobraPorUsuario.jasper";
+            
+            Map<String, Object> parametros = new HashMap<String, Object>();
+            
+            JRBeanCollectionDataSource fonteDados = new JRBeanCollectionDataSource(listaTotalManobras);
+            
+            JasperPrint  relatorioGerado = JasperFillManager.fillReport(arquivoRelatorio, parametros, fonteDados);
+            
+            JasperViewer telaExibicaoRelatorio = new JasperViewer(relatorioGerado,false);
+            telaExibicaoRelatorio.setTitle("Relatorio Quantidade de dias treinando cada manobra");
+            telaExibicaoRelatorio.setVisible(true);
+        }catch(JRException ex){
+             //JOptionPane.showMessageDialog(this, "Erro ao exibir relatório.","Erro",JOptionPane.ERROR_MESSAGE);
+             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+                   
+        }
+        
+    }
+    
 }
