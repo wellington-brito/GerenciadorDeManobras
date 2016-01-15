@@ -290,7 +290,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Manobra cadastrada com sucesso!", "Nova manobra", JOptionPane.INFORMATION_MESSAGE);
             this.carregaTelaAddRequisito();
             this.limparCamposTela();
-            this.infoManobra.carregarTabelaDeManobras();
+            this.infoManobra.carregarTabelaDeManobras(idUsuario);
 
         } catch (GerenciadorException g) {
             String mensagem = "Erro ao realizar operação:\n" + g.getMessage();
@@ -310,7 +310,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         manobraBO.atualizar(manobraEmEdicao);
         JOptionPane.showMessageDialog(this, "Dados da manobra alterado com sucesso", "Ediçao de manobra", JOptionPane.INFORMATION_MESSAGE);
         this.limparCamposTela();
-        this.infoManobra.carregarTabelaDeManobras();
+        this.infoManobra.carregarTabelaDeManobras(idUsuario);
     }
 
     public void validarCamposObrigatorios() throws CampoObrigatorioException {

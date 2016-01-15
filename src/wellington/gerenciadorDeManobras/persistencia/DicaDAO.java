@@ -19,11 +19,12 @@ import wellington.gerenciadorDeManobras.entidade.Requisito;
  * @author Wellington
  */
 public class DicaDAO {
-   private static final String SQL_INSERT = "INSERT INTO DICA (IDMANOBRA,IDUSUARIO, DESCRICAO) VALUES (?, ?, ?)";
+
+    private static final String SQL_INSERT = "INSERT INTO DICA (IDMANOBRA,IDUSUARIO, DESCRICAO) VALUES (?, ?, ?)";
     private static final String SQl_BUSCAR_DICAS = "SELECT ID, IDMANOBRA, IDUSUARIO, DESCRICAO FROM DICA";
     private static final String SQL_DELETE = "DELETE FROM DICA WHERE ID = ?";
-   
-    
+    private static final String SQL_DICAS_ALEATORIAS = "SELECT DESCRICAO FROM DICA  ORDER BY RAND() LIMIT 9";
+
     public void incluirDica(Dica dicaEmEdicao) throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
@@ -71,7 +72,7 @@ public class DicaDAO {
             //O método next retornar boolean informando se existe um próximo
             //elemento para iterar
             while (resultado.next()) {
-                 Dica dica = this.buscarTodasDicas(resultado);
+                Dica dica = this.buscarTodasDicas(resultado);
                 //Adiciona um item à lista que será retornada
                 listaDicas.add(dica);
             }
@@ -118,10 +119,40 @@ public class DicaDAO {
         } finally {
             //Todo objeto que referencie o banco de dados deve ser fechado
             BancoDadosUtil.fecharChamadasBancoDados(conexao, comando);
-        } 
+        }
+    }
+
+    public List<Dica> buscarDicasAleatorias() throws SQLException {
+        Connection conexao = null;
+        PreparedStatement comando = null;
+        ResultSet resultado = null;
+        List<Dica> listaDicas = new ArrayList<>();
+        try {
+            //Recupera a conexão
+            conexao = BancoDadosUtil.getConnection();
+            //Cria o comando de consulta dos dados
+            comando = conexao.prepareStatement(SQL_DICAS_ALEATORIAS);
+            //Executa o comando e obtém o resultado da consulta
+            resultado = comando.executeQuery();
+            //O método next retornar boolean informando se existe um próximo
+            //elemento para iterar
+            while (resultado.next()) {
+                Dica dica = (Dica) this.buscarTodasDicasAleatoriamente(resultado);
+                //Adiciona um item à lista que será retornada
+
+               
+                listaDicas.add(dica);
+            }
+        } finally {
+            //Todo objeto que referencie o banco de dados deve ser fechado
+            BancoDadosUtil.fecharChamadasBancoDados(conexao, comando, resultado);
+        }
+        return listaDicas;
+    }
+
+    private Dica buscarTodasDicasAleatoriamente(ResultSet resultado) throws SQLException {
+          Dica dica = new Dica();
+            dica.setDescricao(resultado.getString(1));
+            return dica;
     }
 }
-
-
-  
-

@@ -18,17 +18,22 @@ public class DicaBO {
 
     public void incluirNovaDica(Dica dicaEmEdicao) throws SQLException {
         DicaDAO dicaDAO = new DicaDAO();
-        dicaDAO.incluirDica(dicaEmEdicao);      
+        dicaDAO.incluirDica(dicaEmEdicao);
     }
-    
-    public List<Dica> buscarTodasDicas() throws SQLException{
+
+    public List<Dica> buscarTodasDicas() throws SQLException {
         DicaDAO dicaDAO = new DicaDAO();
         return dicaDAO.buscarTodasDicas();
     }
 
     public void removerDica(int id) throws SQLException {
-        DicaDAO dicaDAO =  new DicaDAO();
-        dicaDAO.removerDica(id);    
+        DicaDAO dicaDAO = new DicaDAO();
+        dicaDAO.removerDica(id);
     }
-    
+
+    public List<Dica> buscarDicasAleatorias() throws SQLException {
+        DicaDAO dicaDAO = new DicaDAO();
+        return dicaDAO.buscarDicasAleatorias();
+    }
+
 }

@@ -58,15 +58,15 @@ public class Login extends javax.swing.JFrame {
         txtLoginNovo = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtSenhaNovo = new javax.swing.JTextField();
         btnAdicionarNovoUser = new javax.swing.JButton();
+        txtSenhaNovo = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtLogin1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         btnEntrar = new javax.swing.JButton();
         lblinfo = new javax.swing.JLabel();
-        txtSenha = new javax.swing.JPasswordField();
+        txtSenha1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Entrar - Gerenciador De Manobras");
@@ -96,16 +96,14 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(txtSenhaNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtLoginNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAdicionarNovoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtSenhaNovo, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -118,8 +116,8 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSenhaNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtSenhaNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
                 .addComponent(btnAdicionarNovoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -145,12 +143,9 @@ public class Login extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtSenha))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -162,10 +157,13 @@ public class Login extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(99, 99, 99)
                         .addComponent(lblinfo, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(txtSenha1)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -174,11 +172,11 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtLogin1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(16, 16, 16)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
+                .addComponent(txtSenha1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblinfo)
@@ -231,7 +229,7 @@ public class Login extends javax.swing.JFrame {
             this.login();
         } catch (LoginEsenhaInvalidoException l) {
             String mensagem = "Erro ao tentar entrar no sistema:\n" + l.getMessage();
-            JOptionPane.showMessageDialog(this, mensagem, "Nova manobra", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, mensagem, "Login", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchAlgorithmException ex) {
@@ -255,8 +253,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel lblinfo;
     private javax.swing.JTextField txtLogin1;
     private javax.swing.JTextField txtLoginNovo;
-    private javax.swing.JPasswordField txtSenha;
-    private javax.swing.JTextField txtSenhaNovo;
+    private javax.swing.JPasswordField txtSenha1;
+    private javax.swing.JPasswordField txtSenhaNovo;
     // End of variables declaration//GEN-END:variables
 
     private void incluiUsuario() throws NoSuchAlgorithmException, UnsupportedEncodingException, SQLException {
@@ -266,8 +264,8 @@ public class Login extends javax.swing.JFrame {
         this.recuperarCamposTelaNovoUsuario();
         if (this.usuarioBO.verificauUsuarioDuplicado(usuarioEmEdicao)) {
             //throw new UsuarioDuplicadoException("Nome de usuário indisponivel tente outro nome!");                
-            JOptionPane.showMessageDialog(this, "Nome de usuário indisponivel tente outro nome!", "Novo Usuário", JOptionPane.INFORMATION_MESSAGE);
-            throw new UsuarioDuplicadoException("Nome de usuário indisponivel tente outro nome!");
+            JOptionPane.showMessageDialog(this, "Nome de usuário vazio ou indisponivel tente outro nome!", "Novo Usuário", JOptionPane.INFORMATION_MESSAGE);
+            throw new UsuarioDuplicadoException("Nome de usuário vazio ou indisponivel tente outro nome!");
         } else {
 
             this.usuarioBO = new UsuarioBO();
@@ -279,7 +277,6 @@ public class Login extends javax.swing.JFrame {
     }
 
     private void login() throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
-
         this.usuarioBO = new UsuarioBO();
         this.recuperarCampos();
         String senhaMd5 = usuarioBO.exemploMD5(usuarioEmEdicao.getSenha());
@@ -293,10 +290,8 @@ public class Login extends javax.swing.JFrame {
                 this.gerenciarManobrasTelaInicial.setVisible(true);
                 this.gerenciarManobrasTelaInicial.toFront();
                 this.dispose();
-            }else{
-                throw new LoginEsenhaInvalidoException();
+            
             }
-
         }
 
     }
@@ -308,14 +303,14 @@ public class Login extends javax.swing.JFrame {
 
     private void recuperarCampos() throws SQLException {
         usuarioEmEdicao.setLogin(txtLogin1.getText());
-        usuarioEmEdicao.setSenha(txtSenha.getText());
+        usuarioEmEdicao.setSenha(txtSenha1.getText());
     }
 
     private void limparCamposTela() {
         txtLoginNovo.setText("");
         txtSenhaNovo.setText("");
         txtLogin1.setText("");
-        txtSenha.setText("");
+        txtSenhaNovo.setText("");
     }
 
 }

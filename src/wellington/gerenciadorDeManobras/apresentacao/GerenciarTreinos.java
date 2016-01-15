@@ -67,7 +67,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
     public void prepararTela() throws SQLException {
         try {
             this.initComponents();
-            this.carregarTabelaDeTreino();
+            this.carregarTabelaDeTreino(idUsuario);
         } catch (Exception e) {
             String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
             mensagem += "\nMensagem de erro:\n" + e.getMessage();
@@ -81,7 +81,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         super.setVisible(exibir);
         if (exibir == true) {
             try {
-                this.carregarTabelaDeTreino();
+                this.carregarTabelaDeTreino(idUsuario);
             } catch (SQLException ex) {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -246,7 +246,12 @@ public class GerenciarTreinos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirTreinoActionPerformed
 
     private void btnFecharTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharTelaActionPerformed
-        this.dispose();
+        try {
+            this.voltarTelaGerenciaDeManobras();
+            this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(GerenciarTreinos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnFecharTelaActionPerformed
 
     private void btnRelatorioQntdDiasTreinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioQntdDiasTreinosActionPerformed
@@ -297,7 +302,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
                     treinoBO.removerTreino(treinoSelecionado.getId());
                     mensagem = "Treino " + treinoSelecionado.getId() + " Id manobra: " + treinoSelecionado.getId() + " excluída com sucesso!";
                     JOptionPane.showMessageDialog(this, mensagem, "Exclusão de treino", JOptionPane.INFORMATION_MESSAGE);
-                    this.carregarTabelaDeTreino();
+                    this.carregarTabelaDeTreino(idUsuario);
                 }
             } else {
                 String mensagem = "Selecione uma categoria antes!";
@@ -312,15 +317,22 @@ public class GerenciarTreinos extends javax.swing.JFrame {
      }
      
    
-     public void carregarTabelaDeTreino() throws SQLException {
+     public void carregarTabelaDeTreino(int idUsuario) throws SQLException {
         TreinoBO treinoBO = new TreinoBO();
-        this.treinos = treinoBO.buscarTodosTreinos();
+        this.treinos = treinoBO.buscarTodosTreinos(idUsuario);
         ModeloTabelaTreinos modelo = new ModeloTabelaTreinos();
         tabelaTreinos.setModel(modelo);
      }
    
     
-    
+    public void voltarTelaGerenciaDeManobras() throws SQLException{
+          if (this.infoManobras == null) {
+                   this.infoManobras = new GerenciarManobrasTelaInicial(idUsuario);
+                    this.infoManobras.setVisible(true);
+                    this.infoManobras.toFront();
+                }               
+                this.infoManobras.toFront();
+    }
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterarTreino;

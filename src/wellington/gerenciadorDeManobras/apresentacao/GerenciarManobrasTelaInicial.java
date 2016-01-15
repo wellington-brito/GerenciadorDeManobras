@@ -62,10 +62,15 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
     }
 
+    GerenciarManobrasTelaInicial(int idUsuario) throws SQLException {
+        this.idUsuario = idUsuario;
+        prepararTela();
+    }
+
     public void prepararTela() throws SQLException {
         try {
             this.initComponents();
-            this.carregarTabelaDeManobras();
+            this.carregarTabelaDeManobras(idUsuario);
         } catch (Exception e) {
             String mensagem = "Erro inesperado! Informe a mensagem de erro ao administrador do sistema.";
             mensagem += "\nMensagem de erro:\n" + e.getMessage();
@@ -328,7 +333,11 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirManobraActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        this.logOut();
+        try {
+            this.logOut();
+        } catch (SQLException ex) {
+            Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnNovaManobra1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaManobra1ActionPerformed
@@ -382,14 +391,14 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         super.setVisible(exibir);
         if (exibir == true) {
             try {
-                this.carregarTabelaDeManobras();
+                this.carregarTabelaDeManobras(idUsuario);
             } catch (SQLException ex) {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
-    public void carregarTabelaDeManobras() throws SQLException {
+    public void carregarTabelaDeManobras(int idUsuario) throws SQLException {
         ManobraBO manobrasBO = new ManobraBO();
         this.manobras = manobrasBO.buscarTodasManobras(idUsuario);
         ModeloTabelaManobras modelo = new ModeloTabelaManobras();
@@ -421,7 +430,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                     manobraBO.removerManobra(manobraSelecionado.getId());
                     mensagem = "Manobra " + manobraSelecionado.getNome() + " Id: " + manobraSelecionado.getId() + " excluída com sucesso!";
                     JOptionPane.showMessageDialog(this, mensagem, "Exclusão de Manobra", JOptionPane.INFORMATION_MESSAGE);
-                    this.carregarTabelaDeManobras();
+                    this.carregarTabelaDeManobras(idUsuario);
                 }
 
             } else {
@@ -515,7 +524,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         }
     }
 
-    private void logOut() {
+    private void logOut() throws SQLException {
         if (this.inicio == null) {
             this.inicio = new Inicio();
         }

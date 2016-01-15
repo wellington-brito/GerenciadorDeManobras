@@ -56,8 +56,7 @@ public class UsuarioDAO {
     
     }
     
-    public List<Usuario> buscarUsuarios() throws SQLException{    
-    
+    public List<Usuario> buscarUsuarios() throws SQLException{        
      Connection conexao = null;
         PreparedStatement comando = null;
         ResultSet resultado = null;

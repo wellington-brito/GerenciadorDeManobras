@@ -20,7 +20,7 @@ import wellington.gerenciadorDeManobras.entidade.Treino;
 public class TreinoDAO {
 
     private static final String SQL_INSERT = "INSERT INTO TREINO (IDMANOBRA, PROGRESSO, IDUSUARIO, QNTDDIAS) VALUES (?,?,?,?)";
-    private static final String SQL_SELECT_TREINO = "SELECT ID, IDMANOBRA, PROGRESSO, QNTDDIAS  FROM TREINO ORDER BY IDMANOBRA";
+    private static final String SQL_SELECT_TREINO = "SELECT ID, IDMANOBRA, PROGRESSO, QNTDDIAS  FROM TREINO WHERE IDUSUARIO = ? ORDER BY IDMANOBRA";
     private static final String SQL_UPDATE = "UPDATE TREINO SET  IDMANOBRA = ?, PROGRESSO = ?, IDUSUARIO = ?, QNTDDIAS = ? WHERE ID = ?";
     private static final String SQL_DELETE = "DELETE FROM TREINO WHERE ID = ?";
 
@@ -118,7 +118,7 @@ public class TreinoDAO {
         }
     }
     
-    public List<Treino> buscarTodosTrienos() throws SQLException {
+    public List<Treino> buscarTodosTrienos(int idUsuario) throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
         ResultSet resultado = null;
@@ -129,6 +129,7 @@ public class TreinoDAO {
             //Cria o comando de consulta dos dados
             comando = conexao.prepareStatement(SQL_SELECT_TREINO);
             //Executa o comando e obtém o resultado da consulta
+            comando.setInt(1, idUsuario);
             resultado = comando.executeQuery();
             //O método next retornar boolean informando se existe um próximo
             //elemento para iterar

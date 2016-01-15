@@ -54,7 +54,7 @@ public class UsuarioBO {
         this.usuarios = usuarioBO.buscarUsuarios();
         String nomeUsuario = usuarioEmEdicao.getLogin();
         for (Usuario user : usuarios) {
-            if (user.getLogin().equals(nomeUsuario)) {
+            if (user.getLogin().equals(nomeUsuario)|| user.getLogin() == null) {
                 return true;                               
             }
         }

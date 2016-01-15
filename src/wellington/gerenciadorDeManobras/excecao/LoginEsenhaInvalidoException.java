@@ -12,7 +12,7 @@ package wellington.gerenciadorDeManobras.excecao;
 public class LoginEsenhaInvalidoException extends GerenciadorException{
     
     public LoginEsenhaInvalidoException( ) {
-        super("Loguin ou senha incorretos");
+        super("Login ou senha incorretos");
     }
     
 }

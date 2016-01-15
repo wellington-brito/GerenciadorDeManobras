@@ -28,9 +28,10 @@ public class TreinoBO {
     private List<Treino> treinos;
     private List<String> idManobrasSugeridas;
     private List<Requisito> listaRquisitos;
-    
+    private int idUsuario;
 
-    public void inserir(Treino treino) throws SQLException {
+    public void inserir(Treino treino,int idUsuario) throws SQLException {
+        this.idUsuario = idUsuario;
         this.verificarTreinos(treino);
         TreinoDAO treinoDAO = new TreinoDAO();
         treinoDAO.inserir(treino);
@@ -57,9 +58,9 @@ public class TreinoBO {
         treinoDAO.removerTreino(id);
     }
 
-    public List<Treino> buscarTodosTreinos() throws SQLException {
+    public List<Treino> buscarTodosTreinos(int idUsuario) throws SQLException {
         TreinoDAO treinoDAO = new TreinoDAO();
-        return treinoDAO.buscarTodosTrienos();
+        return treinoDAO.buscarTodosTrienos(idUsuario);
     }
 
     public List<Requisito> verificaProgresso(Treino treinoEmEdicao) throws SQLException {
@@ -73,7 +74,7 @@ public class TreinoBO {
 
     public boolean verificaTreinoConcluido(Treino treinoEmEdicao) throws SQLException, CampoObrigatorioException, ParseException {
         this.treinoBO = new TreinoBO();
-        this.treinos = treinoBO.buscarTodosTreinos();
+        this.treinos = treinoBO.buscarTodosTreinos(idUsuario);
         for (Treino t : treinos) {
             if (treinoEmEdicao.getId() == t.getId() && t.getProgresso() == 100) {
                 return true;
@@ -86,7 +87,7 @@ public class TreinoBO {
 
     public void verificarTreinos(Treino treinoEmEdicao) throws SQLException {
         this.treinoBO = new TreinoBO();
-        this.treinos = treinoBO.buscarTodosTreinos();
+        this.treinos = treinoBO.buscarTodosTreinos(idUsuario);
         for (Treino t : treinos) {
             if (treinoEmEdicao.getIdManobra() == t.getIdManobra()) {
                 throw new TreinoDuplicadoException();

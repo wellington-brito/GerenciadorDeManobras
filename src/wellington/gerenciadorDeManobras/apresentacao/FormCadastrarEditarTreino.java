@@ -240,11 +240,11 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             this.verificaQuantidadeDigitos();
            // this.treinoBO.verificarTreinos(treinoEmEdicao);
             this.recuperarCamposTela();
-            treinoBO.inserir(treinoEmEdicao);
+            treinoBO.inserir(treinoEmEdicao,idUsuario);
             JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso", "Novo treino", JOptionPane.INFORMATION_MESSAGE);
             
             this.limparCamposTela();
-            this.gerenciarTreinos.carregarTabelaDeTreino();
+            this.gerenciarTreinos.carregarTabelaDeTreino(idUsuario);
         } catch (TreinoDuplicadoException ex) {
             String mensagen = "Erro ao tentar cadastrar novo treino:\n" + ex.getMessage();
             JOptionPane.showMessageDialog(this, mensagen, "Novo Treino", JOptionPane.ERROR_MESSAGE);
@@ -262,7 +262,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             this.atualizaStatus(treinoEmEdicao.getIdManobra(), 100);
             
             this.limparCamposTela();
-            this.gerenciarTreinos.carregarTabelaDeTreino();
+            this.gerenciarTreinos.carregarTabelaDeTreino(idUsuario);
             this.addDicaManobra(treinoEmEdicao.getIdManobra());
             //this.sugerirNovoTreino();         
             
@@ -277,7 +277,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
                 this.limparCamposTela();
                 this.sugerirNovoTreino();
                 this.atualizaStatus(treinoEmEdicao.getIdManobra(), treinoEmEdicao.getProgresso());
-                this.gerenciarTreinos.carregarTabelaDeTreino();
+                this.gerenciarTreinos.carregarTabelaDeTreino(idUsuario);
             }
         }
     }

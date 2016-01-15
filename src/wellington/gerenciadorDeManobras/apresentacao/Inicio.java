@@ -17,8 +17,10 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import wellington.gerenciadorDeManobras.entidade.Dica;
 
 import wellington.gerenciadorDeManobras.entidade.Relatorio;
+import wellington.gerenciadorDeManobras.negocio.DicaBO;
 import wellington.gerenciadorDeManobras.negocio.RelatorioBO;
 
 /**
@@ -29,15 +31,15 @@ public class Inicio extends javax.swing.JFrame {
 
     private Inicio inicio;
     private Login abrirFormLogin;
-   
+
     /**
      * Creates new form Inicio
      */
-    public Inicio() {
+    public Inicio() throws SQLException {
         initComponents();
+        this.dicasAleatorias();
     }
-    
-   
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,9 +52,9 @@ public class Inicio extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnLogin = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblManobraAleatorioa1 = new javax.swing.JLabel();
+        lblDicaAleatoria = new javax.swing.JLabel();
+        lblManobraAleatoria2 = new javax.swing.JLabel();
         btnRelatorioTotalManobras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -74,13 +76,16 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("jLabel1");
+        lblManobraAleatorioa1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblManobraAleatorioa1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel2.setText("jLabel1");
+        lblDicaAleatoria.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblDicaAleatoria.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel3.setText("jLabel1");
+        lblManobraAleatoria2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblManobraAleatoria2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        btnRelatorioTotalManobras.setText("Total de manobras");
+        btnRelatorioTotalManobras.setText("Manobras dos usuários");
         btnRelatorioTotalManobras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRelatorioTotalManobrasActionPerformed(evt);
@@ -96,18 +101,22 @@ public class Inicio extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
+                        .addGap(64, 64, 64)
                         .addComponent(btnRelatorioTotalManobras, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblManobraAleatoria2, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblManobraAleatorioa1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+                    .addComponent(lblDicaAleatoria, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(369, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,16 +127,16 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
                         .addComponent(btnRelatorioTotalManobras, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
                     .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(110, 110, 110)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(124, 124, 124))
+                .addGap(120, 120, 120)
+                .addComponent(lblManobraAleatorioa1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblManobraAleatoria2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(109, 109, 109)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(289, Short.MAX_VALUE)))
+                    .addGap(140, 140, 140)
+                    .addComponent(lblDicaAleatoria, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(284, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -196,7 +205,11 @@ public class Inicio extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Inicio().setVisible(true);
+                try {
+                    new Inicio().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -205,49 +218,71 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnRelatorioTotalManobras;
     private javax.swing.JButton btnSair;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblDicaAleatoria;
+    private javax.swing.JLabel lblManobraAleatoria2;
+    private javax.swing.JLabel lblManobraAleatorioa1;
     // End of variables declaration//GEN-END:variables
 
     private void abrirTelaLoguin() {
-        if(this.abrirFormLogin == null){
+        if (this.abrirFormLogin == null) {
             this.abrirFormLogin = new Login(this);
         }
         abrirFormLogin.setVisible(true);
         abrirFormLogin.toFront();
+        this.dispose();
     }
-    
-    
-     private void gerarRelatorioTotalDeManobras() throws SQLException {
+
+    private void gerarRelatorioTotalDeManobras() throws SQLException {
         RelatorioBO manobraLoginDiaBO = new RelatorioBO();
-        List<Relatorio> listaTotalManobras = manobraLoginDiaBO.recuperaTotalManobra();       
-        try{
-            String arquivoRelatorio = System.getProperty("user.dir")+
-                    "/relatorios/TotaDeManobraPorUsuario.jasper";
-            
+        List<Relatorio> listaTotalManobras = manobraLoginDiaBO.recuperaTotalManobra();
+        try {
+            String arquivoRelatorio = System.getProperty("user.dir")
+                    + "/relatorios/TotaDeManobraPorUsuario.jasper";
+
             Map<String, Object> parametros = new HashMap<String, Object>();
-            
+
             JRBeanCollectionDataSource fonteDados = new JRBeanCollectionDataSource(listaTotalManobras);
-            
-            JasperPrint  relatorioGerado = JasperFillManager.fillReport(arquivoRelatorio, parametros, fonteDados);
-            
-            JasperViewer telaExibicaoRelatorio = new JasperViewer(relatorioGerado,false);
+
+            JasperPrint relatorioGerado = JasperFillManager.fillReport(arquivoRelatorio, parametros, fonteDados);
+
+            JasperViewer telaExibicaoRelatorio = new JasperViewer(relatorioGerado, false);
             telaExibicaoRelatorio.setTitle("Relatorio Quantidade de dias treinando cada manobra");
             telaExibicaoRelatorio.setVisible(true);
-        }catch(JRException ex){
-             //JOptionPane.showMessageDialog(this, "Erro ao exibir relatório.","Erro",JOptionPane.ERROR_MESSAGE);
-             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-                   
+        } catch (JRException ex) {
+            //JOptionPane.showMessageDialog(this, "Erro ao exibir relatório.","Erro",JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+
         }
-        
+
     }
-     
-    
- }
 
-    
-    
+    public void dicasAleatorias() throws SQLException {
+        DicaBO dicaBO = new DicaBO();
+        List<Dica> dicaAleatoria = dicaBO.buscarDicasAleatorias();
 
+        for (Dica d : dicaAleatoria) {
+            this.lblDicaAleatoria.setText(d.getDescricao());
+        }
 
+        for (Dica d : dicaAleatoria) {
+            if (this.lblDicaAleatoria.getText().equals(d.getDescricao())) {
+
+            } else {
+                this.lblManobraAleatorioa1.setText(d.getDescricao());
+            }
+
+        }
+
+        for (Dica d : dicaAleatoria) {            
+            if (this.lblManobraAleatorioa1.getText().equals(d.getDescricao()) || this.lblDicaAleatoria.getText().equals(d.getDescricao())) {
+
+            } else {
+               this.lblManobraAleatoria2.setText(d.getDescricao());
+            }
+            
+        }
+
+    }
+
+}
