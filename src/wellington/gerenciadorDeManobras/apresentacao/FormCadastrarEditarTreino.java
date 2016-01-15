@@ -206,6 +206,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         if (verificaEditarOuSalvar == 1) {
             try {
+                this.verificaEditarOuSalvar = 0;
                 this.atualizar();
 
             } catch (CampoObrigatorioException ex) {
@@ -251,7 +252,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     }
 
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
-       // try {
+       try {
             this.treinoBO = new TreinoBO();
             this.validarCamposObrigatorios();
             this.verificaQuantidadeDigitos();
@@ -265,20 +266,20 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             this.addDicaManobra(treinoEmEdicao.getIdManobra());
             //this.sugerirNovoTreino();         
             
-//        } catch (TreinoJaEditadoException ex) {
-//            int resposta;
-//            String mensagem = "Desseja realmente editar o treino selecionado? Ele já atingiu 100% anteriormente!";
-//            String titulo = "Editar treino";
-//            resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
-//            if (resposta == JOptionPane.YES_NO_OPTION) {
-//                int respostaExcecao = 1;
-//                treinoBO.atualizarNovamente(treinoEmEdicao, respostaExcecao);
-//                this.limparCamposTela();
-//                this.sugerirNovoTreino();
-//                this.atualizaStatus(treinoEmEdicao.getIdManobra(), treinoEmEdicao.getProgresso());
-//                this.gerenciarTreinos.carregarTabelaDeTreino();
-//            }
-//        }
+        } catch (TreinoJaEditadoException ex) {
+            int resposta;
+            String mensagem = "Desseja realmente editar o treino selecionado? Ele já atingiu 100% anteriormente!";
+            String titulo = "Editar treino";
+            resposta = JOptionPane.showConfirmDialog(this, mensagem, titulo, JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_NO_OPTION) {
+                int respostaExcecao = 1;
+                treinoBO.atualizarNovamente(treinoEmEdicao, respostaExcecao);
+                this.limparCamposTela();
+                this.sugerirNovoTreino();
+                this.atualizaStatus(treinoEmEdicao.getIdManobra(), treinoEmEdicao.getProgresso());
+                this.gerenciarTreinos.carregarTabelaDeTreino();
+            }
+        }
     }
 
     public void sugerirNovoTreino() throws SQLException {
@@ -300,7 +301,8 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         //this.addDicaManobra(treinoEmEdicao.getIdManobra());
     }
 
-    public void addDicaManobra(int idManobra) {
+    public void addDicaManobra(int idManobra) throws SQLException {
+        this.sugerirNovoTreino();
         if (formCadastrarDicaManobra == null) {
             formCadastrarDicaManobra = new FormAdicionarDicaManobra(this, idManobra, idUsuario);
         }

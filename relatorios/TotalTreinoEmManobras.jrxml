@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="84f5080f-5276-4279-856b-091edcc2d3d8">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="72"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<field name="login" class="java.lang.String"/>
+	<field name="totalManobras" class="java.lang.Integer"/>
+	<field name="totalTreinos" class="java.lang.Integer"/>
+	<field name="manobra" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="71" splitType="Stretch">
+			<image>
+				<reportElement x="-20" y="0" width="595" height="64" uuid="29788856-f56a-4363-a071-4bef2d96ee1a"/>
+				<imageExpression><![CDATA["wood.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="5" width="263" height="33" uuid="062d3722-d3fb-43d6-953a-5ccd1ad8112c"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[GMBmx]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="63" y="39" width="200" height="22" forecolor="#FFFFFF" uuid="4df71ab2-d1f3-4c98-8b95-feb409aa26e3"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Todas manobras e Total de treinos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="65d2d07b-b131-4ee6-ad62-422422954ba2"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="a6845b5e-d10b-4b06-ba3e-29515ba26cb5"/>
+				<text><![CDATA[Usuario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="0" width="100" height="20" uuid="0a79dd2b-7560-428d-9125-d8e5de6ba5eb"/>
+				<text><![CDATA[Total Treinos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="0" width="100" height="20" uuid="88e84a01-0ae6-450c-9654-9eb32f9d6f9c"/>
+				<text><![CDATA[Total Manobras]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="453" y="0" width="60" height="20" uuid="c27fabdc-91d0-499b-8304-9f79ea3181a6"/>
+				<text><![CDATA[Manobras]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="48" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="47" width="555" height="1" uuid="6a09aedd-964c-4874-b2c0-82bb9c4f0989"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="453" y="0" width="60" height="20" uuid="ea37e2df-2219-4ea6-94a9-11f591b6ac1f"/>
+				<textFieldExpression><![CDATA[$F{manobra}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="709c87bf-17f5-49f5-84cb-a53d5a6c92ec"/>
+				<textFieldExpression><![CDATA[$F{login}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="274" y="0" width="100" height="20" uuid="801a5321-b7cc-41bb-a5ab-6391ff0a195c"/>
+				<textFieldExpression><![CDATA[$F{totalTreinos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="0" width="100" height="20" uuid="2d34b2ce-64a4-49d2-8cd4-9518387c979c"/>
+				<textFieldExpression><![CDATA[$F{totalManobras}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="185" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="80cbf0ae-606d-4880-b70d-413f0dc34cc5"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<elementGroup>
+				<bar3DChart>
+					<chart>
+						<reportElement x="5" y="30" width="208" height="144" uuid="9bdb2401-b5d3-4ece-b920-de9b3bf419db"/>
+						<chartTitle/>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset incrementType="Report"/>
+						<categorySeries>
+							<seriesExpression><![CDATA["total manobras"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{totalManobras}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{totalManobras}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA["Total de treinos"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{totalTreinos}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{totalTreinos}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<bar3DPlot>
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat/>
+						</valueAxisFormat>
+					</bar3DPlot>
+				</bar3DChart>
+			</elementGroup>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="34eba7f9-7adb-497c-8863-49454de71d6b"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="94269812-6fb9-4386-aebb-8a994ed20655"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="684d8ec5-ead6-4bdd-bd91-1267bb21a052"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

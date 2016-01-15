@@ -17,6 +17,7 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
+import wellington.gerenciadorDeManobras.excecao.GerenciadorException;
 import wellington.gerenciadorDeManobras.negocio.CategoriaBO;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
 
@@ -165,7 +166,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             }
         });
 
-        btnCancelar.setText("Fechar");
+        btnCancelar.setText("Voltar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -180,25 +181,26 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNomeManobra)
-                    .addComponent(txtNomeManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblDificuldade3)
-                    .addComponent(cbxCategoriaManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblDificuldade)
-                    .addComponent(cbxGrauDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancelar)
-                .addGap(18, 18, 18)
-                .addComponent(btnSalvar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblinfo)
-                .addContainerGap(645, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNomeManobra)
+                            .addComponent(txtNomeManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDificuldade3)
+                            .addComponent(cbxCategoriaManobras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDificuldade)
+                            .addComponent(cbxGrauDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(32, 32, 32)
+                        .addComponent(btnCancelar)
+                        .addGap(35, 35, 35)
+                        .addComponent(btnSalvar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblinfo)))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +222,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 17, Short.MAX_VALUE)
                 .addComponent(lblinfo)
                 .addContainerGap())
         );
@@ -259,13 +261,15 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxCategoriaManobrasActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        if (verificaEditarOuSalvar == 1) {
+        if (this.verificaEditarOuSalvar == 1) {
             try {
+                this.verificaEditarOuSalvar = 0;
                 this.atualizar();
             } catch (CampoObrigatorioException | ParseException | SQLException ex) {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
+            
             this.incluirManobra();
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -288,8 +292,8 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             this.limparCamposTela();
             this.infoManobra.carregarTabelaDeManobras();
 
-        } catch (ParseException e) {
-            String mensagem = "Erro ao realizar operação:\n" + e.getMessage();
+        } catch (GerenciadorException g) {
+            String mensagem = "Erro ao realizar operação:\n" + g.getMessage();
             JOptionPane.showMessageDialog(this, mensagem, "Nova manobra", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {

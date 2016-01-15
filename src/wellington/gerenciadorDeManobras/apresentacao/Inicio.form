@@ -61,17 +61,14 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="btnLogin" min="-2" pref="192" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="btnRelatorioTotalManobras" min="-2" pref="187" max="-2" attributes="0"/>
+                          <EmptySpace pref="135" max="32767" attributes="0"/>
+                          <Component id="btnSair" min="-2" pref="181" max="-2" attributes="0"/>
+                      </Group>
                       <Component id="jLabel1" max="32767" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="570" max="32767" attributes="0"/>
-                          <Component id="btnSair" min="-2" pref="151" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="btnLogin" min="-2" pref="151" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
-                          <Component id="btnRelatorioTotalManobras" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
                       <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -89,17 +86,18 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnLogin" alignment="3" min="-2" pref="70" max="-2" attributes="0"/>
-                      <Component id="btnRelatorioTotalManobras" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnLogin" alignment="3" pref="76" max="32767" attributes="0"/>
+                          <Component id="btnRelatorioTotalManobras" alignment="3" pref="76" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="btnSair" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" pref="72" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" pref="72" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="btnSair" min="-2" pref="70" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">

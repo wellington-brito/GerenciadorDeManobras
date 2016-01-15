@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import wellington.gerenciadorDeManobras.entidade.Usuario;
+import wellington.gerenciadorDeManobras.excecao.LoginEsenhaInvalidoException;
 import wellington.gerenciadorDeManobras.excecao.UsuarioDuplicadoException;
 import wellington.gerenciadorDeManobras.negocio.UsuarioBO;
 
@@ -21,7 +22,7 @@ import wellington.gerenciadorDeManobras.negocio.UsuarioBO;
  * @author Wellington
  */
 public class Login extends javax.swing.JFrame {
-    
+
     private Inicio telaInicio;
     private Usuario usuarioEmEdicao;
     // private Usuario resgataDadosLogin;
@@ -36,11 +37,11 @@ public class Login extends javax.swing.JFrame {
         this.usuarioEmEdicao = new Usuario();
         initComponents();
     }
-    
+
     public Login(Inicio telaInicio) {
         this.usuarioEmEdicao = new Usuario();
         initComponents();
-        
+
     }
 
     /**
@@ -162,7 +163,7 @@ public class Login extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(98, 98, 98)
+                        .addGap(99, 99, 99)
                         .addComponent(lblinfo, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -228,6 +229,9 @@ public class Login extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         try {
             this.login();
+        } catch (LoginEsenhaInvalidoException l) {
+            String mensagem = "Erro ao tentar entrar no sistema:\n" + l.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Nova manobra", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchAlgorithmException ex) {
@@ -256,7 +260,7 @@ public class Login extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void incluiUsuario() throws NoSuchAlgorithmException, UnsupportedEncodingException, SQLException {
-        
+
         this.usuarioBO = new UsuarioBO();
         //boolean        
         this.recuperarCamposTelaNovoUsuario();
@@ -265,21 +269,22 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Nome de usuário indisponivel tente outro nome!", "Novo Usuário", JOptionPane.INFORMATION_MESSAGE);
             throw new UsuarioDuplicadoException("Nome de usuário indisponivel tente outro nome!");
         } else {
-            
+
             this.usuarioBO = new UsuarioBO();
             this.usuarioBO.incluirUsuario(usuarioEmEdicao);
             JOptionPane.showMessageDialog(this, "Novo usuário cadastrado com sucesso! Agora Tente Efetuar seu Login!", "Novo Usuário", JOptionPane.INFORMATION_MESSAGE);
             this.limparCamposTela();
         }
-        
+
     }
-    
+
     private void login() throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+
         this.usuarioBO = new UsuarioBO();
         this.recuperarCampos();
         String senhaMd5 = usuarioBO.exemploMD5(usuarioEmEdicao.getSenha());
         this.usuarios = this.usuarioBO.buscarUsuarios();
-        for (Usuario u : usuarios){            
+        for (Usuario u : usuarios) {
             if (u.getLogin().equals(this.usuarioEmEdicao.getLogin()) && u.getSenha().equals(senhaMd5)) {
                 if (this.gerenciarManobrasTelaInicial == null) {
                     int idUsuario = u.getId();
@@ -288,29 +293,29 @@ public class Login extends javax.swing.JFrame {
                 this.gerenciarManobrasTelaInicial.setVisible(true);
                 this.gerenciarManobrasTelaInicial.toFront();
                 this.dispose();
+            }else{
+                throw new LoginEsenhaInvalidoException();
             }
-            else{
-                this.lblinfo.setText("Login ou senha incorretos");
-            
-            }
+
         }
+
     }
-    
+
     private void recuperarCamposTelaNovoUsuario() throws SQLException {
         usuarioEmEdicao.setLogin(txtLoginNovo.getText().trim());
         usuarioEmEdicao.setSenha(txtSenhaNovo.getText().trim());
     }
-    
+
     private void recuperarCampos() throws SQLException {
         usuarioEmEdicao.setLogin(txtLogin1.getText());
         usuarioEmEdicao.setSenha(txtSenha.getText());
     }
-    
+
     private void limparCamposTela() {
         txtLoginNovo.setText("");
-        txtSenhaNovo.setText("");        
+        txtSenhaNovo.setText("");
         txtLogin1.setText("");
         txtSenha.setText("");
     }
-    
+
 }

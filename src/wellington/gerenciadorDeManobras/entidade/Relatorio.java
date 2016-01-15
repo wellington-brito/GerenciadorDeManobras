@@ -14,15 +14,25 @@ public class Relatorio {
     private String manobra;
     private int dias;
     private int status;
-    
-    private int total;
+    private int totalManobras;
+    private int totalTreinos;
 
-    public int getTotal() {
-        return total;
+    public int getTotalTreinos() {
+        return totalTreinos;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setTotalTreinos(int totalTreinos) {
+        this.totalTreinos = totalTreinos;
+    }
+     
+    
+    
+    public int getTotalManobras() {
+        return totalManobras;
+    }
+
+    public void setTotalManobras(int totalManobras) {
+        this.totalManobras = totalManobras;
     }
 
     public int getStatus() {

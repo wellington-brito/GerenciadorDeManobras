@@ -25,5 +25,11 @@ public class RelatorioBO {
         RelatorioDAO manobraLoginDiaDAO = new RelatorioDAO();
         return manobraLoginDiaDAO.recuperaTotalManobraPorLogin();
     }
+    
+    
+    public List<Relatorio> recuperarTotalManobrasTotalTreinos() throws SQLException{
+        RelatorioDAO relatorioDAO = new RelatorioDAO();
+        return relatorioDAO.recuperarTotalManobrasTotalTreinos();        
+    }
 
 }
