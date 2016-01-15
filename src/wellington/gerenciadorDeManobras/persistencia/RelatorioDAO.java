@@ -26,7 +26,7 @@ public class RelatorioDAO {
     public static final String SQL_TOTAL_MANOBRA_TREINO = "SELECT U.LOGIN, M.NOME, COUNT(M.ID), COUNT(T.ID) FROM USUARIO U JOIN\n"
             + "					MANOBRA M ON M.IDUSUARIO = U.ID JOIN\n"
             + "					TREINO T ON T.IDMANOBRA =  M.ID  JOIN\n"
-            + "					USUARIO U ON U.ID = T.IDUSUARIO GROUP BY U.LOGIN, M.NOME";
+            + "					USUARIO U ON U.ID = T.IDUSUARIO WHERE  M.STATUS <=100 GROUP BY U.LOGIN, M.NOME";
 
     public static final String SQL_TOTAL_LOGIN = "SELECT U.LOGIN, COUNT(M.STATUS) FROM MANOBRA M JOIN\n"
             + "USUARIO U ON U.ID = M.IDUSUARIO WHERE  M.STATUS =100 GROUP BY U.ID";

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="84f5080f-5276-4279-856b-091edcc2d3d8">
-	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="72"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -46,20 +46,25 @@
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="20" uuid="a6845b5e-d10b-4b06-ba3e-29515ba26cb5"/>
+				<reportElement x="0" y="0" width="106" height="35" uuid="a6845b5e-d10b-4b06-ba3e-29515ba26cb5"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
 				<text><![CDATA[Usuario]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="274" y="0" width="100" height="20" uuid="0a79dd2b-7560-428d-9125-d8e5de6ba5eb"/>
+				<reportElement x="409" y="0" width="144" height="35" uuid="0a79dd2b-7560-428d-9125-d8e5de6ba5eb"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
 				<text><![CDATA[Total Treinos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="113" y="0" width="100" height="20" uuid="88e84a01-0ae6-450c-9654-9eb32f9d6f9c"/>
-				<text><![CDATA[Total Manobras]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="453" y="0" width="60" height="20" uuid="c27fabdc-91d0-499b-8304-9f79ea3181a6"/>
-				<text><![CDATA[Manobras]]></text>
+				<reportElement x="158" y="0" width="205" height="36" uuid="88e84a01-0ae6-450c-9654-9eb32f9d6f9c"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[Total de Manobras]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -72,20 +77,25 @@
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement x="453" y="0" width="60" height="20" uuid="ea37e2df-2219-4ea6-94a9-11f591b6ac1f"/>
-				<textFieldExpression><![CDATA[$F{manobra}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="0" width="100" height="20" uuid="709c87bf-17f5-49f5-84cb-a53d5a6c92ec"/>
+				<reportElement x="0" y="0" width="106" height="35" uuid="709c87bf-17f5-49f5-84cb-a53d5a6c92ec"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{login}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="274" y="0" width="100" height="20" uuid="801a5321-b7cc-41bb-a5ab-6391ff0a195c"/>
-				<textFieldExpression><![CDATA[$F{totalTreinos}]]></textFieldExpression>
+				<reportElement x="158" y="0" width="205" height="35" uuid="2d34b2ce-64a4-49d2-8cd4-9518387c979c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalManobras}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="113" y="0" width="100" height="20" uuid="2d34b2ce-64a4-49d2-8cd4-9518387c979c"/>
-				<textFieldExpression><![CDATA[$F{totalManobras}]]></textFieldExpression>
+				<reportElement x="409" y="0" width="146" height="35" uuid="801a5321-b7cc-41bb-a5ab-6391ff0a195c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalTreinos}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -130,6 +140,31 @@
 					</bar3DPlot>
 				</bar3DChart>
 			</elementGroup>
+			<barChart>
+				<chart>
+					<reportElement x="315" y="55" width="200" height="100" uuid="ae87f248-a252-4364-a248-1ec03930e0e9"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{totalManobras}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{login}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{totalTreinos}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
 		</band>
 	</columnFooter>
 	<pageFooter>

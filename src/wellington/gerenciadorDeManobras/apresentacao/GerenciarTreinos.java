@@ -246,12 +246,8 @@ public class GerenciarTreinos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirTreinoActionPerformed
 
     private void btnFecharTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharTelaActionPerformed
-        try {
-            this.voltarTelaGerenciaDeManobras();
-            this.dispose();
-        } catch (SQLException ex) {
-            Logger.getLogger(GerenciarTreinos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.dispose();
+        this.infoManobras.toFront();
     }//GEN-LAST:event_btnFecharTelaActionPerformed
 
     private void btnRelatorioQntdDiasTreinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioQntdDiasTreinosActionPerformed
@@ -325,14 +321,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
      }
    
     
-    public void voltarTelaGerenciaDeManobras() throws SQLException{
-          if (this.infoManobras == null) {
-                   this.infoManobras = new GerenciarManobrasTelaInicial(idUsuario);
-                    this.infoManobras.setVisible(true);
-                    this.infoManobras.toFront();
-                }               
-                this.infoManobras.toFront();
-    }
+   
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterarTreino;
