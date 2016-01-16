@@ -103,8 +103,8 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         itemMenuRequisitos = new javax.swing.JMenuItem();
         mnuItemNovaCategoria = new javax.swing.JMenuItem();
         mnuItemRelatorio = new javax.swing.JMenuItem();
-        itemMenuSair = new javax.swing.JMenuItem();
         mnuItemDicas = new javax.swing.JMenuItem();
+        itemMenuSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Manobras");
@@ -125,6 +125,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tabelaManobras);
 
+        btnNovaManobra1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/add182.png"))); // NOI18N
         btnNovaManobra1.setText("Nova Manobra");
         btnNovaManobra1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,6 +133,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             }
         });
 
+        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/direction237.png"))); // NOI18N
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,6 +141,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             }
         });
 
+        btnExcluirManobra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/delete81.png"))); // NOI18N
         btnExcluirManobra.setText("Excluir");
         btnExcluirManobra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,6 +149,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             }
         });
 
+        btnEditarManobra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pencil43.png"))); // NOI18N
         btnEditarManobra.setText("Editar");
         btnEditarManobra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,6 +157,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             }
         });
 
+        btnTreinos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/bicycles.png"))); // NOI18N
         btnTreinos.setText("Treinos");
         btnTreinos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +167,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
         lblDica.setText("Ao usar o sistema pela 1ª vez, antes de adicionar uma manobra  insira as categorias as quais elas vão pertencer!!");
 
+        btnMaisTreinadas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/certification.png"))); // NOI18N
         btnMaisTreinadas.setText("Mais Treinadas ");
         btnMaisTreinadas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,19 +184,18 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnNovaManobra1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditarManobra)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEditarManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnTreinos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnMaisTreinadas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnMaisTreinadas, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExcluirManobra)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addComponent(btnSair))
-                    .addComponent(lblDica, javax.swing.GroupLayout.DEFAULT_SIZE, 785, Short.MAX_VALUE))
+                    .addComponent(lblDica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -199,17 +204,18 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblDica)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExcluirManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMaisTreinadas, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTreinos, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditarManobra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNovaManobra1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnNovaManobra1)
+                        .addComponent(btnEditarManobra)
+                        .addComponent(btnTreinos)
+                        .addComponent(btnMaisTreinadas)
+                        .addComponent(btnExcluirManobra))
+                    .addComponent(btnSair, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        menuOpçoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/menu62 (1).png"))); // NOI18N
         menuOpçoes.setText("Opções");
 
         itemMenuRequisitos.setText("Requisitos de manobras");
@@ -232,6 +238,14 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         mnuItemRelatorio.setText("Relatórios");
         menuOpçoes.add(mnuItemRelatorio);
 
+        mnuItemDicas.setText("Dicas de manobras");
+        mnuItemDicas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemDicasActionPerformed(evt);
+            }
+        });
+        menuOpçoes.add(mnuItemDicas);
+
         itemMenuSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         itemMenuSair.setText("Sair");
         itemMenuSair.addActionListener(new java.awt.event.ActionListener() {
@@ -240,14 +254,6 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             }
         });
         menuOpçoes.add(itemMenuSair);
-
-        mnuItemDicas.setText("Dicas de manobras");
-        mnuItemDicas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemDicasActionPerformed(evt);
-            }
-        });
-        menuOpçoes.add(mnuItemDicas);
 
         barraDeMenuPrincipal.add(menuOpçoes);
 
@@ -269,7 +275,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(853, 539));
+        setSize(new java.awt.Dimension(1014, 539));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
