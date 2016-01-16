@@ -60,6 +60,7 @@ public class GerenciarDicas extends javax.swing.JFrame {
         lblDica = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         pnlDicas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gerenciar Dicas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
@@ -76,6 +77,7 @@ public class GerenciarDicas extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabelaDicas);
 
+        btnExcluirRequisito.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/delete81.png"))); // NOI18N
         btnExcluirRequisito.setText("Excluir");
         btnExcluirRequisito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,6 +85,7 @@ public class GerenciarDicas extends javax.swing.JFrame {
             }
         });
 
+        btnFecharTela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/back57.png"))); // NOI18N
         btnFecharTela.setText("Voltar");
         btnFecharTela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,10 +121,10 @@ public class GerenciarDicas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDica, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(pnlDicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnExcluirRequisito, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFecharTela, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addGroup(pnlDicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnExcluirRequisito, javax.swing.GroupLayout.PREFERRED_SIZE, 68, Short.MAX_VALUE)
+                    .addComponent(btnFecharTela, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

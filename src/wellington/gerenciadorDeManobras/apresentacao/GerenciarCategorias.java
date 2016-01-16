@@ -69,6 +69,7 @@ public class GerenciarCategorias extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Categorias");
         setExtendedState(6);
+        setResizable(false);
 
         painelListaCategorias.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Categorias", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 18))); // NOI18N
 
@@ -85,6 +86,7 @@ public class GerenciarCategorias extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabelaCategorias);
 
+        btnAlterarCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pencil43.png"))); // NOI18N
         btnAlterarCategoria.setText("Editar");
         btnAlterarCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,6 +94,7 @@ public class GerenciarCategorias extends javax.swing.JFrame {
             }
         });
 
+        btnExcluirCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/delete81.png"))); // NOI18N
         btnExcluirCategoria.setText("Excluir");
         btnExcluirCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,6 +102,7 @@ public class GerenciarCategorias extends javax.swing.JFrame {
             }
         });
 
+        btnNovaCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/add182.png"))); // NOI18N
         btnNovaCategoria.setText("Nova");
         btnNovaCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,6 +110,7 @@ public class GerenciarCategorias extends javax.swing.JFrame {
             }
         });
 
+        btnFecharTela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/back57.png"))); // NOI18N
         btnFecharTela.setText("Voltar");
         btnFecharTela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,31 +122,30 @@ public class GerenciarCategorias extends javax.swing.JFrame {
         painelListaCategorias.setLayout(painelListaCategoriasLayout);
         painelListaCategoriasLayout.setHorizontalGroup(
             painelListaCategoriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelListaCategoriasLayout.createSequentialGroup()
+                .addContainerGap(120, Short.MAX_VALUE)
+                .addComponent(btnNovaCategoria)
+                .addGap(18, 18, 18)
+                .addComponent(btnAlterarCategoria)
+                .addGap(18, 18, 18)
+                .addComponent(btnExcluirCategoria)
+                .addGap(11, 11, 11)
+                .addComponent(btnFecharTela)
+                .addContainerGap())
             .addGroup(painelListaCategoriasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(painelListaCategoriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelListaCategoriasLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnNovaCategoria)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAlterarCategoria)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnExcluirCategoria)
-                        .addGap(11, 11, 11)
-                        .addComponent(btnFecharTela)))
-                .addContainerGap())
+                .addComponent(jScrollPane1))
         );
         painelListaCategoriasLayout.setVerticalGroup(
             painelListaCategoriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelListaCategoriasLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 196, Short.MAX_VALUE)
                 .addGroup(painelListaCategoriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnExcluirCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAlterarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNovaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFecharTela, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnExcluirCategoria)
+                    .addComponent(btnAlterarCategoria)
+                    .addComponent(btnNovaCategoria)
+                    .addComponent(btnFecharTela)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -157,11 +161,10 @@ public class GerenciarCategorias extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(painelListaCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addComponent(painelListaCategorias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(601, 454));
+        setSize(new java.awt.Dimension(739, 500));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

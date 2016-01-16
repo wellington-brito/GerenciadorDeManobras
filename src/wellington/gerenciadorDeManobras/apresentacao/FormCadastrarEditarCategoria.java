@@ -64,9 +64,11 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nova Categoria");
         setExtendedState(6);
+        setResizable(false);
 
         painelAdicionarCategoria.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Adicionar Categoria", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 18))); // NOI18N
 
+        lblNomeCategoria.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblNomeCategoria.setText("Nome Categoria");
 
         txtNomeCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -75,6 +77,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
             }
         });
 
+        lblNomeCategoria1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblNomeCategoria1.setText("Descrição");
 
         txtDescricaoCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -83,6 +86,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
             }
         });
 
+        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/save23.png"))); // NOI18N
         btnSalvar.setText("Salvar!");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,6 +94,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
             }
         });
 
+        btnFecharTela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/back57.png"))); // NOI18N
         btnFecharTela.setText("Voltar");
         btnFecharTela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,60 +112,66 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(painelAdicionarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelAdicionarCategoriaLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(painelAdicionarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblinfo)
+                            .addComponent(lblNomeCategoria1))
+                        .addGap(62, 62, 62))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelAdicionarCategoriaLayout.createSequentialGroup()
                         .addComponent(lblNomeCategoria)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblNomeCategoria1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDescricaoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(painelAdicionarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelAdicionarCategoriaLayout.createSequentialGroup()
+                        .addGap(380, 464, Short.MAX_VALUE)
                         .addComponent(btnSalvar)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnFecharTela))
                     .addGroup(painelAdicionarCategoriaLayout.createSequentialGroup()
-                        .addComponent(lblinfo)
+                        .addGroup(painelAdicionarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDescricaoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         painelAdicionarCategoriaLayout.setVerticalGroup(
             painelAdicionarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelAdicionarCategoriaLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(25, 25, 25)
                 .addGroup(painelAdicionarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNomeCategoria)
                     .addComponent(txtNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNomeCategoria))
+                .addGap(44, 44, 44)
+                .addGroup(painelAdicionarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNomeCategoria1)
-                    .addComponent(txtDescricaoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFecharTela, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                    .addComponent(txtDescricaoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 270, Short.MAX_VALUE)
                 .addComponent(lblinfo)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelAdicionarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(btnSalvar)
+                .addComponent(btnFecharTela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 777, Short.MAX_VALUE)
+            .addGap(0, 916, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(painelAdicionarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(painelAdicionarCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 164, Short.MAX_VALUE)
+            .addGap(0, 467, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(painelAdicionarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(painelAdicionarCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
-        setSize(new java.awt.Dimension(793, 203));
+        setSize(new java.awt.Dimension(932, 506));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

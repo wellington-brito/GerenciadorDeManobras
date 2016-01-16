@@ -59,9 +59,11 @@ public class Inicio extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gerenciador de Manobras Bmx");
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.lightGray, java.awt.Color.black, java.awt.Color.lightGray));
 
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/robber1.png"))); // NOI18N
         btnLogin.setText("Entrar");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,6 +71,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/direction237.png"))); // NOI18N
         btnSair.setText("Fechar");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,16 +79,17 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        lblManobraAleatorioa1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblManobraAleatorioa1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblManobraAleatorioa1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblManobraAleatorioa1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        lblDicaAleatoria.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblDicaAleatoria.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblDicaAleatoria.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDicaAleatoria.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        lblManobraAleatoria2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblManobraAleatoria2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblManobraAleatoria2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblManobraAleatoria2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnRelatorioTotalManobras.setText("Manobras dos usuários");
+        btnRelatorioTotalManobras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/certification.png"))); // NOI18N
+        btnRelatorioTotalManobras.setText("Manobras com treinos 100%");
         btnRelatorioTotalManobras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRelatorioTotalManobrasActionPerformed(evt);
@@ -100,23 +104,23 @@ public class Inicio extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(64, 64, 64)
+                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(111, 111, 111)
                         .addComponent(btnRelatorioTotalManobras, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblManobraAleatoria2, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblManobraAleatoria2, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblManobraAleatorioa1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblManobraAleatorioa1, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(lblDicaAleatoria, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(369, Short.MAX_VALUE)))
+                    .addComponent(lblDicaAleatoria, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(190, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,18 +129,18 @@ public class Inicio extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                        .addComponent(btnRelatorioTotalManobras, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                        .addComponent(btnRelatorioTotalManobras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(120, 120, 120)
                 .addComponent(lblManobraAleatorioa1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblManobraAleatoria2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(132, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(140, 140, 140)
                     .addComponent(lblDicaAleatoria, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(284, Short.MAX_VALUE)))
+                    .addContainerGap(273, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -150,9 +154,10 @@ public class Inicio extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();

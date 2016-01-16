@@ -108,6 +108,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setExtendedState(6);
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Treinos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
@@ -124,6 +125,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabelaTreinos);
 
+        btnNovoTreino.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/add182.png"))); // NOI18N
         btnNovoTreino.setText("Novo");
         btnNovoTreino.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,6 +133,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             }
         });
 
+        btnAlterarTreino.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pencil43.png"))); // NOI18N
         btnAlterarTreino.setText("Editar");
         btnAlterarTreino.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,6 +141,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             }
         });
 
+        btnExcluirTreino.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/delete81.png"))); // NOI18N
         btnExcluirTreino.setText("Excluir");
         btnExcluirTreino.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,6 +149,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
             }
         });
 
+        btnFecharTela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/back57.png"))); // NOI18N
         btnFecharTela.setText("Voltar");
         btnFecharTela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,6 +159,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
 
         lblTeste.setText("Info.");
 
+        btnRelatorioQntdDiasTreinos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/certification.png"))); // NOI18N
         btnRelatorioQntdDiasTreinos.setText("Dias treinando");
         btnRelatorioQntdDiasTreinos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,40 +171,40 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnRelatorioQntdDiasTreinos)
-                .addGap(35, 35, 35)
-                .addComponent(btnNovoTreino)
-                .addGap(18, 18, 18)
-                .addComponent(btnAlterarTreino)
-                .addGap(18, 18, 18)
-                .addComponent(btnExcluirTreino)
-                .addGap(11, 11, 11)
-                .addComponent(btnFecharTela)
-                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblTeste)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblTeste)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnRelatorioQntdDiasTreinos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnNovoTreino)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAlterarTreino)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnExcluirTreino)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                        .addComponent(btnFecharTela, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(190, 190, 190)
                 .addComponent(lblTeste)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnRelatorioQntdDiasTreinos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnExcluirTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAlterarTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnNovoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnFecharTela, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnRelatorioQntdDiasTreinos, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addComponent(btnAlterarTreino)
+                        .addComponent(btnExcluirTreino)
+                        .addComponent(btnFecharTela))
+                    .addComponent(btnNovoTreino)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -218,7 +224,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(791, 541));
+        setSize(new java.awt.Dimension(885, 560));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

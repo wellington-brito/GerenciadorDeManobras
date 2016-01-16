@@ -23,10 +23,9 @@ public class RelatorioDAO {
             + "	TREINO T ON M.ID  = T.IDMANOBRA JOIN\n"
             + "	USUARIO U ON U.ID = T.IDUSUARIO WHERE IDUSUARIO = ?";
 
-    public static final String SQL_TOTAL_MANOBRA_TREINO = "SELECT U.LOGIN, M.NOME, COUNT(M.ID), COUNT(T.ID) FROM USUARIO U JOIN\n"
-            + "					MANOBRA M ON M.IDUSUARIO = U.ID JOIN\n"
-            + "					TREINO T ON T.IDMANOBRA =  M.ID  JOIN\n"
-            + "					USUARIO U ON U.ID = T.IDUSUARIO WHERE  M.STATUS <=100 GROUP BY U.LOGIN, M.NOME";
+    public static final String SQL_TOTAL_MANOBRA_TREINO = "SELECT U.LOGIN, COUNT(M.STATUS), COUNT(T.ID) FROM MANOBRA M JOIN\n"
+            + "            TREINO T ON T.IDMANOBRA = M.ID JOIN\n"
+            + "            USUARIO U ON U.ID = M.IDUSUARIO WHERE  M.STATUS <=100 GROUP BY U.ID";
 
     public static final String SQL_TOTAL_LOGIN = "SELECT U.LOGIN, COUNT(M.STATUS) FROM MANOBRA M JOIN\n"
             + "USUARIO U ON U.ID = M.IDUSUARIO WHERE  M.STATUS =100 GROUP BY U.ID";
@@ -133,9 +132,9 @@ public class RelatorioDAO {
     private Relatorio extrairLinhaResultadoTotalManobraTreinos(ResultSet resultado) throws SQLException {
         Relatorio totalManobra = new Relatorio();
         totalManobra.setLogin(resultado.getString(1));
-        totalManobra.setManobra(resultado.getString(2));
-        totalManobra.setTotalManobras(resultado.getInt(3));
-        totalManobra.setTotalTreinos(resultado.getInt(4));
+        //totalManobra.setManobra(resultado.getString(2));
+        totalManobra.setTotalManobras(resultado.getInt(2));
+        totalManobra.setTotalTreinos(resultado.getInt(3));
         return totalManobra;
     }
 
