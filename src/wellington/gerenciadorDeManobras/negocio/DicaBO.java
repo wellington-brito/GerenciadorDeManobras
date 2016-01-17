@@ -21,9 +21,9 @@ public class DicaBO {
         dicaDAO.incluirDica(dicaEmEdicao);
     }
 
-    public List<Dica> buscarTodasDicas() throws SQLException {
+    public List<Dica> buscarTodasDicas(int idUsuario) throws SQLException {
         DicaDAO dicaDAO = new DicaDAO();
-        return dicaDAO.buscarTodasDicas();
+        return dicaDAO.buscarTodasDicas(idUsuario);
     }
 
     public void removerDica(int id) throws SQLException {
@@ -34,6 +34,18 @@ public class DicaBO {
     public List<Dica> buscarDicasAleatorias() throws SQLException {
         DicaDAO dicaDAO = new DicaDAO();
         return dicaDAO.buscarDicasAleatorias();
+    }
+
+    public void atualizarDica(Dica dicaEmEdicao) throws SQLException {
+         this.verificaIdUsuario(dicaEmEdicao);
+    
+    }
+    
+     private void verificaIdUsuario(Dica dica) throws SQLException {
+       if(dica.getIdUsuario()>0){
+        DicaDAO dicaDAO = new DicaDAO();
+        dicaDAO.atualizar(dica);
+       }
     }
 
 }

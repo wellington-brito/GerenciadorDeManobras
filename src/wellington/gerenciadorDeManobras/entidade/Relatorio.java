@@ -23,9 +23,7 @@ public class Relatorio {
 
     public void setTotalTreinos(int totalTreinos) {
         this.totalTreinos = totalTreinos;
-    }
-     
-    
+    }       
     
     public int getTotalManobras() {
         return totalManobras;

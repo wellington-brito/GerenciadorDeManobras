@@ -76,7 +76,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             this.dispose();
         }
     }
-    
+
     @Override
     public void setVisible(boolean exibir) {
         super.setVisible(exibir);
@@ -337,10 +337,14 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
     private void btnEditarManobraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarManobraActionPerformed
         try {
-           
+
             this.editarManobra();
             this.editarManobraForm.setVerificaEditarOuSalvar(1);
-            
+
+        } catch (NoSelectionException n) {
+            String mensagen = "Selecione uma manobra antes!\n" + n.getMessage();
+            JOptionPane.showMessageDialog(this, mensagen, "Editar Manobra", JOptionPane.ERROR_MESSAGE);
+
         } catch (SQLException ex) {
             Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -405,8 +409,6 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
     }
 
-    
-
     public void carregarTabelaDeManobras(int idUsuario) throws SQLException {
         ManobraBO manobrasBO = new ManobraBO();
         this.manobras = manobrasBO.buscarTodasManobras(idUsuario);
@@ -423,7 +425,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
     }
 
-    public void excluirManobra()    {
+    public void excluirManobra() {
         try {
             int linhaSelecionada = tabelaManobras.getSelectedRow();
             if (linhaSelecionada != -1) {
@@ -448,14 +450,14 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             }
         } catch (GerenciadorException g) {
             String mensagem = "Erro inesperado!Observe a seguinte mensagem de erro:";
-            mensagem +=  g.getMessage();
+            mensagem += g.getMessage();
             JOptionPane.showMessageDialog(this, mensagem, "Exclusão de manobra ", JOptionPane.ERROR_MESSAGE);
             //this.dispose();
-        }catch(SQLException s){
+        } catch (SQLException s) {
             String mensagem = "Você está tentando excluir uma manobra que está em treinamento. Apague o treino dela e tente novamente!";
-            mensagem +=  s.getMessage();
+            mensagem += s.getMessage();
             JOptionPane.showMessageDialog(this, mensagem, "Exclusão de manobra ", JOptionPane.ERROR_MESSAGE);
-            
+
         }
     }
 
@@ -528,10 +530,9 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             editarManobraForm = new FormCadastroManobra(this, manobraSelecionado);
             editarManobraForm.setVisible(true);
         } else {
-            this.lblDica.setText("Selecione uma manobra antes!");
             throw new NoSelectionException();
         }
-        
+
     }
 
     private void logOut() throws SQLException {
@@ -622,7 +623,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
         try {
             String arquivoRelatorio = System.getProperty("user.dir")
-                    + "/relatorios/TotalTreinoEmManobras.jasper";
+                    + "/relatorios/TotalTreinoManobras.jasper";
 
             Map<String, Object> parametros = new HashMap<String, Object>();
 

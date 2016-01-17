@@ -253,7 +253,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
 
     private void btnFecharTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharTelaActionPerformed
         this.dispose();
-        this.infoManobras.toFront();
+//        this.infoManobras.toFront();
     }//GEN-LAST:event_btnFecharTelaActionPerformed
 
     private void btnRelatorioQntdDiasTreinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioQntdDiasTreinosActionPerformed
@@ -348,11 +348,9 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         public String getColumnName(int coluna) {
             if(coluna == 0){
                 return "Manobras";
-            } else if (coluna == 1){
+            } else {
                 return "Progresso %";
-            } else{
-                return "Dias treinando";
-            }
+            } 
         }
         
         @Override
@@ -362,7 +360,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         
         @Override
         public int getColumnCount() {
-            return 3;
+            return 2;
         }
         
         @Override

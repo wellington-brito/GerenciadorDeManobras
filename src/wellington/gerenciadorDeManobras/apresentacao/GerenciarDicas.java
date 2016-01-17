@@ -6,6 +6,7 @@
 package wellington.gerenciadorDeManobras.apresentacao;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -14,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import wellington.gerenciadorDeManobras.entidade.Dica;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
+import wellington.gerenciadorDeManobras.excecao.NoSelectionException;
 import wellington.gerenciadorDeManobras.negocio.DicaBO;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
 
@@ -28,19 +30,33 @@ public class GerenciarDicas extends javax.swing.JFrame {
     private List<Manobra> manobras;
     private GerenciarManobrasTelaInicial gerenciarManobrasTelaInicial;
     private int idUsuario;
+    private FormAdicionarDicaManobra editardicaForm;
+
     /**
      * Creates new form GerenciarDicas
      */
     public GerenciarDicas() throws SQLException {
         initComponents();
-        this.carregarTabelaDeDicas();
+        this.carregarTabelaDeDicas(idUsuario);
     }
 
     GerenciarDicas(GerenciarManobrasTelaInicial gerenciarManobrasTelaInicial, int idUsuario) throws SQLException {
-       this.idUsuario = idUsuario;
+        this.idUsuario = idUsuario;
         this.gerenciarManobrasTelaInicial = gerenciarManobrasTelaInicial;
         initComponents();
-        this.carregarTabelaDeDicas();
+        this.carregarTabelaDeDicas(idUsuario);
+    }
+
+    @Override
+    public void setVisible(boolean exibir) {
+        super.setVisible(exibir);
+        if (exibir == true) {
+            try {
+                this.carregarTabelaDeDicas(idUsuario);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -58,6 +74,7 @@ public class GerenciarDicas extends javax.swing.JFrame {
         btnExcluirRequisito = new javax.swing.JButton();
         btnFecharTela = new javax.swing.JButton();
         lblDica = new javax.swing.JLabel();
+        btnEditarDicas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -95,19 +112,29 @@ public class GerenciarDicas extends javax.swing.JFrame {
 
         lblDica.setText("Info");
 
+        btnEditarDicas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pencil43.png"))); // NOI18N
+        btnEditarDicas.setText("Editar");
+        btnEditarDicas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarDicasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlDicasLayout = new javax.swing.GroupLayout(pnlDicas);
         pnlDicas.setLayout(pnlDicasLayout);
         pnlDicasLayout.setHorizontalGroup(
             pnlDicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDicasLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDicasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlDicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDicasLayout.createSequentialGroup()
+                .addGroup(pnlDicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
+                    .addGroup(pnlDicasLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(pnlDicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblDica, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDicasLayout.createSequentialGroup()
+                        .addGroup(pnlDicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblDica)
+                            .addGroup(pnlDicasLayout.createSequentialGroup()
+                                .addComponent(btnEditarDicas, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnExcluirRequisito)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnFecharTela)))))
@@ -115,15 +142,20 @@ public class GerenciarDicas extends javax.swing.JFrame {
         );
         pnlDicasLayout.setVerticalGroup(
             pnlDicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDicasLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDicasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDica, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(pnlDicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnExcluirRequisito, javax.swing.GroupLayout.PREFERRED_SIZE, 68, Short.MAX_VALUE)
-                    .addComponent(btnFecharTela, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(pnlDicasLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEditarDicas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDicasLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(lblDica, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlDicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnFecharTela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnExcluirRequisito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -140,8 +172,8 @@ public class GerenciarDicas extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlDicas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(pnlDicas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -155,8 +187,20 @@ public class GerenciarDicas extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnFecharTelaActionPerformed
 
+    private void btnEditarDicasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDicasActionPerformed
+        try {
+            this.editarDica();
+            this.editardicaForm.setVerificaEditarOuSalvar(1);
+        } catch (NoSelectionException n) {
+            String mensagen = "Selecione uma dica antes!\n" + n.getMessage();
+            JOptionPane.showMessageDialog(this, mensagen, "Editar dica", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnEditarDicasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEditarDicas;
     private javax.swing.JButton btnExcluirRequisito;
     private javax.swing.JButton btnFecharTela;
     private javax.swing.JScrollPane jScrollPane1;
@@ -165,16 +209,16 @@ public class GerenciarDicas extends javax.swing.JFrame {
     private javax.swing.JTable tabelaDicas;
     // End of variables declaration//GEN-END:variables
 
-    private void carregarTabelaDeDicas() throws SQLException {
+    void carregarTabelaDeDicas(int idUsuario) throws SQLException {
         this.dicaBO = new DicaBO();
-        this.dicas = this.dicaBO.buscarTodasDicas();
+        this.dicas = this.dicaBO.buscarTodasDicas(idUsuario);
         ModeloTabelaDicas modelo = new ModeloTabelaDicas();
         tabelaDicas.setModel(modelo);
     }
 
     private void excluirRequisito() {
-        
-          try {
+
+        try {
             int linhaSelecionada = tabelaDicas.getSelectedRow();
             if (linhaSelecionada != -1) {
                 Dica dicaSelecionada = dicas.get(linhaSelecionada);
@@ -189,7 +233,7 @@ public class GerenciarDicas extends javax.swing.JFrame {
                     dicaBO.removerDica(dicaSelecionada.getId());
                     mensagem = "Dica excluída com sucesso!";
                     JOptionPane.showMessageDialog(this, mensagem, "Exclusão de dica", JOptionPane.INFORMATION_MESSAGE);
-                    this.carregarTabelaDeDicas();
+                    this.carregarTabelaDeDicas(idUsuario);
                 }
             } else {
                 String mensagem = "Selecione uma categoria antes!";
@@ -200,6 +244,21 @@ public class GerenciarDicas extends javax.swing.JFrame {
             mensagem += "\nMensagem de erro:\n" + e.getMessage();
             JOptionPane.showMessageDialog(this, mensagem, "Exclusão de categoria ", JOptionPane.ERROR_MESSAGE);
             this.dispose();
+        }
+    }
+
+    private void editarDica() {
+        int linhaSelecionada = tabelaDicas.getSelectedRow();
+        if (linhaSelecionada != -1) {
+            Dica dicaSelecionado = dicas.get(linhaSelecionada);
+            if (editardicaForm != null) {
+                editardicaForm.dispose();
+            }
+            editardicaForm = new FormAdicionarDicaManobra(this, dicaSelecionado);
+            editardicaForm.setVisible(true);
+        } else {
+            this.lblDica.setText("Selecione uma dica antes!");
+            throw new NoSelectionException();
         }
     }
 
@@ -229,7 +288,7 @@ public class GerenciarDicas extends javax.swing.JFrame {
         public Object getValueAt(int rowIndex, int columnIndex) {
             try {
                 DicaBO dicaBO = new DicaBO();
-                dicas = dicaBO.buscarTodasDicas();
+                dicas = dicaBO.buscarTodasDicas(idUsuario);
             } catch (SQLException ex) {
                 Logger.getLogger(GerenciarRequisitos.class.getName()).log(Level.SEVERE, null, ex);
             }

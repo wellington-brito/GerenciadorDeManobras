@@ -11,6 +11,7 @@
 	<field name="totalManobras" class="java.lang.Integer"/>
 	<field name="totalTreinos" class="java.lang.Integer"/>
 	<field name="manobra" class="java.lang.String"/>
+	<field name="dias" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -26,11 +27,11 @@
 				<text><![CDATA[GMBmx]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="SubTitle" x="63" y="39" width="200" height="22" forecolor="#FFFFFF" uuid="4df71ab2-d1f3-4c98-8b95-feb409aa26e3"/>
+				<reportElement style="SubTitle" x="90" y="38" width="248" height="22" forecolor="#FFFFFF" uuid="4df71ab2-d1f3-4c98-8b95-feb409aa26e3"/>
 				<textElement textAlignment="Right">
-					<font size="12"/>
+					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Todas manobras e Total de treinos]]></text>
+				<text><![CDATA[Manobras treinadas, ou concluídas(100%)]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -46,25 +47,16 @@
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="0" y="0" width="106" height="35" uuid="a6845b5e-d10b-4b06-ba3e-29515ba26cb5"/>
-				<textElement>
-					<font fontName="Arial" size="14"/>
-				</textElement>
-				<text><![CDATA[Usuario]]></text>
+				<reportElement x="20" y="2" width="100" height="20" uuid="702710b8-5cb5-4806-a6f4-c23fe2c07c16"/>
+				<text><![CDATA[login]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="409" y="0" width="144" height="35" uuid="0a79dd2b-7560-428d-9125-d8e5de6ba5eb"/>
-				<textElement>
-					<font fontName="Arial" size="14"/>
-				</textElement>
-				<text><![CDATA[Total Treinos]]></text>
+				<reportElement x="168" y="2" width="100" height="20" uuid="d60836fc-3553-4c63-bb99-f2c1285a3c67"/>
+				<text><![CDATA[manobra]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="158" y="0" width="205" height="36" uuid="88e84a01-0ae6-450c-9654-9eb32f9d6f9c"/>
-				<textElement>
-					<font fontName="Arial" size="14"/>
-				</textElement>
-				<text><![CDATA[Total de Manobras]]></text>
+				<reportElement x="328" y="2" width="100" height="20" uuid="6dda18e5-ef67-4a17-bb24-55aa4208d051"/>
+				<text><![CDATA[dias]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -77,25 +69,16 @@
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement x="0" y="0" width="106" height="35" uuid="709c87bf-17f5-49f5-84cb-a53d5a6c92ec"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
+				<reportElement x="168" y="0" width="100" height="20" uuid="d1598afe-00a9-4048-8e9f-da4e7c3ec90c"/>
+				<textFieldExpression><![CDATA[$F{manobra}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="328" y="0" width="100" height="20" uuid="a1a24216-3416-4836-9eae-fe3078fa98a1"/>
+				<textFieldExpression><![CDATA[$F{dias}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="0" width="100" height="20" uuid="a4c38efc-e02a-472b-8b69-7f5ccaed2716"/>
 				<textFieldExpression><![CDATA[$F{login}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="158" y="0" width="205" height="35" uuid="2d34b2ce-64a4-49d2-8cd4-9518387c979c"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{totalManobras}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="409" y="0" width="146" height="35" uuid="801a5321-b7cc-41bb-a5ab-6391ff0a195c"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{totalTreinos}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -107,51 +90,20 @@
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
-			<elementGroup>
-				<bar3DChart>
-					<chart>
-						<reportElement x="5" y="30" width="208" height="144" uuid="9bdb2401-b5d3-4ece-b920-de9b3bf419db"/>
-						<chartTitle/>
-						<chartSubtitle/>
-						<chartLegend/>
-					</chart>
-					<categoryDataset>
-						<dataset incrementType="Report"/>
-						<categorySeries>
-							<seriesExpression><![CDATA["total manobras"]]></seriesExpression>
-							<categoryExpression><![CDATA[$F{totalManobras}]]></categoryExpression>
-							<valueExpression><![CDATA[$F{totalManobras}]]></valueExpression>
-						</categorySeries>
-						<categorySeries>
-							<seriesExpression><![CDATA["Total de treinos"]]></seriesExpression>
-							<categoryExpression><![CDATA[$F{totalTreinos}]]></categoryExpression>
-							<valueExpression><![CDATA[$F{totalTreinos}]]></valueExpression>
-						</categorySeries>
-					</categoryDataset>
-					<bar3DPlot>
-						<plot/>
-						<itemLabel/>
-						<categoryAxisFormat>
-							<axisFormat/>
-						</categoryAxisFormat>
-						<valueAxisFormat>
-							<axisFormat/>
-						</valueAxisFormat>
-					</bar3DPlot>
-				</bar3DChart>
-			</elementGroup>
-			<barChart>
+			<elementGroup/>
+			<stackedBarChart>
 				<chart>
-					<reportElement x="315" y="55" width="200" height="100" uuid="ae87f248-a252-4364-a248-1ec03930e0e9"/>
+					<reportElement x="0" y="4" width="553" height="181" uuid="efbfd8d5-5cd2-4263-920f-5a71b90e6a24"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
 					<categorySeries>
-						<seriesExpression><![CDATA[$F{totalManobras}]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{login}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{totalTreinos}]]></valueExpression>
+						<seriesExpression><![CDATA["Dias de treino"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{manobra}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{dias}]]></valueExpression>
+						<labelExpression><![CDATA[$F{login}]]></labelExpression>
 					</categorySeries>
 				</categoryDataset>
 				<barPlot>
@@ -164,7 +116,7 @@
 						<axisFormat/>
 					</valueAxisFormat>
 				</barPlot>
-			</barChart>
+			</stackedBarChart>
 		</band>
 	</columnFooter>
 	<pageFooter>

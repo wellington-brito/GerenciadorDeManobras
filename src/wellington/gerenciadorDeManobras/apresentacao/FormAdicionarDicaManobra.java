@@ -6,10 +6,12 @@
 package wellington.gerenciadorDeManobras.apresentacao;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import wellington.gerenciadorDeManobras.entidade.Dica;
+import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
 import wellington.gerenciadorDeManobras.negocio.DicaBO;
 
@@ -19,10 +21,14 @@ import wellington.gerenciadorDeManobras.negocio.DicaBO;
  */
 public class FormAdicionarDicaManobra extends javax.swing.JFrame {
 
+    private int verificaEditarOuSalvar;
     private Dica dicaEmEdicao;
-    private int idManobra=0;
+    private DicaBO dicaBO;
+    private int idManobra = 0;
     private int idUsuario;
     private FormCadastrarEditarTreino formCadastrarEditarTreino;
+    private GerenciarDicas gerenciarDicas;
+
     /**
      * Creates new form FormAdicionarDicaManobra
      */
@@ -34,6 +40,12 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
         this.idUsuario = idUsuario;
         this.formCadastrarEditarTreino = formCadastrarEditarTreino;
         this.idManobra = id;
+        initComponents();
+    }
+
+    FormAdicionarDicaManobra(GerenciarDicas gerenciarDicas, Dica dicaSelecionado) {
+        this.gerenciarDicas = gerenciarDicas;
+        this.dicaEmEdicao = dicaSelecionado;
         initComponents();
     }
 
@@ -145,25 +157,38 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnSalvarDicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarDicaActionPerformed
-        try {
-            this.inserirDica();
-        } catch (SQLException ex) {
-            Logger.getLogger(FormAdicionarDicaManobra.class.getName()).log(Level.SEVERE, null, ex);
+      
+        if (this.verificaEditarOuSalvar == 1) {
+            try {
+                this.verificaEditarOuSalvar = 0;
+                this.atualizarDica();
+            } catch (CampoObrigatorioException ex) {
+                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(FormAdicionarDicaManobra.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormAdicionarDicaManobra.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                this.inserirDica();
+            } catch (SQLException ex) {
+                Logger.getLogger(FormAdicionarDicaManobra.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnSalvarDicaActionPerformed
 
-    public void inserirDica() throws SQLException{
+    public void inserirDica() throws SQLException {
         this.veririficarCampoDica();
         this.recuperarDica();
         this.dicaEmEdicao.setIdManobra(idManobra);
         DicaBO dicaBO = new DicaBO();
         dicaBO.incluirNovaDica(dicaEmEdicao);
         JOptionPane.showMessageDialog(this, "Dica cadastrada com sucesso", "Nova dica", JOptionPane.INFORMATION_MESSAGE);
-        //this.formCadastrarEditarTreino.sugerirNovoTreino();
         this.dispose();
-    
+
     }
-   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnSalvarDica;
@@ -174,19 +199,43 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
     private javax.swing.JTextArea txtDicaManobra;
     // End of variables declaration//GEN-END:variables
 
-   
-
     private void recuperarDica() {
         this.dicaEmEdicao = new Dica();
         this.dicaEmEdicao.setDescricao(txtDicaManobra.getText());
         this.dicaEmEdicao.setIdUsuario(idUsuario);
-        
+
     }
 
     private void veririficarCampoDica() {
-        if(txtDicaManobra.getText().trim().isEmpty()){
-        this.lblinfo.setText("Infome sua dica para a manobra q acaba de concluir o treino!");
-        throw new CampoObrigatorioException();
+        if (txtDicaManobra.getText().trim().isEmpty()) {
+            this.lblinfo.setText("Infome sua dica para a manobra q acaba de concluir o treino!");
+            throw new CampoObrigatorioException();
         }
+    }
+
+    public int getVerificaEditarOuSalvar() {
+        return verificaEditarOuSalvar;
+    }
+
+    public void setVerificaEditarOuSalvar(int verificaEditarOuSalvar) {
+        this.verificaEditarOuSalvar = verificaEditarOuSalvar;
+
+    }
+
+    private void atualizarDica() throws ParseException, SQLException {
+       recuperarCamposTela();
+       this.dicaBO = new DicaBO();
+       this.dicaBO.atualizarDica(dicaEmEdicao);
+       this.gerenciarDicas.carregarTabelaDeDicas(idUsuario);
+       JOptionPane.showMessageDialog(this, "Dica atualizada com sucesso", "Edição de dica", JOptionPane.INFORMATION_MESSAGE);
+       this.gerenciarDicas.carregarTabelaDeDicas(idUsuario);
+       this.dispose();
+       
+    }
+
+    
+    private void recuperarCamposTela() throws ParseException {
+        dicaEmEdicao.setDescricao(txtDicaManobra.getText());        
+        dicaEmEdicao.setIdUsuario(idUsuario);
     }
 }

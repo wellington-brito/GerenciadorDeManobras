@@ -20,7 +20,7 @@ import wellington.gerenciadorDeManobras.entidade.Treino;
 public class TreinoDAO {
 
     private static final String SQL_INSERT = "INSERT INTO TREINO (IDMANOBRA, PROGRESSO, IDUSUARIO, QNTDDIAS) VALUES (?,?,?,?)";
-    private static final String SQL_SELECT_TREINO = "SELECT ID, IDMANOBRA, PROGRESSO, QNTDDIAS  FROM TREINO WHERE IDUSUARIO = ? ORDER BY IDMANOBRA";
+    private static final String SQL_SELECT_TREINO = "SELECT ID, IDMANOBRA, PROGRESSO  FROM TREINO WHERE IDUSUARIO = ? ORDER BY IDMANOBRA";
     private static final String SQL_UPDATE = "UPDATE TREINO SET  IDMANOBRA = ?, PROGRESSO = ?, IDUSUARIO = ?, QNTDDIAS = ? WHERE ID = ?";
     private static final String SQL_DELETE = "DELETE FROM TREINO WHERE ID = ?";
 
@@ -152,7 +152,7 @@ public class TreinoDAO {
         treino.setId(resultado.getInt(1));
         treino.setIdManobra(resultado.getInt(2));
         treino.setProgresso(resultado.getInt(3));
-        treino.setQntddias(resultado.getInt(4));
+        //treino.setQntddias(resultado.getInt(4));
 
         return treino;
     }

@@ -21,9 +21,10 @@ import wellington.gerenciadorDeManobras.entidade.Requisito;
 public class DicaDAO {
 
     private static final String SQL_INSERT = "INSERT INTO DICA (IDMANOBRA,IDUSUARIO, DESCRICAO) VALUES (?, ?, ?)";
-    private static final String SQl_BUSCAR_DICAS = "SELECT ID, IDMANOBRA, IDUSUARIO, DESCRICAO FROM DICA";
+    private static final String SQl_BUSCAR_DICAS = "SELECT  ID, IDMANOBRA, DESCRICAO FROM DICA WHERE IDUSUARIO = ?";
     private static final String SQL_DELETE = "DELETE FROM DICA WHERE ID = ?";
     private static final String SQL_DICAS_ALEATORIAS = "SELECT DESCRICAO FROM DICA  ORDER BY RAND() LIMIT 9";
+    private static final String SQL_UPDATE = "UPDATE DICA SET DESCRICAO = ?  WHERE ID = ?";
 
     public void incluirDica(Dica dicaEmEdicao) throws SQLException {
         Connection conexao = null;
@@ -57,7 +58,7 @@ public class DicaDAO {
         }
     }
 
-    public List<Dica> buscarTodasDicas() throws SQLException {
+    public List<Dica> buscarTodasDicas(int idUsuario) throws SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
         ResultSet resultado = null;
@@ -68,6 +69,7 @@ public class DicaDAO {
             //Cria o comando de consulta dos dados
             comando = conexao.prepareStatement(SQl_BUSCAR_DICAS);
             //Executa o comando e obtém o resultado da consulta
+            comando.setInt(1,idUsuario);
             resultado = comando.executeQuery();
             //O método next retornar boolean informando se existe um próximo
             //elemento para iterar
@@ -89,8 +91,7 @@ public class DicaDAO {
         Dica dica = new Dica();
         dica.setId(resultado.getInt(1));
         dica.setIdManobra(resultado.getInt(2));
-        dica.setIdUsuario(resultado.getInt(3));
-        dica.setDescricao(resultado.getString(4));
+        dica.setDescricao(resultado.getString(3));
         return dica;
     }
 
@@ -155,4 +156,34 @@ public class DicaDAO {
             dica.setDescricao(resultado.getString(1));
             return dica;
     }
+
+    public void atualizar(Dica dica) throws SQLException {
+       Connection conexao = null;
+        PreparedStatement comando = null;
+        try {
+            //Recupera a conexão
+            conexao = BancoDadosUtil.getConnection();
+            //Cria o comando de inserir dados
+            comando = conexao.prepareStatement(SQL_UPDATE);
+            //Atribui os parâmetros (Note que no BD o index inicia por 1)     
+            comando.setString(1, dica.getDescricao());
+           // comando.setInt(2, dica.getIdUsuario());;
+            comando.setInt(2, dica.getId());
+           
+            //Executa o comando
+            comando.execute();
+            //Persiste o comando no banco de dados
+            conexao.commit();
+        } catch (Exception e) {
+            //Caso aconteça alguma exeção é feito um rollback para o banco de
+            //dados retornar ao seu estado anterior.
+            if (conexao != null) {
+                conexao.rollback();
+            }
+            throw e;
+        } finally {
+            //Todo objeto que referencie o banco de dados deve ser fechado
+            BancoDadosUtil.fecharChamadasBancoDados(conexao, comando);
+        }
+   }
 }
