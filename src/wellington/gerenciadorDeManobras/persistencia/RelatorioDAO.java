@@ -22,11 +22,23 @@ public class RelatorioDAO {
     public static final String SQL_MANOBRA_LOGIN_DIAS = "SELECT M.NOME, T.QNTDDIAS FROM MANOBRA M JOIN\n"
             + "	TREINO T ON M.ID  = T.IDMANOBRA JOIN\n"
             + "	USUARIO U ON U.ID = T.IDUSUARIO WHERE IDUSUARIO = ?";
+    
+    public static final String SQL_TOTAL_MANOBRA_TREINO = "SELECT \n" +
+"	U.LOGIN, T.QNTDDIAS, M.NOME FROM MANOBRA M JOIN\n" +
+"	 TREINO T ON T.IDMANOBRA = M.ID JOIN\n" +
+"	USUARIO U ON U.ID = T.IDUSUARIO\n" +
+"	 WHERE T.PROGRESSO <= 100 GROUP BY  M.NOME, T.QNTDDIAS , U.LOGIN";
 
-    public static final String SQL_TOTAL_MANOBRA_TREINO = "SELECT U.LOGIN, COUNT(M.STATUS), COUNT(T.ID) FROM MANOBRA M JOIN\n"
-            + "            TREINO T ON T.IDMANOBRA = M.ID JOIN\n"
-            + "            USUARIO U ON U.ID = M.IDUSUARIO WHERE  M.STATUS <=100 GROUP BY U.ID";
+//    public static final String SQL_TOTAL_MANOBRA_TREINO = "SELECT U.LOGIN, COUNT(M.ID), COUNT(T.ID) FROM MANOBRA M JOIN\n"
+//              + "            TREINO T ON T.IDMANOBRA = M.ID JOIN\n"
+//            + "            USUARIO U ON U.ID = M.IDUSUARIO WHERE M.STATUS <=100 GROUP BY U.ID";
 
+    
+//    
+//    public static final String SQL_TOTAL_MANOBRA_TREINO = "SELECT U.LOGIN, COUNT(M.ID), COUNT(T.ID) FROM MANOBRA M JOIN\n"
+//            + "            TREINO T ON T.IDMANOBRA = M.ID JOIN\n"
+//            + "            USUARIO U ON U.ID = M.IDUSUARIO WHERE  M.STATUS <=100 GROUP BY U.ID";
+    
     public static final String SQL_TOTAL_LOGIN = "SELECT U.LOGIN, COUNT(M.STATUS) FROM MANOBRA M JOIN\n"
             + "USUARIO U ON U.ID = M.IDUSUARIO WHERE  M.STATUS =100 GROUP BY U.ID";
 
@@ -111,7 +123,6 @@ public class RelatorioDAO {
             conexao = BancoDadosUtil.getConnection();
             //Cria o comando de consulta dos dados
             comando = conexao.prepareStatement(SQL_TOTAL_MANOBRA_TREINO);
-
             //Executa o comando e obtém o resultado da consulta
             resultado = comando.executeQuery();
             //O método next retornar boolean informando se existe um próximo
@@ -132,10 +143,49 @@ public class RelatorioDAO {
     private Relatorio extrairLinhaResultadoTotalManobraTreinos(ResultSet resultado) throws SQLException {
         Relatorio totalManobra = new Relatorio();
         totalManobra.setLogin(resultado.getString(1));
-        //totalManobra.setManobra(resultado.getString(2));
-        totalManobra.setTotalManobras(resultado.getInt(2));
-        totalManobra.setTotalTreinos(resultado.getInt(3));
+        totalManobra.setDias(resultado.getInt(2));
+        totalManobra.setManobra(resultado.getString(3));
+        //totalManobra.setTotalManobras(resultado.getInt(2));
+        //totalManobra.setTotalTreinos(resultado.getInt(3));
         return totalManobra;
     }
 
+    
+//    public List<Relatorio> recuperarTotalManobrasTotalTreinos() throws SQLException {
+//        Connection conexao = null;
+//        PreparedStatement comando = null;
+//        ResultSet resultado = null;
+//        List<Relatorio> listaTotalManobrasTreinos = new ArrayList<>();
+//        try {
+//            //Recupera a conexão
+//            conexao = BancoDadosUtil.getConnection();
+//            //Cria o comando de consulta dos dados
+//            comando = conexao.prepareStatement(SQL_TOTAL_MANOBRA_TREINO);
+//
+//            //Executa o comando e obtém o resultado da consulta
+//            resultado = comando.executeQuery();
+//            //O método next retornar boolean informando se existe um próximo
+//            //elemento para iterar
+//            while (resultado.next()) {
+//                Relatorio resultadoTotal = this.extrairLinhaResultadoTotalManobraTreinos(resultado);
+//                //Adiciona um item à lista que será retornada
+//                listaTotalManobrasTreinos.add(resultadoTotal);
+//            }
+//        } finally {
+//            //Todo objeto que referencie o banco de dados deve ser fechado
+//            BancoDadosUtil.fecharChamadasBancoDados(conexao, comando, resultado);
+//        }
+//        return listaTotalManobrasTreinos;
+//
+//    }
+//
+//    private Relatorio extrairLinhaResultadoTotalManobraTreinos(ResultSet resultado) throws SQLException {
+//        Relatorio totalManobra = new Relatorio();
+//        totalManobra.setLogin(resultado.getString(1));
+//        //totalManobra.setManobra(resultado.getString(2));
+//        totalManobra.setTotalManobras(resultado.getInt(2));
+//        totalManobra.setTotalTreinos(resultado.getInt(3));
+//        return totalManobra;
+//    }
+    
 }
