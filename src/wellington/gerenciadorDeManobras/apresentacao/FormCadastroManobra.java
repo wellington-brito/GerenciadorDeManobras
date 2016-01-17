@@ -82,6 +82,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         CategoriaBO categoriaBO = new CategoriaBO();
         categorias = categoriaBO.buscarTodasCategorias();
         cbxCategoriaManobras.removeAllItems();
+        cbxCategoriaManobras.addItem("----");
         for (Categoria categoria : categorias) {
             cbxCategoriaManobras.addItem(categoria.getNome());
         }
@@ -96,6 +97,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
     public void carregarComboDificuldade() {
         cbxGrauDificuldade.removeAllItems();
+        cbxGrauDificuldade.addItem("----");
         for (int x = 0; x <= 2; x++) {
             if (x == 0) {
                 cbxGrauDificuldade.addItem("facil");
@@ -148,6 +150,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         lblDificuldade.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblDificuldade.setText("Grau Dificulade");
 
+        cbxGrauDificuldade.setName(""); // NOI18N
         cbxGrauDificuldade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxGrauDificuldadeActionPerformed(evt);

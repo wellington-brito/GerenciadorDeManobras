@@ -115,6 +115,7 @@ public class FormAdicionarRequisito extends javax.swing.JFrame {
         ManobraBO manobraBO = new ManobraBO();
         manobras = manobraBO.buscarTodasManobras(idUsuario);
         cbxManobrasRequisitos.removeAllItems();
+       this.cbxManobrasRequisitos.addItem("----");
         for (Manobra m : manobras) {
             cbxManobrasRequisitos.addItem(m.getNome());
         }

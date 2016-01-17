@@ -93,14 +93,14 @@
 			<elementGroup/>
 			<stackedBarChart>
 				<chart>
-					<reportElement x="0" y="4" width="553" height="181" uuid="efbfd8d5-5cd2-4263-920f-5a71b90e6a24"/>
+					<reportElement x="2" y="0" width="553" height="185" uuid="efbfd8d5-5cd2-4263-920f-5a71b90e6a24"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
 					<categorySeries>
-						<seriesExpression><![CDATA["Dias de treino"]]></seriesExpression>
+						<seriesExpression><![CDATA[$F{login}]]></seriesExpression>
 						<categoryExpression><![CDATA[$F{manobra}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{dias}]]></valueExpression>
 						<labelExpression><![CDATA[$F{login}]]></labelExpression>

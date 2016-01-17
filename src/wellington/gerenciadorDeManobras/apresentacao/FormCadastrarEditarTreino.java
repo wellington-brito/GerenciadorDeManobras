@@ -75,6 +75,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         this.manobraBO = new ManobraBO();
         this.manobras = manobraBO.buscarTodasManobras(idUsuario);
         this.cbxManobras.removeAllItems();
+        this.cbxManobras.addItem("----");
         for (Manobra m : manobras) {
             cbxManobras.addItem(m.getNome());
         }
@@ -252,11 +253,11 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             this.treinoBO = new TreinoBO();
             this.validarCamposObrigatorios();
             this.verificaQuantidadeDigitos();
-           // this.treinoBO.verificarTreinos(treinoEmEdicao);
+            // this.treinoBO.verificarTreinos(treinoEmEdicao);
             this.recuperarCamposTela();
-            treinoBO.inserir(treinoEmEdicao,idUsuario);
+            treinoBO.inserir(treinoEmEdicao, idUsuario);
             JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso", "Novo treino", JOptionPane.INFORMATION_MESSAGE);
-            
+
             this.limparCamposTela();
             this.gerenciarTreinos.carregarTabelaDeTreino(idUsuario);
         } catch (TreinoDuplicadoException ex) {
@@ -266,7 +267,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     }
 
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
-       try {
+        try {
             this.treinoBO = new TreinoBO();
             this.validarCamposObrigatorios();
             this.verificaQuantidadeDigitos();
@@ -275,9 +276,9 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Dados do treino alterado com sucesso", "Ediçao de treino", JOptionPane.INFORMATION_MESSAGE);
             this.atualizaStatus(treinoEmEdicao.getIdManobra(), 100);
             this.gerenciarTreinos.carregarTabelaDeTreino(idUsuario);
-            this.limparCamposTela();           
-            this.addDicaManobra(treinoEmEdicao.getIdManobra());         
-            
+            this.limparCamposTela();
+            this.addDicaManobra(treinoEmEdicao.getIdManobra());
+
         } catch (TreinoJaEditadoException ex) {
             int resposta;
             String mensagem = "Desseja realmente editar o treino selecionado? Ele já atingiu 100% anteriormente!";
