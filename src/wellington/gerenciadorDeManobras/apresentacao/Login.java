@@ -7,14 +7,17 @@ package wellington.gerenciadorDeManobras.apresentacao;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import static java.sql.DriverManager.println;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import wellington.gerenciadorDeManobras.entidade.Usuario;
+import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
 import wellington.gerenciadorDeManobras.excecao.LoginEsenhaInvalidoException;
 import wellington.gerenciadorDeManobras.excecao.UsuarioDuplicadoException;
+import wellington.gerenciadorDeManobras.excecao.UsuarioInexistenteException;
 import wellington.gerenciadorDeManobras.negocio.UsuarioBO;
 
 /**
@@ -229,11 +232,7 @@ public class Login extends javax.swing.JFrame {
         } catch (LoginEsenhaInvalidoException l) {
             String mensagem = "Erro ao tentar entrar no sistema:\n" + l.getMessage();
             JOptionPane.showMessageDialog(this, mensagem, "Login", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedEncodingException ex) {
+        } catch (SQLException | NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEntrarActionPerformed
@@ -257,28 +256,29 @@ public class Login extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void incluiUsuario() throws NoSuchAlgorithmException, UnsupportedEncodingException, SQLException {
-
-        this.usuarioBO = new UsuarioBO();
-        //boolean        
-        this.recuperarCamposTelaNovoUsuario();
-        if (this.usuarioBO.verificauUsuarioDuplicado(usuarioEmEdicao)) {
-            //throw new UsuarioDuplicadoException("Nome de usuário indisponivel tente outro nome!");                
-            JOptionPane.showMessageDialog(this, "Nome de usuário vazio ou indisponivel tente outro nome!", "Novo Usuário", JOptionPane.INFORMATION_MESSAGE);
-            throw new UsuarioDuplicadoException("Nome de usuário vazio ou indisponivel tente outro nome!");
-        } else {
-
+        try {
             this.usuarioBO = new UsuarioBO();
-            this.usuarioBO.incluirUsuario(usuarioEmEdicao);
-            JOptionPane.showMessageDialog(this, "Novo usuário cadastrado com sucesso! Agora Tente Efetuar seu Login!", "Novo Usuário", JOptionPane.INFORMATION_MESSAGE);
-            this.limparCamposTela();
+            //boolean        
+            this.recuperarCamposTelaNovoUsuario();
+            if (this.usuarioBO.verificauUsuarioDuplicado(usuarioEmEdicao)) {
+                JOptionPane.showMessageDialog(this, "Nome de usuário vazio ou indisponivel tente outro nome!", "Novo Usuário", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                this.usuarioBO.incluirUsuario(usuarioEmEdicao);
+                JOptionPane.showMessageDialog(this, "Novo usuário cadastrado com sucesso! Agora Tente Efetuar seu Login!", "Novo Usuário", JOptionPane.INFORMATION_MESSAGE);
+                this.limparCamposTela();
+            }
+        } catch (CampoObrigatorioException c) {
+            String mensagen = "Por favor, Preencha todos os campos!\n" + c.getMessage();
+            JOptionPane.showMessageDialog(this, mensagen, "Novo Usuario", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
-    private void login() throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    private void login() throws LoginEsenhaInvalidoException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+        try{
         this.usuarioBO = new UsuarioBO();
         this.recuperarCampos();
         String senhaMd5 = usuarioBO.exemploMD5(usuarioEmEdicao.getSenha());
+        
         this.usuarios = this.usuarioBO.buscarUsuarios();
         for (Usuario u : usuarios) {
             if (u.getLogin().equals(this.usuarioEmEdicao.getLogin()) && u.getSenha().equals(senhaMd5)) {
@@ -289,21 +289,34 @@ public class Login extends javax.swing.JFrame {
                 this.gerenciarManobrasTelaInicial.setVisible(true);
                 this.gerenciarManobrasTelaInicial.toFront();
                 this.dispose();
-            
             }
+        }
+          } catch (CampoObrigatorioException c) {
+            String mensagen = "Por favor, Preencha todos os campos!\n" + c.getMessage();
+            JOptionPane.showMessageDialog(this, mensagen, "Novo Usuario", JOptionPane.ERROR_MESSAGE);
         }
 
     }
 
-    private void recuperarCamposTelaNovoUsuario() throws SQLException {
-        usuarioEmEdicao.setLogin(txtLoginNovo.getText().trim());
-        usuarioEmEdicao.setSenha(txtSenhaNovo.getText().trim());
+    private void recuperarCamposTelaNovoUsuario() throws SQLException, CampoObrigatorioException {
+         if (txtLoginNovo.getText().equals("") || txtSenhaNovo.getText().equals("")) {
+            throw new CampoObrigatorioException();
+            
+        }else{
+            usuarioEmEdicao.setLogin(txtLoginNovo.getText());
+            usuarioEmEdicao.setSenha(txtSenhaNovo.getText());
+        }
     }
 
     private void recuperarCampos() throws SQLException {
-        usuarioEmEdicao.setLogin(txtLogin1.getText());
-        usuarioEmEdicao.setSenha(txtSenha1.getText());
-    }
+        if (txtLogin1.getText().equals("") || txtSenha1.getText().equals("")) {
+            throw new CampoObrigatorioException();
+
+        }else{
+            usuarioEmEdicao.setLogin(txtLogin1.getText());
+            usuarioEmEdicao.setSenha(txtSenha1.getText());
+        }
+     }
 
     private void limparCamposTela() {
         txtLoginNovo.setText("");

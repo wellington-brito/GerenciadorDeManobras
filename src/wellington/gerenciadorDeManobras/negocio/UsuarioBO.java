@@ -40,13 +40,15 @@ public class UsuarioBO {
     }
 
     public String exemploMD5(String senha) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        String texto = senha;
+      
+            String texto = senha;
 
-        MessageDigest algoritmo = MessageDigest.getInstance("MD5");
-        byte[] codigoHashHexaDecimal = algoritmo.digest(texto.getBytes("UTF-8"));
+            MessageDigest algoritmo = MessageDigest.getInstance("MD5");
+            byte[] codigoHashHexaDecimal = algoritmo.digest(texto.getBytes("UTF-8"));
 
-        String codigoHashFinal = converterHexadecimalParaString(codigoHashHexaDecimal);
-        return codigoHashFinal;
+            String codigoHashFinal = converterHexadecimalParaString(codigoHashHexaDecimal);
+            return codigoHashFinal;
+        
     }
 
     public boolean verificauUsuarioDuplicado(Usuario usuarioEmEdicao) throws SQLException {
@@ -54,8 +56,8 @@ public class UsuarioBO {
         this.usuarios = usuarioBO.buscarUsuarios();
         String nomeUsuario = usuarioEmEdicao.getLogin();
         for (Usuario user : usuarios) {
-            if (user.getLogin().equals(nomeUsuario)|| user.getLogin() == null) {
-                return true;                               
+            if (user.getLogin().equals(nomeUsuario) || user.getLogin() == null) {
+                return true;
             }
         }
         return false;

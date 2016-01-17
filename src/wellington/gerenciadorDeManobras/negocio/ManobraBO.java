@@ -33,8 +33,8 @@ public class ManobraBO {
     }
     
     public void atualizar(Manobra manobra) throws SQLException{
-        ManobraDAO manobraDAO = new ManobraDAO();
-        manobraDAO.atualizar(manobra);
+        this.verificaIdUsuario(manobra);
+       
     }
     
   
@@ -42,6 +42,13 @@ public class ManobraBO {
     public void atualizaStatus(int id, int status) throws SQLException {
         ManobraDAO manobraDAO = new ManobraDAO();
         manobraDAO.atualizarStatus(id, status);
+    }
+
+    private void verificaIdUsuario(Manobra manobra) throws SQLException {
+       if(manobra.getIdUsuario()>0){
+        ManobraDAO manobraDAO = new ManobraDAO();
+        manobraDAO.atualizar(manobra);
+       }
     }
 
   

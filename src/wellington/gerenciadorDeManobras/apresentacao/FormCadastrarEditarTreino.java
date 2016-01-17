@@ -110,7 +110,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         setExtendedState(6);
         setResizable(false);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Novo Treino", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Treino", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
         lblManobra.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblManobra.setText("Manobra");
@@ -274,11 +274,9 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             treinoBO.atualizar(treinoEmEdicao);
             JOptionPane.showMessageDialog(this, "Dados do treino alterado com sucesso", "Ediçao de treino", JOptionPane.INFORMATION_MESSAGE);
             this.atualizaStatus(treinoEmEdicao.getIdManobra(), 100);
-            
-            this.limparCamposTela();
             this.gerenciarTreinos.carregarTabelaDeTreino(idUsuario);
-            this.addDicaManobra(treinoEmEdicao.getIdManobra());
-            //this.sugerirNovoTreino();         
+            this.limparCamposTela();           
+            this.addDicaManobra(treinoEmEdicao.getIdManobra());         
             
         } catch (TreinoJaEditadoException ex) {
             int resposta;

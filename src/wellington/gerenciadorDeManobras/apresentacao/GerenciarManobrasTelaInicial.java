@@ -24,9 +24,7 @@ import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.entidade.Relatorio;
 import wellington.gerenciadorDeManobras.entidade.Usuario;
 import wellington.gerenciadorDeManobras.excecao.GerenciadorException;
-
 import wellington.gerenciadorDeManobras.excecao.NoSelectionException;
-
 import wellington.gerenciadorDeManobras.negocio.CategoriaBO;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
 import wellington.gerenciadorDeManobras.negocio.RelatorioBO;
@@ -76,6 +74,18 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             mensagem += "\nMensagem de erro:\n" + e.getMessage();
             JOptionPane.showMessageDialog(this, mensagem, "Manobras cadastrados", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
+        }
+    }
+    
+    @Override
+    public void setVisible(boolean exibir) {
+        super.setVisible(exibir);
+        if (exibir == true) {
+            try {
+                this.carregarTabelaDeManobras(idUsuario);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -327,8 +337,10 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
     private void btnEditarManobraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarManobraActionPerformed
         try {
+           
             this.editarManobra();
             this.editarManobraForm.setVerificaEditarOuSalvar(1);
+            
         } catch (SQLException ex) {
             Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -363,7 +375,6 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
     private void btnMaisTreinadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaisTreinadasActionPerformed
         try {
             this.gerarRelatorioTotaltreinos();
-
         } catch (SQLException ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -394,17 +405,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
     }
 
-    @Override
-    public void setVisible(boolean exibir) {
-        super.setVisible(exibir);
-        if (exibir == true) {
-            try {
-                this.carregarTabelaDeManobras(idUsuario);
-            } catch (SQLException ex) {
-                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+    
 
     public void carregarTabelaDeManobras(int idUsuario) throws SQLException {
         ManobraBO manobrasBO = new ManobraBO();
@@ -530,6 +531,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             this.lblDica.setText("Selecione uma manobra antes!");
             throw new NoSelectionException();
         }
+        
     }
 
     private void logOut() throws SQLException {

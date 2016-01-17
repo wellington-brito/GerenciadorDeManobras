@@ -18,6 +18,7 @@ import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
 import wellington.gerenciadorDeManobras.excecao.GerenciadorException;
+import wellington.gerenciadorDeManobras.excecao.ManobraDuplicadaException;
 import wellington.gerenciadorDeManobras.negocio.CategoriaBO;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
 
@@ -42,9 +43,13 @@ public class FormCadastroManobra extends javax.swing.JFrame {
      * Creates metodos construtuores FormCadastroManobra
      */
     public FormCadastroManobra(GerenciarManobrasTelaInicial infoManobras, Manobra manobraSelecionada) throws ParseException, SQLException {
-       // this(infoManobras);
+        // this(infoManobras);
+        this.infoManobra = infoManobras;
         this.manobraEmEdicao = manobraSelecionada;
+        initComponents();
         this.inicializaCampoNomeManobra();
+        this.carregarComboCategorias();
+        this.carregarComboDificuldade();
     }
 
     public FormCadastroManobra(GerenciarManobrasTelaInicial infoManobras, int idUsuario) throws ParseException, SQLException {
@@ -54,9 +59,6 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         this.initComponents();
         this.carregarComboCategorias();
         this.carregarComboDificuldade();
-        //this.carregarComboStatus();
-        this.recuperarCamposTela();
-
     }
 
     /**
@@ -94,14 +96,12 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
     public void carregarComboDificuldade() {
         cbxGrauDificuldade.removeAllItems();
-        for (int x = 0; x <= 4; x++) {
+        for (int x = 0; x <= 2; x++) {
             if (x == 0) {
-                cbxGrauDificuldade.addItem("simples");
-            } else if (x == 1) {
                 cbxGrauDificuldade.addItem("facil");
-            } else if (x == 2) {
+            } else if (x == 1) {
                 cbxGrauDificuldade.addItem("mediana");
-            } else if (x == 3) {
+            } else if (x == 2) {
                 cbxGrauDificuldade.addItem("difícil");
             } else {
                 cbxGrauDificuldade.addItem("Dificuldade inexistente");
@@ -134,7 +134,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         setExtendedState(6);
         setResizable(false);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrar Manobra", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Manobra", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
         txtNomeManobra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -276,14 +276,17 @@ public class FormCadastroManobra extends javax.swing.JFrame {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            
             this.incluirManobra();
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.infoManobra.toFront();
-        this.dispose();
+        try {
+            this.dispose();
+            this.gerenciarManobrasTelaInicial();
+        } catch (SQLException ex) {
+            Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void incluirManobra() {
@@ -298,9 +301,12 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             this.carregaTelaAddRequisito();
             this.limparCamposTela();
             this.infoManobra.carregarTabelaDeManobras(idUsuario);
-
+        } catch (ManobraDuplicadaException m) {
+            String mensagem = "Aviso!\n" + m.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Nova manobra", JOptionPane.INFORMATION_MESSAGE);
+            this.txtNomeManobra.setText("");
         } catch (GerenciadorException g) {
-            String mensagem = "Erro ao realizar operação:\n" + g.getMessage();
+            String mensagem = "Aviso!\n" + g.getMessage();
             JOptionPane.showMessageDialog(this, mensagem, "Nova manobra", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {
@@ -315,9 +321,10 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         this.manobraBO = new ManobraBO();
         this.validarCamposObrigatorios();
         manobraBO.atualizar(manobraEmEdicao);
+        this.infoManobra.carregarTabelaDeManobras(idUsuario);
         JOptionPane.showMessageDialog(this, "Dados da manobra alterado com sucesso", "Ediçao de manobra", JOptionPane.INFORMATION_MESSAGE);
         this.limparCamposTela();
-        this.infoManobra.carregarTabelaDeManobras(idUsuario);
+
     }
 
     public void validarCamposObrigatorios() throws CampoObrigatorioException {
@@ -330,12 +337,11 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     }
 
     public void inicializaCampoNomeManobra() {
-        txtNomeManobra.setText(manobraEmEdicao.getNome());
+        this.txtNomeManobra.setText(this.manobraEmEdicao.getNome());
     }
 
     private void recuperarCamposTela() throws ParseException {
         manobraEmEdicao.setNome(txtNomeManobra.getText());
-        manobraEmEdicao.setIdUsuario(idUsuario);
         int posicaoSelecionada1 = cbxGrauDificuldade.getSelectedIndex();
         manobraEmEdicao.setDificuldade(posicaoSelecionada1);
 
@@ -346,8 +352,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
                 manobraEmEdicao.setCategoria(posicaoSelecionada3);
             }
         }
-        
-        
+        manobraEmEdicao.setIdUsuario(idUsuario);
     }
 
     public void verificarManobra(Manobra manobra) throws SQLException {
@@ -355,8 +360,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         this.manobras = manobraBO.buscarTodasManobras(idUsuario);
         for (Manobra m : manobras) {
             if (manobraEmEdicao.getNome().equals(m.getNome())) {
-                JOptionPane.showMessageDialog(this, "Uma manobra com o mesmo nome ja existe no sistema!", "Adicionar  manobra", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
+                throw new ManobraDuplicadaException();
             }
         }
     }
@@ -396,5 +400,13 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     public void setVerificaEditarOuSalvar(int verificaEditarOuSalvar) {
         this.verificaEditarOuSalvar = verificaEditarOuSalvar;
 
+    }
+
+    private void gerenciarManobrasTelaInicial() throws SQLException {
+        if (this.infoManobra == null) {
+            this.infoManobra = new GerenciarManobrasTelaInicial(idUsuario);
+        }
+        this.infoManobra.setVisible(true);
+        this.infoManobra.toFront();
     }
 }
