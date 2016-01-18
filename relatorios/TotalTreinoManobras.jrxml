@@ -61,7 +61,7 @@
 				<text><![CDATA[Usuário]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="208" y="1" width="146" height="34" uuid="d60836fc-3553-4c63-bb99-f2c1285a3c67"/>
+				<reportElement x="149" y="1" width="241" height="34" uuid="d60836fc-3553-4c63-bb99-f2c1285a3c67"/>
 				<textElement>
 					<font size="24"/>
 				</textElement>
@@ -78,13 +78,6 @@
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement x="208" y="0" width="146" height="34" uuid="d1598afe-00a9-4048-8e9f-da4e7c3ec90c"/>
-				<textElement>
-					<font size="24"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{manobra}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="0" y="0" width="117" height="34" uuid="a4c38efc-e02a-472b-8b69-7f5ccaed2716"/>
 				<textElement>
 					<font size="24"/>
@@ -97,6 +90,13 @@
 					<font size="24"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dias}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="149" y="0" width="241" height="34" uuid="d1598afe-00a9-4048-8e9f-da4e7c3ec90c"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{manobra}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a1ebecdb-12e0-42ae-aa75-98a455a53303">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
@@ -45,35 +45,41 @@
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="20" uuid="b440d3f3-ca3a-4bf9-beec-ca4f5a75a912"/>
+				<reportElement x="0" y="0" width="243" height="35" uuid="b440d3f3-ca3a-4bf9-beec-ca4f5a75a912"/>
 				<textElement>
-					<font size="14"/>
+					<font size="24"/>
 				</textElement>
 				<text><![CDATA[Manobra]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="163" y="0" width="100" height="20" uuid="c6d10c27-9abc-4fb5-bd50-b83e18509b82"/>
+				<reportElement x="348" y="0" width="205" height="35" uuid="c6d10c27-9abc-4fb5-bd50-b83e18509b82"/>
 				<textElement>
-					<font size="14"/>
+					<font size="24"/>
 				</textElement>
 				<text><![CDATA[Dias]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="24" splitType="Stretch">
+		<band height="53" splitType="Stretch">
 			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="cd9c5bff-95a4-4389-8866-48e9a30df7a4"/>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="36" width="555" height="1" uuid="cd9c5bff-95a4-4389-8866-48e9a30df7a4"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement x="0" y="4" width="100" height="20" uuid="160ae07b-3303-4066-858d-1a85b5e6ce55"/>
+				<reportElement x="0" y="4" width="243" height="33" uuid="160ae07b-3303-4066-858d-1a85b5e6ce55"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{manobra}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="163" y="4" width="100" height="20" uuid="028f2e4d-ce32-4864-8993-73fede67935b"/>
+				<reportElement x="348" y="4" width="205" height="32" uuid="028f2e4d-ce32-4864-8993-73fede67935b"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{dias}]]></textFieldExpression>
 			</textField>
 		</band>
