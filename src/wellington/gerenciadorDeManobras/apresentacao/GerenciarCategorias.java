@@ -123,7 +123,7 @@ public class GerenciarCategorias extends javax.swing.JFrame {
         painelListaCategoriasLayout.setHorizontalGroup(
             painelListaCategoriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelListaCategoriasLayout.createSequentialGroup()
-                .addContainerGap(120, Short.MAX_VALUE)
+                .addContainerGap(221, Short.MAX_VALUE)
                 .addComponent(btnNovaCategoria)
                 .addGap(18, 18, 18)
                 .addComponent(btnAlterarCategoria)
@@ -164,7 +164,7 @@ public class GerenciarCategorias extends javax.swing.JFrame {
                 .addComponent(painelListaCategorias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(739, 500));
+        setSize(new java.awt.Dimension(840, 500));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -193,6 +193,7 @@ public class GerenciarCategorias extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNovaCategoriaActionPerformed
 
     private void btnFecharTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharTelaActionPerformed
+        
         this.dispose();
     }//GEN-LAST:event_btnFecharTelaActionPerformed
 

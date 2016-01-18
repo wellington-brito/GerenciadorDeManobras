@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
+import wellington.gerenciadorDeManobras.excecao.CategoriaDuplicadaException;
 import wellington.gerenciadorDeManobras.negocio.CategoriaBO;
 
 /**
@@ -23,7 +24,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
 
     private Categoria categoriaEmEdicao;
     private GerenciarCategorias gerenciarCategorias;
-    // private GerenciarCategorias editarCategoriasform;
+    private CategoriaBO categoriaBO;
     private List<Categoria> categorias;
 
     /**
@@ -41,7 +42,6 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
         this.initComponents();
         this.recuperarCamposTela();
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -121,7 +121,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(painelAdicionarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelAdicionarCategoriaLayout.createSequentialGroup()
-                        .addGap(380, 464, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnFecharTela))
@@ -154,7 +154,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 916, Short.MAX_VALUE)
+            .addGap(0, 832, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -171,7 +171,7 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
                     .addContainerGap()))
         );
 
-        setSize(new java.awt.Dimension(932, 506));
+        setSize(new java.awt.Dimension(848, 506));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -206,49 +206,43 @@ public class FormCadastrarEditarCategoria extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFecharTelaActionPerformed
 
     private void incluirCategoria() throws SQLException {
-        this.recuperarCamposTela();
-        CategoriaBO categoriaBO = new CategoriaBO();
-        this.validarCamposObrigatorios();
-        this.verificarCategoria();
-        categoriaBO.incluirCategoria(categoriaEmEdicao);
-        JOptionPane.showMessageDialog(this, "Categoria cadastrada com sucesso!", "Cadastro de nova Catagoria", JOptionPane.INFORMATION_MESSAGE);
-        this.limparCamposTela();
-        this.gerenciarCategorias.carregarTabelaDeCategorias();
+        try {
+            this.recuperarCamposTela();
+            this.categoriaBO = new CategoriaBO();
+            this.categoriaBO.validarCamposObrigatorios(categoriaEmEdicao);
+            this.categoriaBO.verificarCategoria(categoriaEmEdicao);
+            categoriaBO.incluirCategoria(categoriaEmEdicao);
+            JOptionPane.showMessageDialog(this, "Categoria cadastrada com sucesso!", "Cadastro de nova Catagoria", JOptionPane.INFORMATION_MESSAGE);
+            this.limparCamposTela();
+            this.gerenciarCategorias.carregarTabelaDeCategorias();
+        } catch (CampoObrigatorioException c) {
+            String mensagem = "Aviso!\n" + c.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Nova Categoria", JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch (CategoriaDuplicadaException c) {
+            String mensagem = "Aviso!\n" + c.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Nova catgoria", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private void atualizar() throws CampoObrigatorioException, SQLException {
-        this.recuperarCamposTela();
-        CategoriaBO categoriaBO = new CategoriaBO();
-        this.validarCamposObrigatorios();
-        categoriaBO.atualizar(categoriaEmEdicao);
-        JOptionPane.showMessageDialog(this, "Categoria atualizada com sucesso!", "Edição de Catagoria", JOptionPane.INFORMATION_MESSAGE);
-        this.limparCamposTela();
-        this.gerenciarCategorias.carregarTabelaDeCategorias();
+        try {
+            this.recuperarCamposTela();
+            this.categoriaBO = new CategoriaBO();
+            this.categoriaBO.validarCamposObrigatorios(categoriaEmEdicao);
+            this.categoriaBO.atualizar(categoriaEmEdicao);
+            JOptionPane.showMessageDialog(this, "Categoria atualizada com sucesso!", "Edição de Catagoria", JOptionPane.INFORMATION_MESSAGE);
+            this.limparCamposTela();
+            this.gerenciarCategorias.carregarTabelaDeCategorias();
+        } catch (CampoObrigatorioException c) {
+            String mensagem = "Aviso!\n" + c.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Atualizar manobra", JOptionPane.INFORMATION_MESSAGE);
+
+        }
     }
 
     
-    public void verificarCategoria() throws SQLException{
-        CategoriaBO categoriaBO = new CategoriaBO();
-         categorias = categoriaBO.buscarTodasCategorias();
-        for (Categoria categoria : categorias) {
-            if (categoriaEmEdicao.getNome().equals(categoria.getNome())) {
-                this.lblinfo.setText("Uma categoria como o mesmo nome já existe no sistema!");
-            }
-        }
-    }
-    
-     public void validarCamposObrigatorios( ) throws CampoObrigatorioException {
-        if (txtDescricaoCategoria.getText().trim().isEmpty()){
-            this.lblinfo.setText("Campo descrição está vazio!");
-            throw new CampoObrigatorioException();        
-        }        
-        if(txtNomeCategoria.getText().trim().isEmpty()) {
-            this.lblinfo.setText("Campo Nome está vazio!");
-            throw new CampoObrigatorioException();
-        }
-        this.lblinfo.setText("Info");
-    }
-    
+
     private void recuperarCamposTela() throws SQLException {
         categoriaEmEdicao.setNome(txtNomeCategoria.getText());
         categoriaEmEdicao.setDescricao(txtDescricaoCategoria.getText());

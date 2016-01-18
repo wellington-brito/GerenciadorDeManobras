@@ -82,7 +82,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         super.setVisible(exibir);
         if (exibir == true) {
             try {
-                this.carregarTabelaDeManobras(idUsuario);
+               this.carregarTabelaDeManobras(idUsuario);
             } catch (SQLException ex) {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -112,7 +112,6 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         menuOpçoes = new javax.swing.JMenu();
         itemMenuRequisitos = new javax.swing.JMenuItem();
         mnuItemNovaCategoria = new javax.swing.JMenuItem();
-        mnuItemRelatorio = new javax.swing.JMenuItem();
         mnuItemDicas = new javax.swing.JMenuItem();
         itemMenuSair = new javax.swing.JMenuItem();
 
@@ -230,6 +229,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         menuOpçoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/menu62 (1).png"))); // NOI18N
         menuOpçoes.setText("Opções");
 
+        itemMenuRequisitos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         itemMenuRequisitos.setText("Requisitos de manobras");
         itemMenuRequisitos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,6 +238,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         });
         menuOpçoes.add(itemMenuRequisitos);
 
+        mnuItemNovaCategoria.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuItemNovaCategoria.setText("Categoria");
         mnuItemNovaCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,10 +247,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
         });
         menuOpçoes.add(mnuItemNovaCategoria);
 
-        mnuItemRelatorio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
-        mnuItemRelatorio.setText("Relatórios");
-        menuOpçoes.add(mnuItemRelatorio);
-
+        mnuItemDicas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuItemDicas.setText("Dicas de manobras");
         mnuItemDicas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -328,8 +326,8 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItemDicasActionPerformed
 
     private void btnTreinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTreinosActionPerformed
-        try {
-            this.carregarFomrNovoTreino();
+        try {            
+            this.carregarFomrNovoTreino();           
         } catch (SQLException ex) {
             Logger.getLogger(GerenciarManobrasTelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -394,7 +392,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
 
     private void carregarFomrNovoTreino() throws SQLException {
         if (telaGerenciarTreinos == null) {
-            this.telaGerenciarTreinos = new GerenciarTreinos(idUsuario);
+            this.telaGerenciarTreinos = new GerenciarTreinos(this,idUsuario);
         }
         telaGerenciarTreinos.setVisible(true);
         telaGerenciarTreinos.toFront();
@@ -516,7 +514,6 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
     private javax.swing.JMenu menuOpçoes;
     private javax.swing.JMenuItem mnuItemDicas;
     private javax.swing.JMenuItem mnuItemNovaCategoria;
-    private javax.swing.JMenuItem mnuItemRelatorio;
     private javax.swing.JTable tabelaManobras;
     // End of variables declaration//GEN-END:variables
 
@@ -527,7 +524,7 @@ public class GerenciarManobrasTelaInicial extends javax.swing.JFrame {
             if (editarManobraForm != null) {
                 editarManobraForm.dispose();
             }
-            editarManobraForm = new FormCadastroManobra(this, manobraSelecionado);
+            editarManobraForm = new FormCadastroManobra(this, manobraSelecionado, idUsuario);
             editarManobraForm.setVisible(true);
         } else {
             throw new NoSelectionException();

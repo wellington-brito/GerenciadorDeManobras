@@ -18,6 +18,7 @@ import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
 import wellington.gerenciadorDeManobras.excecao.GerenciadorException;
+import wellington.gerenciadorDeManobras.excecao.ItemSemIdUsuarioException;
 import wellington.gerenciadorDeManobras.excecao.ManobraDuplicadaException;
 import wellington.gerenciadorDeManobras.negocio.CategoriaBO;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
@@ -42,8 +43,9 @@ public class FormCadastroManobra extends javax.swing.JFrame {
     /**
      * Creates metodos construtuores FormCadastroManobra
      */
-    public FormCadastroManobra(GerenciarManobrasTelaInicial infoManobras, Manobra manobraSelecionada) throws ParseException, SQLException {
+    public FormCadastroManobra(GerenciarManobrasTelaInicial infoManobras, Manobra manobraSelecionada, int idUsuario) throws ParseException, SQLException {
         // this(infoManobras);
+        this.idUsuario = idUsuario;
         this.infoManobra = infoManobras;
         this.manobraEmEdicao = manobraSelecionada;
         initComponents();
@@ -82,7 +84,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         CategoriaBO categoriaBO = new CategoriaBO();
         categorias = categoriaBO.buscarTodasCategorias();
         cbxCategoriaManobras.removeAllItems();
-        cbxCategoriaManobras.addItem("----");
+        cbxCategoriaManobras.addItem("");
         for (Categoria categoria : categorias) {
             cbxCategoriaManobras.addItem(categoria.getNome());
         }
@@ -97,7 +99,7 @@ public class FormCadastroManobra extends javax.swing.JFrame {
 
     public void carregarComboDificuldade() {
         cbxGrauDificuldade.removeAllItems();
-        cbxGrauDificuldade.addItem("----");
+        cbxGrauDificuldade.addItem("");
         for (int x = 0; x <= 2; x++) {
             if (x == 0) {
                 cbxGrauDificuldade.addItem("facil");
@@ -279,7 +281,13 @@ public class FormCadastroManobra extends javax.swing.JFrame {
                 Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            this.incluirManobra();
+            try {
+                this.incluirManobra();
+            } catch (ParseException ex) {
+                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCadastroManobra.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -292,13 +300,13 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void incluirManobra() {
+    private void incluirManobra() throws ParseException, SQLException {
         try {
             this.getItemComboCategorias(cbxCategoriaManobras.getSelectedItem().toString());
             this.recuperarCamposTela();
             this.manobraBO = new ManobraBO();
-            this.validarCamposObrigatorios();
-            this.verificarManobra(manobraEmEdicao);
+            this.validarCamposObrigatorios(manobraEmEdicao);
+            this.manobraBO.verificarManobra(manobraEmEdicao);
             this.manobraBO.inserir(manobraEmEdicao);
             JOptionPane.showMessageDialog(this, "Manobra cadastrada com sucesso!", "Nova manobra", JOptionPane.INFORMATION_MESSAGE);
             this.carregaTelaAddRequisito();
@@ -308,35 +316,29 @@ public class FormCadastroManobra extends javax.swing.JFrame {
             String mensagem = "Aviso!\n" + m.getMessage();
             JOptionPane.showMessageDialog(this, mensagem, "Nova manobra", JOptionPane.INFORMATION_MESSAGE);
             this.txtNomeManobra.setText("");
-        } catch (GerenciadorException g) {
-            String mensagem = "Aviso!\n" + g.getMessage();
+        } catch (CampoObrigatorioException c) {
+            String mensagem = "Aviso!\n" + c.getMessage();
             JOptionPane.showMessageDialog(this, mensagem, "Nova manobra", JOptionPane.INFORMATION_MESSAGE);
-
-        } catch (Exception e) {
-            String mensagem = "Erro ao realizar operação:\n" + e.getMessage();
-            JOptionPane.showMessageDialog(this, mensagem, "Nova manobra", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
-        this.getItemComboCategorias(cbxCategoriaManobras.getSelectedItem().toString());                 //recuperar valor selecionado no combobox de categoria, para poder resgatar o id do banco de dados e não do indice do combobox
-        this.recuperarCamposTela();
-        this.manobraBO = new ManobraBO();
-        this.validarCamposObrigatorios();
-        manobraBO.atualizar(manobraEmEdicao);
-        this.infoManobra.carregarTabelaDeManobras(idUsuario);
-        JOptionPane.showMessageDialog(this, "Dados da manobra alterado com sucesso", "Ediçao de manobra", JOptionPane.INFORMATION_MESSAGE);
-        this.limparCamposTela();
-
-    }
-
-    public void validarCamposObrigatorios() throws CampoObrigatorioException {
-        if (txtNomeManobra.getText().trim().isEmpty()) {
-            this.lblinfo.setText("Campo nome manobra deve ser preenchido!");
-            this.lblinfo.setText("Info");
-            throw new CampoObrigatorioException();
+        try {
+            this.getItemComboCategorias(cbxCategoriaManobras.getSelectedItem().toString());                 //recuperar valor selecionado no combobox de categoria, para poder resgatar o id do banco de dados e não do indice do combobox
+            this.recuperarCamposTela();
+            this.manobraBO = new ManobraBO();
+            this.validarCamposObrigatorios(manobraEmEdicao);
+            manobraBO.atualizar(manobraEmEdicao);
+            this.infoManobra.carregarTabelaDeManobras(idUsuario);
+            JOptionPane.showMessageDialog(this, "Dados da manobra alterado com sucesso", "Ediçao de manobra", JOptionPane.INFORMATION_MESSAGE);
+            this.limparCamposTela();
+        } catch (CampoObrigatorioException c) {
+            String mensagem = "Aviso!\n" + c.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Nova manobra", JOptionPane.INFORMATION_MESSAGE);
+        } catch (ItemSemIdUsuarioException i) {
+            String mensagem = "Aviso!\n" + i.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Nova manobra", JOptionPane.INFORMATION_MESSAGE);
         }
-
     }
 
     public void inicializaCampoNomeManobra() {
@@ -347,7 +349,6 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         manobraEmEdicao.setNome(txtNomeManobra.getText());
         int posicaoSelecionada1 = cbxGrauDificuldade.getSelectedIndex();
         manobraEmEdicao.setDificuldade(posicaoSelecionada1);
-
         int posicaoSelecionada3 = 0;
         for (Categoria categoria : categorias) {
             if (categoria.getNome().equals(item)) {
@@ -358,13 +359,18 @@ public class FormCadastroManobra extends javax.swing.JFrame {
         manobraEmEdicao.setIdUsuario(idUsuario);
     }
 
-    public void verificarManobra(Manobra manobra) throws SQLException {
-        this.manobraBO = new ManobraBO();
-        this.manobras = manobraBO.buscarTodasManobras(idUsuario);
-        for (Manobra m : manobras) {
-            if (manobraEmEdicao.getNome().equals(m.getNome())) {
-                throw new ManobraDuplicadaException();
-            }
+    public void validarCamposObrigatorios(Manobra manobra) throws CampoObrigatorioException {
+        if (txtNomeManobra.getText().trim().isEmpty()) {
+            String msg = "Campo nome manobra deve ser preenchido!";
+            throw new CampoObrigatorioException(msg);
+        }
+        if (cbxGrauDificuldade.getSelectedItem() == "") {
+            String msg = "Selecione Uma dificuldade!";
+            throw new CampoObrigatorioException(msg);
+        }
+        if (cbxCategoriaManobras.getSelectedItem() == "") {
+            String msg = "Selecione uma categoria!";
+            throw new CampoObrigatorioException(msg);
         }
     }
 

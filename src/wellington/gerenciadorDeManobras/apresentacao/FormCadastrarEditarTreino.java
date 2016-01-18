@@ -15,6 +15,7 @@ import wellington.gerenciadorDeManobras.entidade.Manobra;
 import wellington.gerenciadorDeManobras.entidade.Requisito;
 import wellington.gerenciadorDeManobras.entidade.Treino;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
+import wellington.gerenciadorDeManobras.excecao.DigitosIncorretosException;
 import wellington.gerenciadorDeManobras.excecao.TreinoDuplicadoException;
 import wellington.gerenciadorDeManobras.excecao.TreinoJaEditadoException;
 import wellington.gerenciadorDeManobras.negocio.ManobraBO;
@@ -32,7 +33,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     private GerenciarTreinos gerenciarTreinos;
     private Treino treinoEmEdicao;
     private FormAdicionarDicaManobra formCadastrarDicaManobra;
-
+    private GerenciarManobrasTelaInicial gerenciarManobrasTelaInicial;
     private ManobraBO manobraBO;
     String item = "";
     private int idUsuario;
@@ -45,6 +46,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         this.idUsuario = idUsuario;
         this.treinoEmEdicao = treinoSelecionado;
         this.gerenciarTreinos = gerenciarTreinos;
+        this.gerenciarManobrasTelaInicial = gerenciarManobrasTelaInicial;
         this.initComponents();
         this.inicializaCampostela();
 
@@ -75,7 +77,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
         this.manobraBO = new ManobraBO();
         this.manobras = manobraBO.buscarTodasManobras(idUsuario);
         this.cbxManobras.removeAllItems();
-        this.cbxManobras.addItem("----");
+        this.cbxManobras.addItem("");
         for (Manobra m : manobras) {
             cbxManobras.addItem(m.getNome());
         }
@@ -233,7 +235,6 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             }
         } else {
             try {
-
                 this.incluirTreino();
             } catch (SQLException ex) {
                 Logger.getLogger(FormCadastrarEditarTreino.class.getName()).log(Level.SEVERE, null, ex);
@@ -251,17 +252,28 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     private void incluirTreino() throws SQLException {
         try {
             this.treinoBO = new TreinoBO();
-            this.validarCamposObrigatorios();
-            this.verificaQuantidadeDigitos();
-            // this.treinoBO.verificarTreinos(treinoEmEdicao);
             this.recuperarCamposTela();
+            this.treinoBO.validarCamposObrigatorios(treinoEmEdicao);
+            this.treinoBO.verificaQuantidadeDigitos(treinoEmEdicao);
+            this.treinoBO.verificarTreinos(treinoEmEdicao);
             treinoBO.inserir(treinoEmEdicao, idUsuario);
             JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso", "Novo treino", JOptionPane.INFORMATION_MESSAGE);
-
+            if (treinoEmEdicao.getProgresso() == 100) {
+                this.atualizaStatus(treinoEmEdicao);
+                this.gerenciarTreinos.carregarTabelaDeTreino(idUsuario);                
+                this.limparCamposTela();
+                this.addDicaManobra(treinoEmEdicao.getIdManobra());
+            }
             this.limparCamposTela();
             this.gerenciarTreinos.carregarTabelaDeTreino(idUsuario);
         } catch (TreinoDuplicadoException ex) {
             String mensagen = "Erro ao tentar cadastrar novo treino:\n" + ex.getMessage();
+            JOptionPane.showMessageDialog(this, mensagen, "Novo Treino", JOptionPane.ERROR_MESSAGE);
+        } catch (CampoObrigatorioException c) {
+            String mensagen = "Erro ao tentar cadastrar novo treino:\n" + c.getMessage();
+            JOptionPane.showMessageDialog(this, mensagen, "Novo Treino", JOptionPane.ERROR_MESSAGE);
+        } catch (DigitosIncorretosException d) {
+            String mensagen = "Erro ao tentar cadastrar novo treino:\n" + d.getMessage();
             JOptionPane.showMessageDialog(this, mensagen, "Novo Treino", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -269,13 +281,13 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
     private void atualizar() throws CampoObrigatorioException, ParseException, SQLException {
         try {
             this.treinoBO = new TreinoBO();
-            this.validarCamposObrigatorios();
-            this.verificaQuantidadeDigitos();
             this.recuperarCamposTela();
+            this.treinoBO.validarCamposObrigatorios(treinoEmEdicao);
+            this.treinoBO.verificaQuantidadeDigitos(treinoEmEdicao);
             treinoBO.atualizar(treinoEmEdicao);
             JOptionPane.showMessageDialog(this, "Dados do treino alterado com sucesso", "Ediçao de treino", JOptionPane.INFORMATION_MESSAGE);
-            this.atualizaStatus(treinoEmEdicao.getIdManobra(), 100);
-            this.gerenciarTreinos.carregarTabelaDeTreino(idUsuario);
+            this.atualizaStatus(treinoEmEdicao);            
+            this.gerenciarTreinos.carregarTabelaDeTreino(idUsuario);           
             this.limparCamposTela();
             this.addDicaManobra(treinoEmEdicao.getIdManobra());
 
@@ -287,11 +299,18 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
             if (resposta == JOptionPane.YES_NO_OPTION) {
                 int respostaExcecao = 1;
                 treinoBO.atualizarNovamente(treinoEmEdicao, respostaExcecao);
+                this.gerenciarTreinos.carregarTabelaDeTreino(idUsuario);
                 this.limparCamposTela();
                 this.sugerirNovoTreino();
-                this.atualizaStatus(treinoEmEdicao.getIdManobra(), treinoEmEdicao.getProgresso());
-                this.gerenciarTreinos.carregarTabelaDeTreino(idUsuario);
+                this.atualizaStatus(treinoEmEdicao);
+
             }
+        } catch (CampoObrigatorioException c) {
+            String mensagen = "Erro ao tentar cadastrar novo treino:\n" + c.getMessage();
+            JOptionPane.showMessageDialog(this, mensagen, "Novo Treino", JOptionPane.ERROR_MESSAGE);
+        } catch (DigitosIncorretosException d) {
+            String mensagen = "Erro ao tentar cadastrar novo treino:\n" + d.getMessage();
+            JOptionPane.showMessageDialog(this, mensagen, "Novo Treino", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -310,7 +329,7 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
                 }
             }
         }
-        JOptionPane.showMessageDialog(this, "PARABÉNS!! Que tal treinar estas manobas? \n" + mensagem, "Sugestão de Manobra", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Você concluiu o treino de mais uma manaobra!\n Que tal agora treinar estas manobas? \n" + mensagem, "PARABÉNS!!!", JOptionPane.INFORMATION_MESSAGE);
         //this.addDicaManobra(treinoEmEdicao.getIdManobra());
     }
 
@@ -324,36 +343,9 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
 
     }
 
-    public void validarCamposObrigatorios() {
-        if (txtProgressoTreino.getText().trim().isEmpty() || txtQntddiaTreinando.getText().trim().isEmpty()) {
-            this.lblinfo.setText("Preencha todo os campos corretamente!\n");
-            throw new CampoObrigatorioException();
-        }
-        //this.lblinfo.setText("Info");
-    }
-
-    public void verificaQuantidadeDigitos() {
-        if (txtProgressoTreino.getText().trim().length() > 3) {
-            this.lblinfo.setText("Campo progresso deve ser preenchido com até 3 digitos!\n");
-            throw new CampoObrigatorioException();
-        }
-
-        int x = Integer.parseInt(txtProgressoTreino.getText());
-        if (x > 100) {
-            this.lblinfo.setText("Campo progresso deve ser preenchido até 100\n");
-            throw new CampoObrigatorioException();
-        }
-
-        if (txtQntddiaTreinando.getText().trim().length() < 0) {
-            this.lblinfo.setText("Campo quandtidade de dias deve ter no minimo 2 dias!");
-            throw new CampoObrigatorioException();
-        }
-        //this.lblinfo.setText("Info");
-    }
-
-    public void atualizaStatus(int id, int status) throws SQLException {
+    public void atualizaStatus(Treino treino) throws SQLException {
         ManobraBO manobraBO = new ManobraBO();
-        manobraBO.atualizaStatus(id, status);
+        manobraBO.atualizaStatus(treino);
 
     }
 
@@ -366,9 +358,11 @@ public class FormCadastrarEditarTreino extends javax.swing.JFrame {
                 treinoEmEdicao.setIdManobra(posicaoSelecionada);
             }
         }
-        treinoEmEdicao.setProgresso(Integer.parseInt(txtProgressoTreino.getText()));
-        treinoEmEdicao.setQntddias(Integer.parseInt(txtQntddiaTreinando.getText()));
-        treinoEmEdicao.setIdUsuario(idUsuario);
+        if (!txtProgressoTreino.getText().isEmpty() && !txtQntddiaTreinando.getText().isEmpty()) {
+            treinoEmEdicao.setProgresso(Integer.parseInt(txtProgressoTreino.getText()));
+            treinoEmEdicao.setQntddias(Integer.parseInt(txtQntddiaTreinando.getText()));
+            treinoEmEdicao.setIdUsuario(idUsuario);
+        }
     }
 
     private void inicializaCampostela() throws SQLException {

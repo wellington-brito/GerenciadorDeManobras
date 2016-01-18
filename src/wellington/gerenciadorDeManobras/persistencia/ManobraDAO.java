@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import wellington.gerenciadorDeManobras.entidade.Manobra;
+import wellington.gerenciadorDeManobras.entidade.Treino;
 
 /**
  *
@@ -22,8 +23,8 @@ public class ManobraDAO {
     private static final String SQL_INSERT = "INSERT INTO MANOBRA (NOME, IDUSUARIO, DIFICULDADE, STATUS, ID_CATEGORIA) VALUES (?, ?, ?, ?, ?)";
     private static final String SQL_SELECT_MANOBRAS = "SELECT ID, NOME, DIFICULDADE, STATUS, ID_CATEGORIA  FROM MANOBRA WHERE IDUSUARIO = ?";
     private static final String SQL_DELETE = "DELETE FROM MANOBRA WHERE ID = ?";
-    private static final String SQL_UPDATE = "UPDATE MANOBRA SET  NOME = ?, DIFICULDADE = ?, ID_CATEGORIA = ?, STATUS = ?  WHERE ID = ?";
-    private static final String SQL_UPDATE_STATUS = "UPDATE MANOBRA SET  STATUS = ?  WHERE ID = ?";
+    private static final String SQL_UPDATE = "UPDATE MANOBRA SET  NOME = ?, DIFICULDADE = ?, ID_CATEGORIA = ?, STATUS = ?, IDUSUARIO = ? WHERE ID = ?";
+    private static final String SQL_UPDATE_STATUS = "UPDATE MANOBRA SET STATUS = ? WHERE ID = ?";
     
     
     public void inserir(Manobra manobra) throws SQLException {
@@ -140,7 +141,8 @@ public class ManobraDAO {
             comando.setInt(2, manobra.getDificuldade());          
             comando.setInt(3, manobra.getCategoria());
             comando.setInt(4, manobra.getStatus());
-            comando.setInt(5, manobra.getId());
+            comando.setInt(5, manobra.getIdUsuario());
+            comando.setInt(6, manobra.getId());
             //Executa o comando
             comando.execute();
             //Persiste o comando no banco de dados
@@ -158,7 +160,7 @@ public class ManobraDAO {
         }
     }
 
-    public void atualizarStatus(int id, int status) throws SQLException {
+    public void atualizarStatus(Treino treino) throws SQLException {
        Connection conexao = null;
         PreparedStatement comando = null;
         Manobra manobra = new Manobra();
@@ -168,8 +170,9 @@ public class ManobraDAO {
             //Cria o comando de inserir dados
             comando = conexao.prepareStatement(SQL_UPDATE_STATUS);
             //Atribui os parâmetros (Note que no BD o index inicia por 1)     
-            comando.setInt(1, status);
-            comando.setInt(2, id);
+            comando.setInt(1, treino.getProgresso());
+            comando.setInt(2, treino.getIdManobra());
+           // comando.setInt(3, treino.getIdUsuario());
             
             //Executa o comando
             comando.execute();

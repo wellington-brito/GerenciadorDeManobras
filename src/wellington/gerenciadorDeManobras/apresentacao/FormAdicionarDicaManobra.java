@@ -208,8 +208,8 @@ public class FormAdicionarDicaManobra extends javax.swing.JFrame {
 
     private void veririficarCampoDica() {
         if (txtDicaManobra.getText().trim().isEmpty()) {
-            this.lblinfo.setText("Infome sua dica para a manobra q acaba de concluir o treino!");
-            throw new CampoObrigatorioException();
+           String msg = "Infome sua dica para a manobra q acaba de concluir o treino!";
+            throw new CampoObrigatorioException(msg);
         }
     }
 

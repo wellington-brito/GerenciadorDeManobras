@@ -142,6 +142,11 @@ public class Login extends javax.swing.JFrame {
                 btnEntrarActionPerformed(evt);
             }
         });
+        btnEntrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnEntrarKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -237,6 +242,17 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEntrarActionPerformed
 
+    private void btnEntrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnEntrarKeyPressed
+         try {
+            this.login();
+        } catch (LoginEsenhaInvalidoException l) {
+            String mensagem = "Erro ao tentar entrar no sistema:\n" + l.getMessage();
+            JOptionPane.showMessageDialog(this, mensagem, "Login", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException | NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnEntrarKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarNovoUser;
@@ -274,49 +290,65 @@ public class Login extends javax.swing.JFrame {
     }
 
     private void login() throws LoginEsenhaInvalidoException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        try{
-        this.usuarioBO = new UsuarioBO();
-        this.recuperarCampos();
-        String senhaMd5 = usuarioBO.exemploMD5(usuarioEmEdicao.getSenha());
-        
-        this.usuarios = this.usuarioBO.buscarUsuarios();
-        for (Usuario u : usuarios) {
-            if (u.getLogin().equals(this.usuarioEmEdicao.getLogin()) && u.getSenha().equals(senhaMd5)) {
-                if (this.gerenciarManobrasTelaInicial == null) {
-                    int idUsuario = u.getId();
-                    this.gerenciarManobrasTelaInicial = new GerenciarManobrasTelaInicial(this, idUsuario);
+        try {
+            this.usuarioBO = new UsuarioBO();
+            this.recuperarCampos();
+            String senhaMd5 = usuarioBO.exemploMD5(usuarioEmEdicao.getSenha());
+            this.usuarios = this.usuarioBO.buscarUsuarios();
+            for (Usuario u : usuarios) {
+                if (u.getLogin().equals(this.usuarioEmEdicao.getLogin()) && u.getSenha().equals(senhaMd5)) {
+                    if (this.gerenciarManobrasTelaInicial == null) {
+                        int idUsuario = u.getId();
+                        this.gerenciarManobrasTelaInicial = new GerenciarManobrasTelaInicial(this, idUsuario);
+                    }
+                    this.gerenciarManobrasTelaInicial.setVisible(true);
+                    this.gerenciarManobrasTelaInicial.toFront();
+                    this.dispose();
                 }
-                this.gerenciarManobrasTelaInicial.setVisible(true);
-                this.gerenciarManobrasTelaInicial.toFront();
-                this.dispose();
             }
-        }
-          } catch (CampoObrigatorioException c) {
+            if(this.gerenciarManobrasTelaInicial == null){
+             JOptionPane.showMessageDialog(this, "Nome de usuário inexistente!", "Login - Entrar!", JOptionPane.ERROR_MESSAGE);       
+            }
+        } catch (CampoObrigatorioException c) {
             String mensagen = "Por favor, Preencha todos os campos!\n" + c.getMessage();
-            JOptionPane.showMessageDialog(this, mensagen, "Novo Usuario", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, mensagen, "Login - Entrar!", JOptionPane.ERROR_MESSAGE);
         }
 
     }
 
     private void recuperarCamposTelaNovoUsuario() throws SQLException, CampoObrigatorioException {
-         if (txtLoginNovo.getText().equals("") || txtSenhaNovo.getText().equals("")) {
-            throw new CampoObrigatorioException();
-            
-        }else{
+        if (txtLoginNovo.getText().equals("") ) {
+            String msg = "Campo Login vazio";
+            throw new CampoObrigatorioException(msg);
+        } else {
+            usuarioEmEdicao.setLogin(txtLoginNovo.getText());            
+        }
+        
+         if (txtSenhaNovo.getText().equals("")) {
+             String msg = "Campo Senha vazio";
+            throw new CampoObrigatorioException(msg);
+
+        } else {
             usuarioEmEdicao.setLogin(txtLoginNovo.getText());
             usuarioEmEdicao.setSenha(txtSenhaNovo.getText());
         }
     }
 
     private void recuperarCampos() throws SQLException {
-        if (txtLogin1.getText().equals("") || txtSenha1.getText().equals("")) {
-            throw new CampoObrigatorioException();
-
-        }else{
+        if (txtLogin1.getText().equals("")) {
+            String msg = "Campo Login vazio!";
+            throw new CampoObrigatorioException(msg);
+        } else {
             usuarioEmEdicao.setLogin(txtLogin1.getText());
+        }
+
+        if (txtSenha1.getText().equals("")) {
+            String msg = "Campo Senha vazio!";
+            throw new CampoObrigatorioException(msg);
+        } else {
             usuarioEmEdicao.setSenha(txtSenha1.getText());
         }
-     }
+    }
 
     private void limparCamposTela() {
         txtLoginNovo.setText("");

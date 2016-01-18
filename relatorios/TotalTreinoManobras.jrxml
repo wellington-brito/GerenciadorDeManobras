@@ -47,16 +47,25 @@
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="20" y="2" width="100" height="20" uuid="702710b8-5cb5-4806-a6f4-c23fe2c07c16"/>
-				<text><![CDATA[login]]></text>
+				<reportElement x="433" y="1" width="120" height="34" uuid="6dda18e5-ef67-4a17-bb24-55aa4208d051"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Dias]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="168" y="2" width="100" height="20" uuid="d60836fc-3553-4c63-bb99-f2c1285a3c67"/>
-				<text><![CDATA[manobra]]></text>
+				<reportElement x="0" y="0" width="117" height="34" uuid="702710b8-5cb5-4806-a6f4-c23fe2c07c16"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Usuário]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="328" y="2" width="100" height="20" uuid="6dda18e5-ef67-4a17-bb24-55aa4208d051"/>
-				<text><![CDATA[dias]]></text>
+				<reportElement x="208" y="1" width="146" height="34" uuid="d60836fc-3553-4c63-bb99-f2c1285a3c67"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Manobra]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -69,16 +78,25 @@
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement x="168" y="0" width="100" height="20" uuid="d1598afe-00a9-4048-8e9f-da4e7c3ec90c"/>
+				<reportElement x="208" y="0" width="146" height="34" uuid="d1598afe-00a9-4048-8e9f-da4e7c3ec90c"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{manobra}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="328" y="0" width="100" height="20" uuid="a1a24216-3416-4836-9eae-fe3078fa98a1"/>
-				<textFieldExpression><![CDATA[$F{dias}]]></textFieldExpression>
+				<reportElement x="0" y="0" width="117" height="34" uuid="a4c38efc-e02a-472b-8b69-7f5ccaed2716"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{login}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="12" y="0" width="100" height="20" uuid="a4c38efc-e02a-472b-8b69-7f5ccaed2716"/>
-				<textFieldExpression><![CDATA[$F{login}]]></textFieldExpression>
+				<reportElement x="433" y="0" width="120" height="34" uuid="a1a24216-3416-4836-9eae-fe3078fa98a1"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dias}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

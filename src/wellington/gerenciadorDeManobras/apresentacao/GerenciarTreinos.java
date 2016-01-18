@@ -44,6 +44,7 @@ public class GerenciarTreinos extends javax.swing.JFrame {
     private List<Relatorio> listamanobraLoginDia;  
     private List<Manobra> manobras;
     private List<Usuario> usuarios;
+    private GerenciarManobrasTelaInicial gerenciarManobrasTelaInicial;
     private int idUsuario;
     /**
      * Creates new form GerenciarTreinos
@@ -52,15 +53,16 @@ public class GerenciarTreinos extends javax.swing.JFrame {
        this.prepararTela();
     }
 
-    GerenciarTreinos(int idUsuario) throws SQLException {
+    GerenciarTreinos(GerenciarManobrasTelaInicial infoManobras, int idUsuario) throws SQLException {
+        this.gerenciarManobrasTelaInicial = infoManobras;
         this.idUsuario = idUsuario;
         this.prepararTela();
     }
 
-//    public GerenciarTreinos(InfoManobras infoManobroas) throws SQLException {
+//    public GerenciarTreinos(GerenciarManobrasTelaInicial infoManobroas) throws SQLException {
 //       this.infoManobras = infoManobroas;
 //       this.initComponents();
-//       this.carregarTabelaDeTreino();
+//       this.carregarTabelaDeTreino(idUsuario);
 //      
 //    }
     
@@ -252,8 +254,15 @@ public class GerenciarTreinos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirTreinoActionPerformed
 
     private void btnFecharTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharTelaActionPerformed
-        this.dispose();
-//        this.infoManobras.toFront();
+      
+        try {
+            this.gerenciarManobrasTelaInicial.carregarTabelaDeManobras(idUsuario);
+            this.dispose();            
+            // this.carregarTelaInfoManobra();
+        } catch (SQLException ex) {
+            Logger.getLogger(GerenciarTreinos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
     }//GEN-LAST:event_btnFecharTelaActionPerformed
 
     private void btnRelatorioQntdDiasTreinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioQntdDiasTreinosActionPerformed
@@ -326,6 +335,14 @@ public class GerenciarTreinos extends javax.swing.JFrame {
         tabelaTreinos.setModel(modelo);
      }
    
+//    public void carregarTelaInfoManobra() throws SQLException{
+//       if (this.infoManobras == null) {
+//          //  int idUsuario = u.getId();
+//            this.infoManobras = new GerenciarManobrasTelaInicial(idUsuario);
+//       }
+//       this.infoManobras.setVisible(true);
+//       this.infoManobras.toFront();
+//     }
     
    
      

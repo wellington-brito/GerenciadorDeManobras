@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import wellington.gerenciadorDeManobras.entidade.Categoria;
 import wellington.gerenciadorDeManobras.excecao.CampoObrigatorioException;
+import wellington.gerenciadorDeManobras.excecao.CategoriaDuplicadaException;
 import wellington.gerenciadorDeManobras.persistencia.CategoriaDAO;
 
 /**
@@ -16,6 +17,8 @@ import wellington.gerenciadorDeManobras.persistencia.CategoriaDAO;
  * @author were
  */
 public class CategoriaBO {
+    
+    private List<Categoria> categorias;
     
     public List<Categoria> buscarTodasCategorias() throws SQLException {
         CategoriaDAO categoriaDAO = new CategoriaDAO();        
@@ -38,5 +41,26 @@ public class CategoriaBO {
         categoriaDAO.atualizar(categoria);
     }
 
+     public void validarCamposObrigatorios(Categoria categoriaEmEdicao ) throws CampoObrigatorioException {
+        if (categoriaEmEdicao.getDescricao().trim().isEmpty()){  
+          String msg = "Campo descrição vazio!";
+            throw new CampoObrigatorioException(msg);        
+        }        
+        if(categoriaEmEdicao.getNome().trim().isEmpty()) {
+              String msg = "Campo Nome vazio!";
+            throw new CampoObrigatorioException(msg);
+        }        
+    }
+     
+     public void verificarCategoria(Categoria categoriaEmEdicao) throws SQLException {
+        CategoriaBO categoriaBO = new CategoriaBO();
+        categorias = categoriaBO.buscarTodasCategorias();
+        for (Categoria categoria : categorias) {
+            if (categoriaEmEdicao.getNome().equals(categoria.getNome())) {
+                throw new CategoriaDuplicadaException();
+               
+            }
+        }
+    }
     
 }
